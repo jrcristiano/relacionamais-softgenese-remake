@@ -11,7 +11,7 @@
     <label class="font-weight-bold" for="note_number">
         Número de nota fiscal
     </label>
-    <input class="form-control sgi-border-2" value="{{ old('note_number', $note->note_number ?? null) }}" type="text" id="note_number" name="note_number" placeholder="Número" />
+    <input class="form-control sgi-border-2" value="{{ old('note_number', $note->note_number ?? null) }}" type="text" id="note_number" name="note_number" placeholder="NÚMERO" />
 </div>
 
 <div class="form-group py-1">

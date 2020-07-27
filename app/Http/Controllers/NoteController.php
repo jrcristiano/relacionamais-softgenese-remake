@@ -105,9 +105,12 @@ class NoteController extends Controller
         if ($noteData['note_status'] != 2) {
             $noteData['note_receipt_date'] = null;
         }
-        $demandData = $demandRequest->only(array_keys($demandRequest->rules()));
 
-        // dd($demandData);
+        if ($noteData['note_status'] == 2) {
+            $noteData['note_receipt_date'] = date('Y-m-d');
+        }
+
+        $demandData = $demandRequest->only(array_keys($demandRequest->rules()));
 
         $this->demandRepo->save($demandData, $demandData['note_demand_id']);
 

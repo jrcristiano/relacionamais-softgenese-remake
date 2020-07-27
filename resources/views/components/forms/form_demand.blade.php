@@ -64,5 +64,5 @@
     <label class="font-weight-bold" for="demand_other_value">
         Outros valores
     </label>
-    <input class="text-uppercase" required="required" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," class="form-control sgi-border-2" value="{{ old('demand_other_value', $demand->demand_other_value_formatted ?? '') }}" type="text" id="demand_other_value" name="demand_other_value" placeholder="Valor (R$)" />
+    <input class="text-uppercase form-control sgi-border-2" required="required" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," class="form-control sgi-border-2" value="{{ old('demand_other_value', $demand->demand_other_value_formatted ?? '') }}" type="text" id="demand_other_value" name="demand_other_value" placeholder="Valor (R$)" />
 </div>

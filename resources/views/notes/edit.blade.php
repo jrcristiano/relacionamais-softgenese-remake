@@ -77,7 +77,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <td colspan="6" class="text-center"><i class="fas fa-frown"></i> Nenhum fornecedor ainda registrado...</td>
+                            <td colspan="6" class="text-center"><i class="fas fa-frown"></i> Nenhum recebimento ainda registrado...</td>
                         @endforelse
                         </tbody>
                     </table>
