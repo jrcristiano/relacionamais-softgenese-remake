@@ -1,0 +1,1 @@
+$.fn.serializeObject=function(){var formArray=$(this).serializeArray();for(var i=0;i<formArray.length;i++){result[formArray[i]['name']]=formArray[i]['value'];}return result;};
