@@ -48,6 +48,11 @@ class Client extends Model
         return Str::limit($this->attributes['client_company'], 30, '...');
     }
 
+    public function getClientCompanyAttribute()
+    {
+        return strtoupper($this->attributes['client_company']);
+    }
+
     public function getCreatedAtFormattedAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
