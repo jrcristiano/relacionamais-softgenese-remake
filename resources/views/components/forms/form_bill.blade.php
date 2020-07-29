@@ -64,7 +64,7 @@
             @php
                 $billBankId = $bill->bill_bank_id ?? null;
             @endphp
-            <option class="text-uppercase" {{ $bank->id == $billBankId ? 'selected' : '' }} value="{{ $bankId }}">{{ $bank->bill_bank_name_agency_account_formatted }}</option>
+            <option class="text-uppercase" {{ $bank->id == $billBankId ? 'selected' : '' }} value="{{ $bankId }}">BANCO {{ $bankName }} | AG {{ $bankAgency }} | CONTA {{ $bankAccount }}</option>
             @php
                 $bankHidden = $bankName;
             @endphp

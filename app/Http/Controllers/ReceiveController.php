@@ -34,7 +34,7 @@ class ReceiveController extends Controller
             $request->receive_client
         ];
 
-        $receives = $this->receiveRepo->getDataDemandsNotesBanksByPaginate(50, $filter);
+        $receives = $this->receiveRepo->getDataDemandsNotesBanksByPaginate(100, $filter);
         $awardTotal = $this->receiveRepo->getAwardTotal($filter);
         $patrimonyTotal = $this->receiveRepo->getPatrimonyTotal($filter);
         $otherValueTotal = $this->receiveRepo->getOtherValues($filter);
