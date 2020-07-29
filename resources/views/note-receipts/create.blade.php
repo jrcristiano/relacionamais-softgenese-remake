@@ -20,6 +20,25 @@
                     </button>
                 </div>
             </form>
+            <div class="container-fluid position-fixed py-4 px-0 bg-white" style="bottom: 0; border-top: 1px solid #DDD;">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-3 mt-3">
+                        <h5 class="sgi-content-title">
+                        <span class="font-weight-bold">Premiação R${{ $note->demand_prize_amount }}</span>
+                        </h5>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <h5 class="sgi-content-title">
+                            <span class="font-weight-bold">Patrimônio R${{ $note->demand_taxable_amount }}</span>
+                        </h5>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <h5 class="sgi-content-title">
+                            <span class="font-weight-bold">Outros valores R${{ $note->demand_other_value }}</span>
+                        </h5>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

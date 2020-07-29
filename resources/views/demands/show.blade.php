@@ -1,12 +1,6 @@
 @extends('layouts.admin')
-@section('title', "Pedido {$demand->demand_client_name}")
+@section('title', "PEDIDO {$demand->demand_client_name}")
 @section('content')
-
-@php
-    // dd($spreadsheetTotal);
-    // dd($notes);
-    // dd($awards);
-@endphp
 
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">

@@ -40,7 +40,8 @@ class NoteReceiptController extends Controller
     {
         $banks = $this->noteRepo->getBanks();
         $noteId = \Request::get('nota_id');
-        return view('note-receipts.create', compact('banks', 'noteId'));
+        $note = $this->noteRepo->firstAwardedValuePatrimonyAndOtherValueBy($noteId);
+        return view('note-receipts.create', compact('banks', 'note', 'noteId'));
     }
 
     /**

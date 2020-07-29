@@ -17,7 +17,7 @@
             $selected = $selected ?? null;
 
             @endphp
-            <option class="text-uppercase" {{ $selected }} value="{{ $client->client_cnpj }}">{{ $client->client_company }}</option>
+            <option class="text-uppercase" {{ $selected }} value="{{ $client->client_cnpj }}">{{ $client->client_company }} | {{ $client->client_cnpj }}</option>
         @endforeach
     </select>
 </div>

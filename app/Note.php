@@ -34,6 +34,12 @@ class Note extends Model
         return number_format($demandTaxableAmount, 2, ',', '.');
     }
 
+    public function getDemandOtherValueAttribute()
+    {
+        $demandTaxableAmount = $this->attributes['demand_other_value'];
+        return number_format($demandTaxableAmount, 2, ',', '.');
+    }
+
     public function setDemandPrizeAmountAttribute($value)
     {
         $taxableAmount = toReal($value);

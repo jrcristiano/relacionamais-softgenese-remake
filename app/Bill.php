@@ -46,7 +46,7 @@ class Bill extends Model
         $bankAgency = $this->attributes['bank_agency'];
         $bankAccount = $this->attributes['bank_account'];
 
-        return "{$bankName} | AG {$bankAgency} | Conta {$bankAccount}";
+        return "BANCO {$bankName} | AG {$bankAgency} | Conta {$bankAccount}";
     }
 
     public function getBillPaydayFormattedAttribute()

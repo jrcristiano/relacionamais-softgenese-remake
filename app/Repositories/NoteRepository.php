@@ -57,4 +57,16 @@ class NoteRepository extends Repository
         ->orderBy('banks.id', 'desc')
         ->get();
     }
+
+    public function firstAwardedValuePatrimonyAndOtherValueBy($id)
+    {
+        return $this->repository->select([
+            'demands.demand_prize_amount',
+            'demands.demand_taxable_amount',
+            'demands.demand_other_value'
+        ])
+        ->join('demands', 'notes.note_demand_id', '=', 'demands.id')
+        ->where('notes.id', '=', $id)
+        ->first();
+    }
 }
