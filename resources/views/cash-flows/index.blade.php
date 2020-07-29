@@ -77,7 +77,7 @@
                                 }
 
                                 if ($cashFlow->flow_award_id) {
-                                    $document = "Pedido {$cashFlow->awarded_demand_id} | Premiação {$cashFlow->flow_award_id}";
+                                    $document = "PEDIDO {$cashFlow->awarded_demand_id} | PREMIAÇÃO {$cashFlow->flow_award_id}";
                                     $url = route('admin.show', [ 'id' => $cashFlow->awarded_demand_id, 'pedido_id' => $cashFlow->flow_demand_id ]);
                                     $tooltipTitle = 'Premiação | Débito';
                                 }

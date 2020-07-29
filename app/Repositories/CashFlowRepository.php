@@ -425,4 +425,10 @@ class CashFlowRepository extends Repository
         $transferTotal = $valueDebit + $valueCredit;
         return $transferTotal;
     }
+
+    public function removeBillsWhere($id)
+    {
+        return $this->repository->where('flow_bill_id', $id)
+            ->delete();
+    }
 }

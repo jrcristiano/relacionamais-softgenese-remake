@@ -139,6 +139,7 @@ class BillController extends Controller
     public function destroy($id)
     {
         $this->billRepo->delete($id);
+        $this->cashFlowRepo->removeBillsWhere($id);
         return redirect()->route('admin.financial.bills');
     }
 }

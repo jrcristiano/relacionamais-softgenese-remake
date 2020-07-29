@@ -30,7 +30,9 @@ class Bill extends Model
 
     public function getProviderNameFormattedAttribute()
     {
-        return Str::limit($this->attributes['provider_name'], 30, '...');
+        $value = $this->attributes['provider_name'];
+        $value = strtoupper($value);
+        return Str::limit($value, 30, '...');
     }
 
     public function getBillValueFormattedAttribute()
@@ -55,6 +57,11 @@ class Bill extends Model
     public function getBillDueDateFormattedAttribute()
     {
         return Carbon::parse($this->attributes['bill_due_date'])->format('d/m/Y');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 
     public function getBillTotalAttribute()
