@@ -40,6 +40,13 @@ class Demand extends Model
         return $this->hasOne(Note::class, 'note_demand_id', 'id');
     }
 
+    public function setDemandClientNameAttribute($value)
+    {
+        $value = explode('|', $value);
+        $value = trim($value[0]);
+        $this->attributes['demand_client_name'] = $value;
+    }
+
     public function getDemandClientNameAttribute()
     {
         $value = $this->attributes['demand_client_name'];

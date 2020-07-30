@@ -31,7 +31,7 @@ class AwardRepository extends Repository
         ->paginate($perPage);
     }
 
-    public function getShipmentsbyPaginate($perPage)
+    public function getShipmentsbyPaginate($perPage = 100)
     {
         return $this->repository->select([
             'awards.*',

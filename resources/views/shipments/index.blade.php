@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     @php
-       // dd($awards);
+      // dd($awards);
     @endphp
     <div class="row shadow bg-white rounded">
 
@@ -27,6 +27,7 @@
             <table id="client_table" class="table table-sm table-striped table-hover mt-3">
                 <thead>
                     <tr>
+                        <th scope="col">ID pedido</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Tipo de premiação</th>
                         <th scope="col">Status</th>
@@ -55,6 +56,7 @@
                                     }
                                 @endphp
                                 <tr>
+                                    <td class="text-uppercase">PEDIDO {{ $award->awarded_demand_id }} | PREMIAÇÃO {{ $award->id }}</td>
                                     <td>R$ {{ number_format($award->awarded_value, 2, ',', '.')  }}</td>
                                     <td class="text-uppercase">Depósito em conta</td>
                                     <td class="text-uppercase">{{ $status ?? '' }}</td>

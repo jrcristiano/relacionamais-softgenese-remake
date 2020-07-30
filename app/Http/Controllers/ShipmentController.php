@@ -20,7 +20,7 @@ class ShipmentController extends Controller
      */
     public function index()
     {
-        $awards = $this->awardRepo->getShipmentsbyPaginate(50);
+        $awards = $this->awardRepo->getShipmentsbyPaginate(100);
         return view('shipments.index', compact('awards'));
     }
 }
