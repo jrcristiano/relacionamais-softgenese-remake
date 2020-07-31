@@ -25,7 +25,7 @@
                             <th scope="col">Banco</th>
                             <th scope="col">Agência</th>
                             <th scope="col">Conta</th>
-                            <th class="text-center sgi-show-or-not" scope="col">Criado em</th>
+                            <th class="sgi-show-or-not" scope="col">Criado em</th>
                             <th scope="col">Ações</th>
                         </tr>
                     </thead>

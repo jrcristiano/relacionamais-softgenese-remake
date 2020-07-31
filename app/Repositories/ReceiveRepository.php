@@ -162,19 +162,6 @@ class ReceiveRepository extends Repository
             ->select(DB::raw('SUM(demand_prize_amount) as award_total'))
             ->where('notes.note_status', '!=', '3');
 
-        if ($between[0] && $between[1] && !$status && !$client) {
-            return $query->orWhere(function ($query) use ($between) {
-                $query->whereBetween('note_due_date', $between);
-            })
-            ->orWhere(function ($query) use ($between) {
-                $query->whereBetween('notes.note_created_at', $between);
-            })
-            ->orWhere(function ($query) use ($between) {
-                $query->whereBetween('note_receipt_date', $between);
-            })
-            ->first();
-        }
-
         if ($between[0] && $between[1] && $status && !$client) {
             return $query->where('notes.note_status', $status)
                 ->whereBetween('note_due_date', $between)
