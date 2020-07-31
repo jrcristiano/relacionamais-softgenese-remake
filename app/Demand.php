@@ -55,7 +55,7 @@ class Demand extends Model
 
     public function getDemandClientNameFormattedAttribute()
     {
-        return Str::limit($this->attributes['demand_client_name'], 30, '...');
+        return Str::limit($this->attributes['demand_client_name'], 25, '...');
     }
 
     public function getCreatedAtFormattedAttribute()

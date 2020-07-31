@@ -8,12 +8,12 @@
         <div class="col-lg-10 sgi-container shadow-sm rounded p-0">
             <ul class="nav nav-tabs mt-2 px-1" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="demand-tab" data-toggle="tab" href="#demand" role="tab" aria-controls="demand" aria-selected="true">
+                    <a class="nav-link {{ \Request::get('premiacao') ? '' : 'active' }}" id="demand-tab" data-toggle="tab" href="#demand" role="tab" aria-controls="demand" aria-selected="true">
                         <i class="fas fa-home"></i> Pedido
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="shipments-tab" data-toggle="tab" href="#shipments" role="tab" aria-controls="shipments" aria-selected="false">
+                    <a class="nav-link {{ \Request::get('premiacao') ? 'active' : '' }}" id="shipments-tab" data-toggle="tab" href="#shipments" role="tab" aria-controls="shipments" aria-selected="{{ \Request::get('premiacao') ? 'true' : 'false' }}">
                         <i class="fas fa-rocket"></i> Premiações
                     </a>
                 </li>
@@ -24,7 +24,7 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="demand" role="tabpanel" aria-labelledby="demand-tab">
+                <div class="tab-pane {{ \Request::get('premiacao') ? '' : 'fade show active'  }}" id="demand" role="tabpanel" aria-labelledby="demand-tab">
 
                     <header class="sgi-content-header d-flex align-items-center">
                         <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0 "><i class="fas fa-bars"></i></button>
@@ -71,7 +71,7 @@
 
                     </div>
                 </div>
-                <div class="tab-pane fade" id="shipments" role="tabpanel" aria-labelledby="shipments-tab">
+                <div class="tab-pane {{ \Request::get('premiacao') ? 'fade show active' : ''  }}" id="shipments" role="tabpanel" aria-labelledby="shipments-tab">
                     <header class="sgi-content-header d-flex align-items-center">
                         <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0"><i class="fas fa-bars"></i></button>
                             <h3 class="sgi-content-title">Premiações</h3>

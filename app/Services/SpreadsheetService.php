@@ -58,7 +58,7 @@ class SpreadsheetService
 
             $key = $key + 1;
             $row[1] = Text::cleanDocument($row[1]);
-            $row[1] = str_pad($row[1], 1, '0', STR_PAD_LEFT);
+            $row[1] = str_pad($row[1], 11, '0', STR_PAD_LEFT);
             $awardedValue = (float) $row[2];
             $document = (string) Text::clean($row[1]);
             $documentValidator = new Documento($document);

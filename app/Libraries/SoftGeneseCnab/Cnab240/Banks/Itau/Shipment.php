@@ -39,7 +39,7 @@ abstract class Shipment
 
     public function setDocumentNumber($documentNumber)
     {
-        $this->data['document_number'] = str_pad($documentNumber, 14, '0', STR_PAD_LEFT);
+        $this->data['document_number'] = str_pad($documentNumber, 11, '0', STR_PAD_LEFT);
         return $this;
     }
 

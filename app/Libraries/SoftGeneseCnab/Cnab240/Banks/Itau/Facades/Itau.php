@@ -3,7 +3,6 @@
 namespace App\Libraries\SoftgeneseCnab\Cnab240\Banks\Itau\Facades;
 
 use App\Helpers\Collection;
-use App\Helpers\Number;
 use App\Libraries\SoftgeneseCnab\Cnab240\Banks\Itau\Itau as ItauBank;
 
 class Itau

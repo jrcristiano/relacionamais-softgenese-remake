@@ -26,7 +26,7 @@ class Receive extends Model
 
     public function getDemandClientNameFormattedAttribute()
     {
-        return Str::limit($this->attributes['demand_client_name'], 30, '...');
+        return Str::limit($this->attributes['demand_client_name'], 10, '...');
     }
 
     public function getNoteStatusFormattedAttribute()

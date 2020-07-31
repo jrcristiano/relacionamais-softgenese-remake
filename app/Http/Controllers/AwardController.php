@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AwardRequest;
-use App\Repositories\{AwardRepository as Awardrepo,
+use App\Repositories\{AwardRepository as AwardRepo,
     CashFlowRepository as CashFlowRepo,
     NoteRepository,
     SpreadsheetRepository as SpreadsheetRepo
@@ -20,7 +20,7 @@ class AwardController extends Controller
     private $bankRepo;
     private $cashFlowRepo;
 
-    public function __construct(Awardrepo $awardRepo,
+    public function __construct(AwardRepo $awardRepo,
         SpreadsheetRepo $spreadsheetRepo,
         SpreadsheetService $service,
         BankRepo $bankRepo,
@@ -113,7 +113,7 @@ class AwardController extends Controller
             $this->cashFlowRepo->save($data);
         }
 
-        return redirect()->route('admin.show', [ 'id' => $request->awarded_demand_id ])
+        return redirect()->route('admin.show', [ 'id' => $request->awarded_demand_id, 'premiacao' => 1 ])
             ->with('message', 'Premiação cadastrada com sucesso!');
     }
 
