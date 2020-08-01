@@ -29,7 +29,7 @@
                             <option {{ \Request::get('bill_status') == 2 ? 'selected' : '' }} value="2">PENDENTE</option>
                         </select>
 
-                        <select class="form-control ml-2 mr-2" name="bill_provider" id="bill_provider">
+                        <select class="form-control" name="bill_provider" id="bill_provider">
                             <option value="">FORNECEDOR</option>
                             @foreach ($providers as $provider)
                                 <option class="text-uppercase" {{ \Request::get('bill_provider') == $provider->id ? 'selected' : '' }} value="{{ $provider->id }}">{{ $provider->provider_name }}</option>
@@ -104,3 +104,12 @@
 </div>
 </div>
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/css/select2-bootstrap4.css') }}" />
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('/js/bills/index-bill.js') }}"></script>
+@endpush

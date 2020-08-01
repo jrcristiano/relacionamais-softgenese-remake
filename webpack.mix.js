@@ -54,6 +54,10 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
         'resources/js/save-button.js'
    ], 'public/js/bills/create-edit-bill.js')
    .scripts([
+    'resources/js/bills/index.js',
+    'resources/js/save-button.js'
+], 'public/js/bills/index-bill.js')
+   .scripts([
       'resources/js/demands/index.js'
    ], 'public/js/receives/index-receive.js')
    .scripts([

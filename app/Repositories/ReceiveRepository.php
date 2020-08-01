@@ -159,31 +159,69 @@ class ReceiveRepository extends Repository
         }
 
         $query = $this->demandRepo->leftJoin('notes', 'demands.id', '=', 'notes.note_demand_id')
-            ->select(DB::raw('SUM(demand_prize_amount) as award_total'))
-            ->where('notes.note_status', '!=', '3');
+            ->select(DB::raw('SUM(demand_prize_amount) as award_total'));
+
+        if ($between[0] && $between[1] && !$status && !$client) {
+            return $query->orWhere(function ($query) use ($between) {
+                $query->whereBetween('note_due_date', $between);
+            })
+            ->orWhere(function ($query) use ($between) {
+                $query->whereBetween('notes.note_created_at', $between);
+            })
+            ->orWhere(function ($query) use ($between) {
+                $query->whereBetween('note_receipt_date', $between);
+            })
+            ->first();
+        }
 
         if ($between[0] && $between[1] && $status && !$client) {
-            return $query->where('notes.note_status', $status)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('note_created_at', $between)
-                ->first();
+            return $query->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('notes.note_status', $status);
+            })
+            ->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('notes.note_created_at', $between)
+                    ->where('notes.note_status', $status);
+            })
+            ->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('note_receipt_date', $between)
+                    ->where('notes.note_status', $status);
+            })
+            ->first();
         }
 
         if ($between[0] && $between[1] && $status && $client) {
-            return $query->where('notes.note_status', $status)
-                ->where('demands.demand_client_name', $client)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('note_created_at', $between)
+            return $query->orWhere(function ($query) use ($between, $status, $client) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('notes.note_status', $status)
+                    ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $status, $client) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('notes.note_status', $status)
+                        ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $status, $client) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('notes.note_status', $status)
+                        ->where('demands.demand_client_name', $client);
+                })
                 ->first();
         }
 
         if ($between[0] && $between[1] && !$status && $client) {
-            return $query->where('demands.demand_client_name', $client)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('note_created_at', $between)
+            return $query->orWhere(function ($query) use ($between, $client) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $client) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $client) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('demands.demand_client_name', $client);
+                })
                 ->first();
         }
 
@@ -226,38 +264,69 @@ class ReceiveRepository extends Repository
         }
 
         $query = $this->demandRepo->leftJoin('notes', 'demands.id', '=', 'notes.note_demand_id')
-            ->select(DB::raw('SUM(demand_taxable_amount) as patrimony_total'))
-            ->where('notes.note_status', '!=', '3');
+            ->select(DB::raw('SUM(demand_taxable_amount) as patrimony_total'));
 
         if ($between[0] && $between[1] && !$status && !$client) {
-            return $query->whereBetween('notes.note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('notes.note_created_at', $between)
-                ->first();
+            return $query->orWhere(function ($query) use ($between) {
+                $query->whereBetween('note_due_date', $between);
+            })
+            ->orWhere(function ($query) use ($between) {
+                $query->whereBetween('notes.note_created_at', $between);
+            })
+            ->orWhere(function ($query) use ($between) {
+                $query->whereBetween('note_receipt_date', $between);
+            })
+            ->first();
         }
 
         if ($between[0] && $between[1] && $status && !$client) {
-            return $query->where('notes.note_status', $status)
-                ->whereBetween('note_due_date', $between)
-                ->whereNotNull('notes.note_receipt_date')
-                ->whereBetween('note_receipt_date', $between)
-                ->first();
+            return $query->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('notes.note_status', $status);
+            })
+            ->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('notes.note_created_at', $between)
+                    ->where('notes.note_status', $status);
+            })
+            ->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('note_receipt_date', $between)
+                    ->where('notes.note_status', $status);
+            })
+            ->first();
         }
 
         if ($between[0] && $between[1] && $status && $client) {
-            return $query->where('notes.note_status', $status)
-                ->where('demands.demand_client_name', $client)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('notes.note_created_at', $between)
+            return $query->orWhere(function ($query) use ($between, $status, $client) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('notes.note_status', $status)
+                    ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $status, $client) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('notes.note_status', $status)
+                        ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $status, $client) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('notes.note_status', $status)
+                        ->where('demands.demand_client_name', $client);
+                })
                 ->first();
         }
 
         if ($between[0] && $between[1] && !$status && $client) {
-            return $query->where('demands.demand_client_name', $client)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('notes.note_created_at', $between)
+            return $query->orWhere(function ($query) use ($between, $client) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $client) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $client) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('demands.demand_client_name', $client);
+                })
                 ->first();
         }
 
@@ -300,38 +369,56 @@ class ReceiveRepository extends Repository
         }
 
         $query = $this->demandRepo->leftJoin('notes', 'demands.id', '=', 'notes.note_demand_id')
-            ->select(DB::raw('SUM(demand_other_value) as other_value_total'))
-            ->where('notes.note_status', '!=', '3');
-
-        if ($between[0] && $between[1] && !$status && !$client) {
-            return $query->whereBetween('notes.note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('notes.note_created_at', $between)
-                ->first();
-        }
+            ->select(DB::raw('SUM(demand_other_value) as other_value_total'));
 
         if ($between[0] && $between[1] && $status && !$client) {
-            return $query->where('notes.note_status', $status)
-                ->whereBetween('note_due_date', $between)
-                ->whereNotNull('notes.note_receipt_date')
-                ->whereBetween('note_receipt_date', $between)
+            return $query->orWhere(function ($query) use ($between, $status) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('notes.note_status', $status);
+                })
+                ->orWhere(function ($query) use ($between, $status) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('notes.note_status', $status);
+                })
+                ->orWhere(function ($query) use ($between, $status) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('notes.note_status', $status);
+                })
                 ->first();
         }
 
         if ($between[0] && $between[1] && $status && $client) {
-            return $query->where('notes.note_status', $status)
-                ->where('demands.demand_client_name', $client)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('notes.note_created_at', $between)
+            return $query->orWhere(function ($query) use ($between, $status, $client) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('notes.note_status', $status)
+                    ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $status, $client) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('notes.note_status', $status)
+                        ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $status, $client) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('notes.note_status', $status)
+                        ->where('demands.demand_client_name', $client);
+                })
                 ->first();
         }
 
         if ($between[0] && $between[1] && !$status && $client) {
-            return $query->where('demands.demand_client_name', $client)
-                ->whereBetween('note_due_date', $between)
-                ->whereBetween('note_receipt_date', $between)
-                ->whereBetween('notes.note_created_at', $between)
+            return $query->orWhere(function ($query) use ($between, $client) {
+                $query->whereBetween('note_due_date', $between)
+                    ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $client) {
+                    $query->whereBetween('notes.note_created_at', $between)
+                        ->where('demands.demand_client_name', $client);
+                })
+                ->orWhere(function ($query) use ($between, $client) {
+                    $query->whereBetween('note_receipt_date', $between)
+                        ->where('demands.demand_client_name', $client);
+                })
                 ->first();
         }
 

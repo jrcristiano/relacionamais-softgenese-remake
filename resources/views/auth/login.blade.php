@@ -7,7 +7,7 @@
                 <img src="{{ asset('/imgs/logo.png') }}" width="155" height="75" alt="Logo tipo da SoftGenese">
             </a>
             <div class="pt-4 pb-3 text-center shadow rounded sgi-card-position">
-                <h3 class="mt-1 font-weight-bold">Fazer login</h3>
+                <h3 class="mt-1 font-weight-bold">Entrar</h3>
                 <div class="card-body mt-2">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

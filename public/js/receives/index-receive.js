@@ -2,6 +2,10 @@ $(document).ready(function () {
     var collection_id = [];
     var domain = window.location.origin;
 
+    $('#receive_client').select2({
+        theme: 'bootstrap4'
+    });
+
     $('.sgi-shipment').click(function () {
         let awarded_id = $(this).data('value')
 

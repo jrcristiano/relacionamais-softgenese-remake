@@ -117,7 +117,7 @@
                             <div class="col-md-3 mt-3">
                                 <h5 class="sgi-content-title">
                                     @php
-                                        $receivePatrimonyTotal = $patrimonyTotal->patrimony_total + $otherValueTotal->other_value_total;
+                                        $receivePatrimonyTotal = $patrimonyTotal->patrimony_total;
                                     @endphp
                                 <span class="font-weight-bold">Patrimônio R$ {{ number_format($receivePatrimonyTotal, 2, ',', '.') }}</span>
                                 </h5>
@@ -139,6 +139,11 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('/css/select2.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('/css/select2-bootstrap4.css') }}" />
+@endpush
 
 @push('scripts')
 <script src="{{ asset('/js/receives/index-receive.js') }}"></script>
