@@ -15,6 +15,7 @@
     "/js/managers/create-edit-manager.js": "/js/managers/create-edit-manager.js",
     "/js/bills/create-edit-bill.js": "/js/bills/create-edit-bill.js",
     "/js/bills/index-bill.js": "/js/bills/index-bill.js",
+    "/js/cash_flows/index-cash-flow.js": "/js/cash_flows/index-cash-flow.js",
     "/js/receives/index-receive.js": "/js/receives/index-receive.js",
     "/js/receives/create-edit-receive.js": "/js/receives/create-edit-receive.js",
     "/js/awards/create-edit-award.js": "/js/awards/create-edit-award.js",

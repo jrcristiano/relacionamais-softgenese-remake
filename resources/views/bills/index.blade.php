@@ -30,13 +30,13 @@
                         </select>
 
                         <select class="form-control" name="bill_provider" id="bill_provider">
-                            <option value="">FORNECEDOR</option>
+                            <option value="">SELECIONAR FORNECEDOR</option>
                             @foreach ($providers as $provider)
                                 <option class="text-uppercase" {{ \Request::get('bill_provider') == $provider->id ? 'selected' : '' }} value="{{ $provider->id }}">{{ $provider->provider_name }}</option>
                             @endforeach
                         </select>
 
-                        <button id="btn-date" class="btn btn-primary mr-2" type="submit">
+                        <button id="btn-date" class="btn btn-primary mr-2 ml-2" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>

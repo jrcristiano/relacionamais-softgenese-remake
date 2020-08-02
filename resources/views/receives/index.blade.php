@@ -32,7 +32,7 @@
                     </select>
 
                     <select class="form-control mr-2" name="receive_client" id="receive_client">
-                        <option value="">CLIENTE</option>
+                        <option value="">SELECIONAR CLIENTE POR NOME</option>
                         @foreach ($clients as $client)
                         <option {{ \Request::get('receive_client') == $client->client_company ? 'selected' : '' }} value="{{ $client->client_company }}">{{ $client->client_company }}</option>
                         @endforeach

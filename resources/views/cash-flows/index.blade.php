@@ -40,14 +40,14 @@
 
                         <label class="font-weight-bold mt-2 ml-3 mr-2" for="cash_flow_until">Até </label>
                         <input class="form-control" type="date" value="{{ old('cash_flow_in', \Request::get('cash_flow_until')) }}" name="cash_flow_until" id="cash_flow_until" />
-
+                        &nbsp;
                         <select class="form-control ml-2 mr-2" name="cash_flow_bank" id="cash_flow_bank">
-                            <option value="">BANCO</option>
+                            <option value="">SELECIONAR BANCO POR NOME</option>
                             @foreach ($banks as $bank)
                         <option {{ \Request::get('cash_flow_bank') == $bank->id ? 'selected' : '' }} value="{{ $bank->id }}">BANCO {{ $bank->bank_name }} | AG {{ $bank->bank_agency }} | CONTA {{ $bank->bank_account }}</option>
                             @endforeach
                         </select>
-
+                        &nbsp;
                         <button id="btn-date" class="btn btn-primary mr-2" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -201,3 +201,11 @@
 </div>
 @endsection
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/css/select2-bootstrap4.css') }}" />
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('/js/cash_flows/index-cash-flow.js') }}"></script>
+@endpush

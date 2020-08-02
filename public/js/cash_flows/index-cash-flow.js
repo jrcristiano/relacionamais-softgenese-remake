@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    $('#bill_provider').select2({
+    $('#cash_flow_bank').select2({
         theme: 'bootstrap4'
     })
 })
