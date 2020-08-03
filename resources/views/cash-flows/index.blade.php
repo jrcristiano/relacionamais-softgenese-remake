@@ -42,9 +42,9 @@
                         <input class="form-control" type="date" value="{{ old('cash_flow_in', \Request::get('cash_flow_until')) }}" name="cash_flow_until" id="cash_flow_until" />
                         &nbsp;
                         <select class="form-control ml-2 mr-2" name="cash_flow_bank" id="cash_flow_bank">
-                            <option value="">SELECIONAR BANCO POR NOME</option>
+                            <option value="">SELECIONAR POR BANCO, AGÊNCIA E CONTA</option>
                             @foreach ($banks as $bank)
-                        <option {{ \Request::get('cash_flow_bank') == $bank->id ? 'selected' : '' }} value="{{ $bank->id }}">BANCO {{ $bank->bank_name }} | AG {{ $bank->bank_agency }} | CONTA {{ $bank->bank_account }}</option>
+                                <option {{ \Request::get('cash_flow_bank') == $bank->id ? 'selected' : '' }} value="{{ $bank->id }}">BANCO {{ $bank->bank_name }} | AG {{ $bank->bank_agency }} | CONTA {{ $bank->bank_account }}</option>
                             @endforeach
                         </select>
                         &nbsp;
