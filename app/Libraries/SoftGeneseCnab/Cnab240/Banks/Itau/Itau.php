@@ -67,7 +67,7 @@ class Itau extends Shipment
 
         $paymentType = '041';
 
-        if (in_array('C', $typeAccount)) {
+        if (in_array('C', $typeAccount) || in_array('', $typeAccount) || in_array(null, $typeAccount)) {
             $paymentType = '001';
         }
 

@@ -52,8 +52,8 @@ class SpreadsheetService
         $excel = Helper::newSpreadsheet($fileName)->getRows();
 
         foreach ($excel as $key => $row) {
-            if ($excel[$key][0] == null) {
-                unset($excel[$key]);
+            if ($excel[$key][0] == null || $excel[$key][0] == '') {
+                continue;
             }
 
             $key = $key + 1;
@@ -71,8 +71,6 @@ class SpreadsheetService
 
             $this->awardedValue += $awardedValue;
         }
-
-        // dd($this->awardedValue);
 
         if (in_array(false, $this->result)) {
             return false;

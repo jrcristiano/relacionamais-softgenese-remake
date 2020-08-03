@@ -75,7 +75,7 @@ class Itau
 
                 $bankCode = $value['bank_code'];
 
-                if ($bankCode == 341 && $value['spreadsheet_account_type'] == 'C') {
+                if ($bankCode == 341 && ($value['spreadsheet_account_type'] == 'C' || $value['spreadsheet_account_type'] == null || $value['spreadsheet_account_type'] == '')) {
                     $data['itau_bank_lotes'][] = $lote;
                     $data['itau_key'] = $lote;
                     $data['itau_bank_value']['value_total'][] = toIntLiteral($value['value']);
