@@ -48,7 +48,7 @@ class Provider extends Model
     public function setProviderCnpjAttribute($providerCnpj)
     {
         $value = toIntLiteral($providerCnpj);
-        $this->attributes['provider_cnpj'] = $value == 0 ? str_pad($value, 14, '0', STR_PAD_LEFT) : $value;
+        $this->attributes['provider_cnpj'] = str_pad($value, 11, '0', STR_PAD_LEFT);
     }
 
     public function getCreatedAtFormattedAttribute()
