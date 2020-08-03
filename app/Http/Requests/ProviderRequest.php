@@ -16,7 +16,7 @@ class ProviderRequest extends FormRequest
         return [
             'provider_name' => 'required|string|min:3|max:64',
             'provider_address' => 'required|string|min:3|max:128',
-            'provider_cnpj' => "required|string|min:14|max:18|unique:providers,id,{$this->id}",
+            'provider_cnpj' => "required|string|min:11|max:18|unique:providers,id,{$this->id}",
             'provider_note' => 'string|nullable'
         ];
     }
