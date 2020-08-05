@@ -34,6 +34,15 @@ class SpreadsheetControllerApi extends Controller
                     'awarded_value' => $total
                 ]);
             \App\Spreadsheet::find($id)->fill($data)->save();
+
+            $awardId = \Request::get('premiado_id');
+            $keyLine = \Request::get('line');
+
+            \App\Spreadsheet::where('spreadsheet_award_id', $awardId)
+                ->where('spreadsheet_keyline', $keyLine)
+                ->update([
+                    'spreadsheet_chargeback' => 1,
+                ]);
         }
 
         return redirect()->back();

@@ -55,6 +55,7 @@ class ShipmentControllerApi extends Controller
 
             $lastField = \App\ShipmentApi::select('shipment_last_field')
                 ->orderBy('shipment_last_field', 'desc')
+                ->where('shipment_date', date('Y-m-d'))
                 ->first();
 
             $setLastField = !$lastField ? 1 : $lastField->shipment_last_field + 1;

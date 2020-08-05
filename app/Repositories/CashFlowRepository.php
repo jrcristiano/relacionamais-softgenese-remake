@@ -62,6 +62,7 @@ class CashFlowRepository extends Repository
         ->orderBy('cash_flows.flow_movement_date', 'asc')
         ->orderBy('cash_flows.id', 'asc')
         ->where('cash_flows.flow_hide_line', 0)
+        ->whereNull('spreadsheets.spreadsheet_chargeback')
         ->whereNull('demands.deleted_at');
 
         if (in_array(null, $between) && $bankId == null) {
