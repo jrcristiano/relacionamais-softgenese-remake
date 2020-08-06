@@ -118,7 +118,7 @@
                         @endforelse
                 </tbody>
             </table>
-            @if ($demands->count() >= 100)
+            @if ($demands->count() >= 500)
                 <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
                     {!! $demands->appends(['has_sale' => 1])->links() !!}
                     <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
