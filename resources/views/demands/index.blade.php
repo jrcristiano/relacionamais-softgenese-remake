@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('title', 'Home')
 @section('content')
+@php
+    // dd($demands);
+@endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
         @include('components.leftbar')
@@ -44,7 +47,7 @@
                 <tbody>
                     @forelse($demands as $demand)
                         @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
-                            @if ($demand->sale != 0)
+                            @if ($demand->sale_demand != 0)
                                 <tr>
                                     <th>{{ $demand->id }}</th>
                                     <td class="text-uppercase client_name">
@@ -52,7 +55,7 @@
                                     </td>
                                     <td class="prize_amount">R$ {{ $demand->demand_prize_amount_formatted }}</td>
 
-                                    <td class="sgi-show-or-not">R$ {{ $demand->sale_formatted }}</td>
+                                    <td class="sgi-show-or-not">R$ {{ number_format($demand->sale_demand, 2, ',', '.') }}</td>
                                     <td class="sgi-show-or-not">{{ $demand->created_at_formatted }}</td>
                                     @php
                                         $route = route('admin.financial.notes.create', ['pedido_id' => $demand->id]);

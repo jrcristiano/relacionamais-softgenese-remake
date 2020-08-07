@@ -23,7 +23,7 @@ class DemandRepository extends Repository
             'notes.note_number',
             'awards.awarded_demand_id',
         ])
-        ->addSelect(DB::raw('sum(note_receipts.note_receipt_award_real_value) as sale'))
+        ->addSelect(DB::raw('coalesce(sum(note_receipts.note_receipt_award_real_value), 0) as sale_demand'))
         ->leftJoin('awards', 'demands.id', '=', 'awards.awarded_demand_id')
         ->leftJoin('notes', 'demands.id', '=', 'notes.note_demand_id')
         ->leftJoin('note_receipts', 'demands.id', '=', 'note_receipts.note_receipt_demand_id')
