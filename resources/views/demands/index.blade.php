@@ -47,7 +47,7 @@
                 <tbody>
                     @forelse($demands as $demand)
                         @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
-                            @if ($demand->sale_demand != 0)
+                            @if ($demand->sale >= 0.01)
                                 <tr>
                                     <th>{{ $demand->id }}</th>
                                     <td class="text-uppercase client_name">
@@ -55,7 +55,7 @@
                                     </td>
                                     <td class="prize_amount">R$ {{ $demand->demand_prize_amount_formatted }}</td>
 
-                                    <td class="sgi-show-or-not">R$ {{ number_format($demand->sale_demand, 2, ',', '.') }}</td>
+                                    <td class="sgi-show-or-not">R$ {{ number_format($demand->sale, 2, ',', '.') }}</td>
                                     <td class="sgi-show-or-not">{{ $demand->created_at_formatted }}</td>
                                     @php
                                         $route = route('admin.financial.notes.create', ['pedido_id' => $demand->id]);
@@ -89,7 +89,7 @@
                                 </td>
                                 <td class="prize_amount">R$ {{ $demand->demand_prize_amount_formatted }}</td>
 
-                                <td class="sgi-show-or-not">R$ {{ $demand->sale_formatted }}</td>
+                                <td class="sgi-show-or-not">R$ {{ number_format($demand->sale, 2, ',', '.') }}</td>
                                 <td class="sgi-show-or-not">{{ $demand->created_at_formatted }}</td>
                                 @php
                                     $route = route('admin.financial.notes.create', ['pedido_id' => $demand->id]);
@@ -121,10 +121,15 @@
                         @endforelse
                 </tbody>
             </table>
-            @if ($demands->count() >= 500)
+            @if ($demands->count() >= 10)
                 <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
-                    {!! $demands->appends(['has_sale' => 1])->links() !!}
+                    @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
+                        {!! $demands->appends(['has_sale' => 1])->links() !!}
+                        <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
+                    @else
+                    {!! $demands->links() !!}
                     <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
+                    @endif
                 </div>
             @endif
         </div>
