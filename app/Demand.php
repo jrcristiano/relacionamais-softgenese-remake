@@ -107,14 +107,15 @@ class Demand extends Model
     public function getSaleAttribute()
     {
         $sale = getShipmentValueById($this->attributes['id']);
+        $sale = round($sale, 3);
         return $sale;
     }
 
     public function getSaleFormattedAttribute()
     {
-        $shipmentValue = getShipmentValueById($this->attributes['id']);
-        $saleFormatted = number_format($shipmentValue, 2, ',', '.');
-        return $saleFormatted;
+        $sale = getShipmentValueById($this->attributes['id']);
+        $sale = round($sale, 3);
+        return $sale;
     }
 
     public function getReceivePrizeAmountFormattedAttribute()

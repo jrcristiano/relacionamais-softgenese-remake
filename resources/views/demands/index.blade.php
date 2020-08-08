@@ -47,7 +47,7 @@
                 <tbody>
                     @forelse($demands as $demand)
                         @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
-                            @if ($demand->sale >= 0.01)
+                            @if ($demand->sale >= 0.01 || $demand->sale < -0.01)
                                 <tr>
                                     <th>{{ $demand->id }}</th>
                                     <td class="text-uppercase client_name">
@@ -121,7 +121,7 @@
                         @endforelse
                 </tbody>
             </table>
-            @if ($demands->count() >= 10)
+            @if ($demands->count() >= 500)
                 <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
                     @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
                         {!! $demands->appends(['has_sale' => 1])->links() !!}
