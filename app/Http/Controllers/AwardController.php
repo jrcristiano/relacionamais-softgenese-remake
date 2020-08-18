@@ -65,11 +65,11 @@ class AwardController extends Controller
         $data['awarded_demand_id'] = $demandId;
 
         $upload = new UploadAward($this->awardRepo, $this->spreadsheetService);
-        $error = $upload->storeAward($request, $data, DepositAccount::class);
+        $hasError = $upload->storeAward($request, $data, DepositAccount::class);
 
-        if (is_array($error[0]) && $error[0]) {
+        if (is_array($hasError)) {
             return redirect()->back()
-                ->with('error', $error);
+                ->with('error', $hasError);
         }
 
         return redirect()->route('admin.show', [ 'id' => $demandId, 'premiacao' => 1 ])
