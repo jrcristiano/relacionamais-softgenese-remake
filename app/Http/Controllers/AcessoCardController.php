@@ -47,7 +47,7 @@ class AcessoCardController extends Controller
         $upload = new UploadAward($this->awardRepo, $this->acessoCardService);
         $hasErrors = $upload->storeAward($request, $data, AcessoCard::class);
 
-        if (is_array($hasErrors[0]) && $hasErrors[0]) {
+        if (is_array($hasErrors[0])) {
             return redirect()->back()
                 ->with('error', $hasErrors);
         }
