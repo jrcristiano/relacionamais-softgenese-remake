@@ -14,7 +14,7 @@ class SpreadsheetRepository extends Repository
         $this->repository = $repository;
     }
 
-    public function getSpreadsheetsWhereAwarded($id, $perPage = 50)
+    public function getSpreadsheetsWhereAwarded($id, $perPage = 200)
     {
         return $this->repository->select([
             'spreadsheets.*',
@@ -38,7 +38,7 @@ class SpreadsheetRepository extends Repository
         ->toArray();
     }
 
-    public function saveShipment(string $fileName, $demandId, $id)
+    public function storeShipment(string $fileName, $demandId, $id)
     {
         $excel = Helper::newSpreadsheet($fileName)->getRows();
 

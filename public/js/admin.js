@@ -33707,8 +33707,8 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/relacionamais.softgenese.development/relacionamais-softgenese/resources/js/admin/app.js */"./resources/js/admin/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/relacionamais.softgenese.development/relacionamais-softgenese/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/html/relacionamais.softgenese.development/relacionamais-softgenese-remake/resources/js/admin/app.js */"./resources/js/admin/app.js");
+module.exports = __webpack_require__(/*! /var/www/html/relacionamais.softgenese.development/relacionamais-softgenese-remake/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

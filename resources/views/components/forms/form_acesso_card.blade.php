@@ -1,13 +1,9 @@
-@include('components.forms.errors.error')
 @php
     $id = $id ?? null;
     $spreadsheet = $spreadsheetExists->awarded_upload_table ?? null;
 @endphp
-@php
-    $awardedType = $award->awarded_type ?? null;
-@endphp
 
-<input type="hidden" name="awarded_type" value="2" />
+<input type="hidden" name="awarded_type" value="1" />
 
 @if (!$id)
     <div class="form-group upload-file">
@@ -39,7 +35,3 @@
         @endif
     </select>
 </div>
-
-@push('scripts')
-    <script src="{{ asset('/js/awards/create-edit-award.js') }}"></script>
-@endpush

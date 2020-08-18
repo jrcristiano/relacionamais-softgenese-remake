@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\Transfers;
 
-use App\Events\TransferAtCashFlowUpdated;
+use App\Events\Transfers\TransferAtCashFlowSaved;
 
 class UpdateTransferAtCashFlowListener
 {
@@ -12,7 +12,7 @@ class UpdateTransferAtCashFlowListener
      * @param  object  $event
      * @return void
      */
-    public function handle(TransferAtCashFlowUpdated $event)
+    public function handle(TransferAtCashFlowSaved $event)
     {
         $cashFlow = $event->getCashFlowRepo();
         $data = $event->getData();

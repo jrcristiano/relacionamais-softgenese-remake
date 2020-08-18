@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DemandRequest;
-use App\Repositories\{AwardRepository as AwardRepo, ClientRepository as ClientRepo,
+use App\Repositories\{AwardRepository as AwardRepo,
+    ClientRepository as ClientRepo,
     DemandRepository as DemandRepo,
 };
 
@@ -27,7 +28,7 @@ class DemandController extends Controller
      */
     public function index()
     {
-        $demands = $this->demandRepo->getDemandsByPaginate(500);
+        $demands = $this->demandRepo->getDemandsByPaginate(10);
         return view('demands.index', compact('demands'));
     }
 

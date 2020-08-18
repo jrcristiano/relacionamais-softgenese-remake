@@ -75,9 +75,23 @@
                     <header class="sgi-content-header d-flex align-items-center">
                         <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0"><i class="fas fa-bars"></i></button>
                             <h3 class="sgi-content-title">Premiações</h3>
-                        <a class="btn btn-primary sgi-btn-bold ml-auto" href="{{ route('admin.register.awardeds.create', ['pedido_id' => $id]) }}">
-                            <i class="fas fa-plus"></i> Nova premiação
-                        </a>
+
+                            <div class="dropdown ml-auto">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-plus"></i> Nova premiação
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('admin.register.awardeds.create', ['pedido_id' => $id]) }}">
+                                        Depósito em conta
+                                    </a>
+                                  <a class="dropdown-item" href="{{ route('admin.register.payment-manuals.create', ['pedido_id' => $id]) }}">
+                                      Pagamento manual
+                                  </a>
+                                  <a class="dropdown-item" href="{{ route('admin.register.acesso-cards.create', ['pedido_id' => $id]) }}">
+                                      Acesso card
+                                  </a>
+                                </div>
+                              </div>
                     </header>
 
                     <div class="col-lg-12">
@@ -99,29 +113,60 @@
                                 @forelse ($awards as $award)
                                     <tr>
                                         <td>R$ {{ $award->awarded_value_formatted }}</td>
-                                        <td class="text-uppercase">{{ $award->awarded_type == 3 ? 'Pagamento manual' : ($award->awarded_type == 2 ? 'Depósito em conta' : ($award->awarded_type == 1 ? 'Cartão' : '')) }}</td>
+                                        <td class="text-uppercase">{{ $award->awarded_type == 3 ? 'PAGAMENTO MANUAL' : ($award->awarded_type == 2 ? 'DEPÓSITO EM CONTA' : ($award->awarded_type == 1 ? 'CARTÃO ACESSO' : '')) }}</td>
                                         @php
+                                            if ($award->awarded_type == 1) {
+                                                $status = $award->awarded_status == 1 ? 'ENVIADO PARA REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : '')));
+                                            }
+
                                             if ($award->awarded_type == 2) {
-                                                $status = $award->awarded_status == 1 ? 'Enviado para remessa' : ($award->awarded_status == 2 ? 'Aguardando pagamento' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'Pendente' : ($award->awarded_status == 4 ? 'Cancelado' : '')));
+                                                $status = $award->awarded_status == 1 ? 'ENVIADO PARA REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : '')));
                                             }
 
                                             if ($award->awarded_type == 3) {
-                                                $status = $award->awarded_status == 1 || $award->awarded_status == null ? 'Pago' : ($award->awarded_status == 3 ? 'Pendente' : ($award->awarded_status == 4 ? 'Cancelado' : ''));
+                                                $status = $award->awarded_status == 1 || $award->awarded_status == null ? 'PAGO' : ($award->awarded_status == 3 ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : ''));
                                             }
 
                                             if ($award->shipment_generated) {
-                                                $status = 'Remessa gerada';
+                                                $status = 'REMESSA GERADA';
                                             }
 
                                             if ($award->awarded_shipment_cancelled) {
-                                                $status = 'Remessa cancelada';
+                                                $status = 'REMESSA CANCELADA';
                                             }
                                         @endphp
                                         <td class="text-uppercase">{{ $status }}</td>
                                         <td>{{ $award->created_at_formatted }}</td>
 
                                         <td>
-                                            <!-- Dep. em conta (remessa gerada) -->
+
+                                            <!-- Cartão acesso card (pendente) -->
+                                            @if ($award->awarded_type == 1 && $award->awarded_status == 3)
+                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>
+                                                <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
+                                                    @csrf
+                                                    <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                            <!-- Acesso card (enviado para remessa) -->
+                                            @if ($award->awarded_type == 1 && $award->awarded_status == 1)
+                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+
+                                            <!-- Dep. em conta (enviado para remessa) -->
                                             @if ($award->awarded_type == 2 && $award->awarded_status == 1)
                                                 <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
                                                     <i aria-hidden="true" class="fas fa-eye"></i>
@@ -159,7 +204,7 @@
                                                 <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
                                                     <i aria-hidden="true" class="fas fa-edit"></i>
                                                 </a>
-                                                <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id ]) }}" method="post">
+                                                <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
                                                     @csrf
                                                     <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
                                                         <i class="fas fa-times"></i>

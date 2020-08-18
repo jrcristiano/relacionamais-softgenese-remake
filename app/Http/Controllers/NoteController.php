@@ -19,7 +19,12 @@ class NoteController extends Controller
     protected $receiveRepo;
     protected $billRepo;
 
-    public function __construct(NoteRepo $noteRepo, DemandRepo $demandRepo, CashFlowRepo $cashRepo, ReceiveRepo $receiveRepo, NoteReceiptRepo $noteReceiptRepo, BillRepo $billRepo)
+    public function __construct(NoteRepo $noteRepo,
+        DemandRepo $demandRepo,
+        CashFlowRepo $cashRepo,
+        ReceiveRepo $receiveRepo,
+        NoteReceiptRepo $noteReceiptRepo,
+        BillRepo $billRepo)
     {
         $this->noteRepo = $noteRepo;
         $this->demandRepo = $demandRepo;
@@ -58,17 +63,6 @@ class NoteController extends Controller
         } catch (\PDOException $e) {
             return redirect()->back()->withErrors(['número de nota fiscal já cadastrado em nossos sistemas.']);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Nfe  $nfe
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SpreadsheetRequest;
 use App\Repositories\SpreadsheetRepository;
-use App\Services\SpreadsheetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SpreadsheetController extends Controller
 {
@@ -55,9 +52,6 @@ class SpreadsheetController extends Controller
                 'awarded_value' => $spreadsheetTotal
             ]);
 
-        $service = new SpreadsheetService($this->spreadsheetRepo);
-        $service->updateSpreadsheet($data, $id);
-
         return redirect()->route('admin.home');
     }
 
@@ -69,16 +63,11 @@ class SpreadsheetController extends Controller
      */
     public function destroy($id)
     {
-        $spreadsheet = $this->spreadsheetRepo->getSpreadsheetFileAndSpreadsheetKeyLine($id);
-
-        $excel = IOFactory::load($spreadsheet->awarded_upload_table);
-
-        $excel->getActiveSheet()->removeRow($spreadsheet->spreadsheet_keyline);
-
-        $writer = new Xlsx($excel);
-        $writer->save($spreadsheet->awarded_upload_table);
-
         $this->spreadsheetRepo->delete($id);
-        return redirect()->route('admin.register.awardeds.show', compact('id'));
+        return redirect()->route('admin.register.awardeds.show', [
+            'id' => \Request::get('premiado_id'),
+            'pedido_id' => \Request::get('pedido_id')
+        ])
+        ->with('message', 'Premiação removida com sucesso!');
     }
 }

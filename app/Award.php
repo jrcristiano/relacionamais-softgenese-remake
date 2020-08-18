@@ -47,9 +47,8 @@ class Award extends Model
     public function getShipmentFileNameFormattedAttribute()
     {
         $exp = explode('/', $this->attributes['awarded_shipment_file']);
-        $shipmentFileNameFormatted = $exp[1];
-        $shipmentFileNameFormatted = $shipmentFileNameFormatted;
-        return $shipmentFileNameFormatted;
+        $value = $exp[1];
+        return $value;
     }
 
     public function setAwardedValueAttribute($value)
@@ -58,8 +57,8 @@ class Award extends Model
             $this->attributes['awarded_value'] = toReal($value);
         }
 
-        if (\Request::get('awarded_type') == 2) {
-            $this->attributes['awarded_value'] = $value;
+        if (\Request::get('awarded_type') == 1 || \Request::get('awarded_type') == 2) {
+            $this->attributes['awarded_value'] = (float) $value;
         }
     }
 }

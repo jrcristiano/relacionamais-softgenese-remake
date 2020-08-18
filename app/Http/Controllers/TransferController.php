@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CashFlow;
-use App\Events\TransferAtCashFlowCreated;
-use App\Events\TransferAtCashFlowUpdated;
+use App\Events\Transfers\TransferAtCashFlowSaved;
 use App\Repositories\TransferRepository as TransferRepo;
 use App\Repositories\BankRepository as BankRepo;
 use App\Repositories\CashFlowRepository as CashFlowRepo;
@@ -57,20 +56,9 @@ class TransferController extends Controller
         $data['id'] = $transfer->id;
 
         $cashFlowRepo = new CashFlowRepo(new CashFlow);
-        event(new TransferAtCashFlowCreated($cashFlowRepo, $data));
 
+        event(new TransferAtCashFlowSaved($cashFlowRepo, $data));
         return redirect()->route('admin.financial.transfers');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -100,8 +88,8 @@ class TransferController extends Controller
 
         $data['id'] = $id;
         $cashFlowRepo = new CashFlowRepo(new CashFlow);
-        event(new TransferAtCashFlowUpdated($cashFlowRepo, $data));
 
+        event(new TransferAtCashFlowSaved($cashFlowRepo, $data));
         return redirect()->route('admin.financial.transfers');
     }
 

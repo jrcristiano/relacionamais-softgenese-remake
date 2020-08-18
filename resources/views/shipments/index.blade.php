@@ -39,26 +39,26 @@
                         <tbody>
                             @forelse ($awards as $award)
                                 @php
-                                    if ($award->awarded_type == 2) {
-                                        $status = $award->awarded_status == 1 ? 'Enviado para remessa' : ($award->awarded_status == 2 ? 'Aguardando pagamento' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'Pendente' : ($award->awarded_status == 4 ? 'Cancelado' : '')));
+                                    if ($award->awarded_type == 1 || $award->awarded_type == 2) {
+                                        $status = $award->awarded_status == 1 ? 'EM REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'Cancelado' : '')));
                                     }
 
                                     if ($award->awarded_type == 3) {
-                                        $status = $award->awarded_status == 1 || $award->awarded_status == null ? 'Pago' : ($award->awarded_status == 3 ? 'Pendente' : ($award->awarded_status == 4 ? 'Cancelado' : ''));
+                                        $status = $award->awarded_status == 1 || $award->awarded_status == null ? 'PAGO' : ($award->awarded_status == 3 ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : ''));
                                     }
 
                                     if ($award->shipment_generated) {
-                                        $status = 'Remessa gerada';
+                                        $status = 'REMESSA GERADA';
                                     }
 
                                     if ($award->awarded_shipment_cancelled) {
-                                        $status = 'Remessa cancelada';
+                                        $status = 'REMESSA CANCELADA';
                                     }
                                 @endphp
                                 <tr>
                                     <td class="text-uppercase">PEDIDO {{ $award->awarded_demand_id }} | PREMIAÇÃO {{ $award->id }}</td>
                                     <td>R$ {{ number_format($award->awarded_value, 2, ',', '.')  }}</td>
-                                    <td class="text-uppercase">Depósito em conta</td>
+                                    <td class="text-uppercase">{{ $award->awarded_type ? 'CARTÃO ACESSO' : 'DEPÓSITO EM CONTA' }}</td>
                                     <td class="text-uppercase">{{ $status ?? '' }}</td>
                                     <td>{{ $award->created_at_formatted }}</td>
                                     <td>

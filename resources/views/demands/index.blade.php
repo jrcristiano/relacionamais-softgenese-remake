@@ -121,7 +121,7 @@
                         @endforelse
                 </tbody>
             </table>
-            @if ($demands->count() >= 500)
+            @if ($demands->count() >= 10)
                 <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
                     @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
                         {!! $demands->appends(['has_sale' => 1])->links() !!}

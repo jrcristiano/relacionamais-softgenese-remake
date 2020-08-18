@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AwardRequest;
+use App\Facades\AwardTypes\DepositAccount;
+use App\Facades\UploadAward;
+use App\Http\Requests\AwardRequest as Request;
 use App\Repositories\{AwardRepository as AwardRepo,
     CashFlowRepository as CashFlowRepo,
     NoteRepository,
     SpreadsheetRepository as SpreadsheetRepo
 };
 use App\Services\SpreadsheetService;
-use App\Uploads\Facades\Upload;
 use App\Repositories\BankRepository as BankRepo;
 
 class AwardController extends Controller
@@ -53,67 +54,25 @@ class AwardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AwardRequest $request)
+    public function store(Request $request)
     {
+        $demandId = $request->get('pedido_id');
+
         $data = $request->only(array_keys($request->rules()));
+        $data['awarded_type'] = 2;
+        $data['awarded_status'] = 3;
+        $data['awarded_bank_id'] = 1;
+        $data['awarded_demand_id'] = $demandId;
 
-        $awardedStatusManual = $request->awarded_status_manual;
-        $awardedStatusDeposit = $request->awarded_status_deposit;
+        $upload = new UploadAward($this->awardRepo, $this->spreadsheetService);
+        $error = $upload->storeAward($request, $data, DepositAccount::class);
 
-        $data['awarded_status'] = $awardedStatusManual ? $awardedStatusManual : ($awardedStatusDeposit ? $awardedStatusDeposit : null);
-
-        if (array_key_exists('awarded_upload_table', $data)) {
-            $data['awarded_bank_id'] = 1;
-
-            $file = Upload::file($request, 'awarded_upload_table', ['xlsx', 'xls']);
-            $fullFileName = $file->getFullFileName();
-            $fileName = $file->getFileName();
-
-            $validationFile = $file->validation();
-            $validationDocument = $this->spreadsheetService->isDocumentValid($fullFileName);
-
-            if ($validationFile && $validationDocument) {
-                $save = $this->awardRepo->save($data);
-
-                $awardedValue = (float) $this->spreadsheetService->getAwardedValue();
-
-                $data['awarded_value'] = $awardedValue;
-                $data['awarded_upload_table'] = $fileName;
-
-                $this->awardRepo->save($data, $save->id);
-
-                $demandId = \Request::get('pedido_id');
-                $this->spreadsheetRepo->saveShipment($fullFileName, $demandId, $save->id);
-            }
-
-            $messages = $this->spreadsheetService->getMessageErrors();
-            if ($messages) {
-                if (file_exists($fileName)) {
-                    unlink($fileName);
-                }
-                return redirect()->back()
-                    ->with('error', $messages);
-            }
-
-            if (!$validationDocument) {
-                return redirect()->back()->withErrors('campos divergentes, verifique seu arquivo e tente novamente.');
-            }
+        if (is_array($error[0]) && $error[0]) {
+            return redirect()->back()
+                ->with('error', $error);
         }
 
-        if ($request->awarded_type == 3 && $request->awarded_status_manual == 1) {
-            $save = $this->awardRepo->save($data);
-            $data = [
-                'flow_movement_date' => $save->awarded_date_payment_manual,
-                'flow_award_id' => $save->id,
-                'flow_demand_id' => \Request::get('pedido_id'),
-                'flow_bank_id' => $save->awarded_bank_id,
-                'flow_hide_line' => 0
-            ];
-
-            $this->cashFlowRepo->save($data);
-        }
-
-        return redirect()->route('admin.show', [ 'id' => $request->awarded_demand_id, 'premiacao' => 1 ])
+        return redirect()->route('admin.show', [ 'id' => $demandId, 'premiacao' => 1 ])
             ->with('message', 'Premiação cadastrada com sucesso!');
     }
 
@@ -151,38 +110,28 @@ class AwardController extends Controller
      * @param  \App\Award  $award
      * @return \Illuminate\Http\Response
      */
-    public function update(AwardRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $data = $request->only(array_keys($request->rules()));
-        $awardedStatusManual = $request->awarded_status_manual;
-        $awardedStatusDeposit = $request->awarded_status_deposit;
+        $demandId = $request->get('pedido_id');
 
-        $data['awarded_status'] = $awardedStatusManual ? $awardedStatusManual : ($awardedStatusDeposit ? $awardedStatusDeposit : null);
+        $data = $request->only(array_keys($request->rules()));
+        $data['awarded_type'] = 2;
+        $data['awarded_bank_id'] = 1;
+        $data['awarded_demand_id'] = $demandId;
 
         $this->awardRepo->save($data, $id);
 
-        $bankId = array_key_exists('awarded_bank_id', $request->all()) ? $request->awarded_bank_id : $this->awardRepo->getBankId($id)->bank_id;
-        $cashFlowId = $this->cashFlowRepo->getCashFlowId($request->manual_deposit_id);
+        $cashFlowId = $this->cashFlowRepo->getCashFlowId($id);
+        $cashData = [
+            'flow_movement_date' => date('Y-m-d'),
+            'flow_award_id' => $id,
+            'flow_demand_id' => $demandId,
+            'flow_bank_id' => $data['awarded_bank_id'],
+        ];
 
         if ($request->awarded_type == 3) {
             if ($request->awarded_status_manual == 1) {
-                $cashData = [
-                    'flow_movement_date' => date('Y-m-d'),
-                    'flow_award_id' => $id,
-                    'flow_demand_id' => \Request::get('pedido_id'),
-                    'flow_bank_id' => $bankId,
-                    'flow_hide_line' => 0,
-                ];
-            }
-
-            if ($request->awarded_status_manual == 4) {
-                $cashData = [
-                    'flow_movement_date' => date('Y-m-d'),
-                    'flow_award_id' => $id,
-                    'flow_demand_id' => \Request::get('pedido_id'),
-                    'flow_bank_id' => $bankId,
-                    'flow_hide_line' => 1
-                ];
+                $cashData['flow_hide_line'] = 0;
             }
 
             if ($cashFlowId) {
@@ -191,7 +140,7 @@ class AwardController extends Controller
                 $this->cashFlowRepo->save($cashData);
             }
         }
-        return redirect()->route('admin.show', [ 'id' => \Request::get('pedido_id') ])
+        return redirect()->route('admin.show', [ 'id' => $demandId, 'premiacao' => 1 ])
             ->with('message', 'Premiação atualizada com sucesso!');
     }
 

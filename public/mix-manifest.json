@@ -5,6 +5,7 @@
     "/js/vendor.js": "/js/vendor.js",
     "/js/my-app-and-helpers.js": "/js/my-app-and-helpers.js",
     "/js/demands/create-edit-demand.js": "/js/demands/create-edit-demand.js",
+    "/js/payment-manuals/create-edit-payment-manual.js": "/js/payment-manuals/create-edit-payment-manual.js",
     "/js/banks/create-edit-bank.js": "/js/banks/create-edit-bank.js",
     "/js/demands/index-demand.js": "/js/demands/index-demand.js",
     "/js/clients/index-client.js": "/js/clients/index-client.js",

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\PaymentManuals;
 
 use App\Repositories\CashFlowRepository as CashFlowRepo;
 
-class TransferAtCashFlowCreated
+class PaymentManualAtCashFlowCreated
 {
     private $cashFlowRepo;
     private $data;

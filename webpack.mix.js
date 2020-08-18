@@ -23,6 +23,10 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
         'resources/js/save-button.js'
    ], 'public/js/demands/create-edit-demand.js')
    .scripts([
+        'resources/js/payment-manuals/create.js',
+        'resources/js/save-button.js'
+   ], 'public/js/payment-manuals/create-edit-payment-manual.js')
+   .scripts([
        'resources/js/save-button.js',
    ], 'public/js/banks/create-edit-bank.js')
    .scripts([

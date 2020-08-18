@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         if ($exception instanceof FatalThrowableError || $exception instanceof ViewException) {
-            abort(404);
+            //abort(404);
         }
 
         parent::report($exception);
@@ -56,9 +56,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Symfony\Component\Debug\Exception\FatalErrorException) {
-            $exception = new \Exception('Planilha não suportada, copie os dados, cole em uma novo arquivo (.XLS/.XLSX) e tente novamente.');
-        }
+
 
         return parent::render($request, $exception);
     }

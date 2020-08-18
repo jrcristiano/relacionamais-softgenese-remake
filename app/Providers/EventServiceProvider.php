@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
-use App\Events\TransferAtCashFlowCreated;
-use App\Events\TransferAtCashFlowUpdated;
-use App\Listeners\SaveTransferAtCashFlowListener;
-use App\Listeners\UpdateTransferAtCashFlowListener;
+use App\Events\PaymentManuals\PaymentManualAtCashFlowCreated;
+use App\Events\PaymentManuals\PaymentManualAtCashFlowUpdated;
+use App\Events\Transfers\TransferAtCashFlowSaved;
+use App\Listeners\PaymentManuals\PaymentManualAtCashFlowListener;
+use App\Listeners\PaymentManuals\UpdatePaymentManualAtCashFlowListener;
+use App\Listeners\Transfers\SaveTransferAtCashFlowListener;
+use App\Listeners\Transfers\UpdateTransferAtCashFlowListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,12 +19,18 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        TransferAtCashFlowCreated::class => [
+        TransferAtCashFlowSaved::class => [
             SaveTransferAtCashFlowListener::class,
         ],
-        TransferAtCashFlowUpdated::class => [
+        TransferAtCashFlowSaved::class => [
             UpdateTransferAtCashFlowListener::class,
         ],
+        PaymentManualAtCashFlowCreated::class => [
+            PaymentManualAtCashFlowListener::class,
+        ],
+        PaymentManualAtCashFlowUpdated::class => [
+            UpdatePaymentManualAtCashFlowListener::class,
+        ]
     ];
 
     /**
