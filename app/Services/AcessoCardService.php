@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\AcessoCardRepository as AcessoCardRepo;
+use yidas\phpSpreadsheet\Helper;
 
 class AcessoCardService extends Service
 {
@@ -13,9 +14,9 @@ class AcessoCardService extends Service
         $this->service = $repository;
     }
 
-    public function storeCard($fileName, $demandId, $awardDemandId)
+    public function storeCard($fileName, $demandId, $awardDemandId, $params)
     {
-        return $this->service->storeCard($fileName, $demandId, $awardDemandId);
+        return $this->service->storeCard($fileName, $demandId, $awardDemandId, $params);
     }
 
     public function find($id)
@@ -31,5 +32,27 @@ class AcessoCardService extends Service
     public function getAcessoCardsWhereAwarded($id)
     {
         return $this->service->getAcessoCardsWhereAwarded($id);
+    }
+
+    public function findByDocument($document)
+    {
+        return $this->service->findByDocument($document);
+    }
+
+    public function getAcessoCardByDocument($document)
+    {
+        return $this->service->getAcessoCardByDocument($document);
+    }
+
+    public function getData($fileName, $pos)
+    {
+        $excel = Helper::newSpreadsheet($fileName)->getRows();
+
+        $data = [];
+        foreach ($excel as $key => $row) {
+            $data[] = $row[$pos];
+        }
+
+        return $data;
     }
 }

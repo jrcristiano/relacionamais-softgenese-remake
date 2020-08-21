@@ -22,6 +22,11 @@ abstract class Service
         return $this->service->find($id);
     }
 
+    public function findByDocument($document)
+    {
+        return $this->service->findByDocument($document);
+    }
+
     public function save($data, $id = null)
     {
         if (!$id) {
@@ -31,6 +36,11 @@ abstract class Service
         return $this->service->find($id)
             ->fill($data)
             ->save();
+    }
+
+    public function update(array $data, $field, $value)
+    {
+        return $this->service->update($data, $field, $value);
     }
 
     public function isDocumentValid($fileName, $posDocument, $posValue)

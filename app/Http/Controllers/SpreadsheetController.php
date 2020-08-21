@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Awards\UpdateAwardedValueAfterRemoveAwarded;
 use App\Http\Requests\SpreadsheetRequest;
-use App\Repositories\SpreadsheetRepository;
+use App\Repositories\AwardRepository as AwardRepo;
+use App\Repositories\SpreadsheetRepository as SpreadsheetRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SpreadsheetController extends Controller
 {
     private $spreadsheetRepo;
+    private $awardRepo;
 
-    public function __construct(SpreadsheetRepository $spreadsheetRepo)
+    public function __construct(SpreadsheetRepo $spreadsheetRepo, AwardRepo $awardRepo)
     {
         $this->spreadsheetRepo = $spreadsheetRepo;
+        $this->awardRepo = $awardRepo;
     }
 
     /**
@@ -63,7 +67,9 @@ class SpreadsheetController extends Controller
      */
     public function destroy($id)
     {
+        event(new UpdateAwardedValueAfterRemoveAwarded($this->spreadsheetRepo, $this->awardRepo, $id));
         $this->spreadsheetRepo->delete($id);
+
         return redirect()->route('admin.register.awardeds.show', [
             'id' => \Request::get('premiado_id'),
             'pedido_id' => \Request::get('pedido_id')

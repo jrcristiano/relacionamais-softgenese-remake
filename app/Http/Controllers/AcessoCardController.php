@@ -65,7 +65,7 @@ class AcessoCardController extends Controller
     public function show($id)
     {
         $acessoCards = $this->acessoCardService->getAcessoCardsWhereAwarded($id);
-        return view('acesso-cards.show', compact('acessoCards', 'spreadsheets', 'id'));
+        return view('acesso-cards.show', compact('acessoCards', 'id'));
     }
 
     /**

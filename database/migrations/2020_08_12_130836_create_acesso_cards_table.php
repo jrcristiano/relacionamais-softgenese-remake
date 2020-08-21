@@ -19,6 +19,9 @@ class CreateAcessoCardsTable extends Migration
             $table->string('acesso_card_document')->unique();
             $table->decimal('acesso_card_value', 11, 4)->unsigned();
 
+            $table->string('acesso_card_number')->nullable()
+                ->unique();
+
             $table->unsignedBigInteger('acesso_card_spreadsheet_line');
 
             $table->boolean('acesso_card_chargeback')->nullable();

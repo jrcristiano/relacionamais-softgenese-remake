@@ -31,6 +31,7 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Documento</th>
+                        <th scope="col">Cartão</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Ações</th>
                     </tr>
@@ -40,6 +41,7 @@
                         <tr>
                             <td class="text-uppercase">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
+                            <td>{{ $acessoCard->acesso_card_number }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value }}</td>
                             <td>
                                 @if (!$acessoCard->spreadsheet_chargeback && $acessoCard->shipment_generated)

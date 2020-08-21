@@ -2,11 +2,11 @@
 
 namespace App\Listeners\PaymentManuals;
 
-use App\Events\PaymentManuals\PaymentManualAtCashFlowCreated;
+use App\Events\PaymentManuals\PaymentManualAtCashFlowCreated as Event;
 
 class UpdatePaymentManualAtCashFlowListener
 {
-    public function handle(PaymentManualAtCashFlowCreated $event)
+    public function handle(Event $event)
     {
         $cashFlow = $event->getCashFlowRepo();
         $data = $event->getData();

@@ -88,7 +88,7 @@
                                       Pagamento manual
                                   </a>
                                   <a class="dropdown-item" href="{{ route('admin.register.acesso-cards.create', ['pedido_id' => $id]) }}">
-                                      Acesso card
+                                      Acesso card completo
                                   </a>
                                 </div>
                               </div>

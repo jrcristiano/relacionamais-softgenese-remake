@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\Awards\UpdateAwardedValueAfterRemoveAwarded;
 use App\Events\PaymentManuals\PaymentManualAtCashFlowCreated;
 use App\Events\PaymentManuals\PaymentManualAtCashFlowUpdated;
 use App\Events\Transfers\TransferAtCashFlowSaved;
+use App\Listeners\Awards\AwardUpdateAwardedValueAfterRemoveAwardedListener;
 use App\Listeners\PaymentManuals\PaymentManualAtCashFlowListener;
 use App\Listeners\PaymentManuals\UpdatePaymentManualAtCashFlowListener;
 use App\Listeners\Transfers\SaveTransferAtCashFlowListener;
@@ -30,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PaymentManualAtCashFlowUpdated::class => [
             UpdatePaymentManualAtCashFlowListener::class,
+        ],
+        UpdateAwardedValueAfterRemoveAwarded::class => [
+            AwardUpdateAwardedValueAfterRemoveAwardedListener::class,
         ]
     ];
 

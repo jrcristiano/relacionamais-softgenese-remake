@@ -25,6 +25,12 @@ abstract class Repository
             ->save();
     }
 
+    public function update(array $data, string $field, $value)
+    {
+        return $this->repository->where($field, $value)
+            ->update($data);
+    }
+
     public function delete($id)
     {
         return $this->repository->find($id)
