@@ -51,6 +51,13 @@ class AwardRepository extends Repository
             ->first();
     }
 
+    public function firstFileNameById($id)
+    {
+        return $this->repository->select('awarded_upload_table')
+            ->where('id', $id)
+            ->first();
+    }
+
     public function verifyIfSpreadsheetsExists($id)
     {
         return $this->repository->select(['awarded_upload_table'])

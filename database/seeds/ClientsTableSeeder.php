@@ -12,6 +12,6 @@ class ClientsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Client::class, 5)->create();
+        factory(Client::class, 1)->create();
     }
 }

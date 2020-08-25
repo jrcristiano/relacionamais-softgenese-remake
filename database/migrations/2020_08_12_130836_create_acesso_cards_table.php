@@ -16,11 +16,10 @@ class CreateAcessoCardsTable extends Migration
         Schema::create('acesso_cards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('acesso_card_name');
-            $table->string('acesso_card_document')->unique();
+            $table->string('acesso_card_document');
             $table->decimal('acesso_card_value', 11, 4)->unsigned();
 
-            $table->string('acesso_card_number')->nullable()
-                ->unique();
+            $table->string('acesso_card_number')->nullable();
 
             $table->unsignedBigInteger('acesso_card_spreadsheet_line');
 

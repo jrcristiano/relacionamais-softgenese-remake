@@ -78,6 +78,16 @@ class AcessoCardController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(array_keys($request->rules()));
+        $data['id'] = $id;
+
+        $upload = new UploadAward($this->awardRepo, $this->acessoCardService);
+        $hasErrors = $upload->updateAward($data, AcessoCard::class);
+
+        if (is_array($hasErrors)) {
+            return redirect()->back()
+                ->with('error', $hasErrors);
+        }
+
         $this->awardRepo->save($data, $id);
         return redirect()->route('admin.show', ['id' => $request->get('pedido_id'), 'premiacao' => 1])
             ->with('message', 'Premiação cadastrada com sucesso!');
@@ -95,8 +105,8 @@ class AcessoCardController extends Controller
         return redirect()
             ->route('admin.register.acesso-cards.show', [
                 'id' => \Request::get('card_id'),
-                'pedido_id' => \Request::get('pedido_id')]
-            )
+                'pedido_id' => \Request::get('pedido_id')
+            ])
             ->with('message', 'Premiação removida com sucesso!');
     }
 }

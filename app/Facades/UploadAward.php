@@ -33,6 +33,16 @@ class UploadAward
         return $this->errors($fileName);
     }
 
+    public function updateAward(array $data, string $obj)
+    {
+        $award = new $obj($this->awardRepo, $this->service);
+        if (!is_a($award, $obj)) {
+            throw new \Exception('Objeto passado não é do tipo Award');
+        }
+
+        $award->updateAward($data);
+    }
+
     private function upload(Request $request)
     {
         return Upload::file($request, 'awarded_upload_table', ['xlsx', 'xls']);

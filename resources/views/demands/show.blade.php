@@ -211,6 +211,13 @@
                                                     </button>
                                                 </form>
                                             @endif
+
+                                            @if($award->awarded_type == 1 && $award->awarded_status == 2)
+                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @empty

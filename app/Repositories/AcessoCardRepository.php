@@ -26,6 +26,12 @@ class AcessoCardRepository extends Repository
             ->get();
     }
 
+    public function updateByAwardId(array $data, $awardId)
+    {
+        return $this->repository->where('acesso_card_award_id', $awardId)
+            ->update($data);
+    }
+
     public function storeCard($fileName, $demandId, $awardDemandId, array $params = [])
     {
         $excel = Helper::newSpreadsheet($fileName)->getRows();

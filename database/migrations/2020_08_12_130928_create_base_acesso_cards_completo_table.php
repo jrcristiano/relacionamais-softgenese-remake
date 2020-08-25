@@ -15,7 +15,7 @@ class CreateBaseAcessoCardsCompletoTable extends Migration
     {
         Schema::create('base_acesso_cards_completo', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('base_acesso_card_id')->unique();
+            $table->string('base_acesso_card_id');
             $table->string('base_acesso_card_name')->nullable();
 
             $table->string('base_acesso_card_cpf')->nullable()
