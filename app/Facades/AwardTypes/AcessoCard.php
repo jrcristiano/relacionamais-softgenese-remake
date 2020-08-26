@@ -63,7 +63,6 @@ class AcessoCard extends Award
 
             $this->service->save($params);
 
-
             $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
             $unlikedCard = $unlikedCard->base_acesso_card_number;
 
@@ -98,10 +97,7 @@ class AcessoCard extends Award
 
         if ($data['awarded_status'] == 2) {
             foreach ($documents as $key => $document) {
-                $findAcesso = $this->service->findByDocument($document);
                 $findBase = $baseAcessoCardService->findByDocument($document);
-
-                $findAcessoCard = $findAcesso->acesso_card_document ?? null;
 
                 if (!$findBase) {
                     $baseAcessoCardNumber = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
@@ -111,6 +107,10 @@ class AcessoCard extends Award
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => $documents[$key],
                     ], 'base_acesso_card_number', $baseAcessoCardNumber);
+
+                    $params = [];
+                    $params['acesso_card_number'] = $baseAcessoCardNumber;
+                    $this->service->updateByDocument($params, $document);
                 }
             }
         }

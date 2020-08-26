@@ -213,6 +213,9 @@
                                             @endif
 
                                             @if($award->awarded_type == 1 && $award->awarded_status == 2)
+                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
+                                                </a>
                                                 <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
                                                     <i aria-hidden="true" class="fas fa-edit"></i>
                                                 </a>

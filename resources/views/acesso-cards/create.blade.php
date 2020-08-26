@@ -13,6 +13,8 @@
                 'icon' => 'fas fa-home'
             ])
 
+            @include('components.message')
+
             <form class="mt-3 px-2" action="{{ route('admin.register.acesso-cards.store', ['pedido_id' => \Request::get('pedido_id')]) }}" enctype="multipart/form-data" method="post">
                 @csrf
                 @include('components.forms.form_acesso_card')
