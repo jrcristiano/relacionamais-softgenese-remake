@@ -26,9 +26,9 @@ class AcessoCardRepository extends Repository
             ->get();
     }
 
-    public function updateByAwardId(array $data, $awardId)
+    public function updateByDocument(array $data, $document)
     {
-        return $this->repository->where('acesso_card_award_id', $awardId)
+        return $this->repository->where('acesso_card_document', $document)
             ->update($data);
     }
 
