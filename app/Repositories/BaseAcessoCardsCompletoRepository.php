@@ -21,7 +21,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
 
     public function firstBaseAcessoCardNumberByDocument($document)
     {
-        return $this->repository->select('base_acesso_card_number')
+        return $this->repository->select(['id', 'base_acesso_card_number'])
             ->where('base_acesso_card_cpf', $document)
             ->first();
     }
@@ -35,6 +35,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function findByCard($card)
     {
         return $this->repository->select([
+            'base_acesso_cards_completo.id',
             'acesso_cards.acesso_card_value',
             'base_acesso_cards_completo.base_acesso_card_proxy'
         ])

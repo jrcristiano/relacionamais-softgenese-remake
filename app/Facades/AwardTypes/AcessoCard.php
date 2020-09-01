@@ -3,10 +3,13 @@
 namespace App\Facades\AwardTypes;
 
 use App\BaseAcessoCardsCompleto;
+use App\HistoryAcessoCard;
 use App\Repositories\AwardRepository as AwardRepo;
 use App\Repositories\BaseAcessoCardsCompletoRepository;
+use App\Repositories\HistoryAcessoCardRepository;
 use App\Services\AcessoCardService;
 use App\Services\BaseAcessoCardsCompletoService;
+use App\Services\HistoryAcessoCardService;
 
 class AcessoCard extends Award
 {
@@ -37,6 +40,7 @@ class AcessoCard extends Award
     public function storeCard(array $data, $fullFileName)
     {
         $baseAcessoCardService = new BaseAcessoCardsCompletoService(new BaseAcessoCardsCompletoRepository(new BaseAcessoCardsCompleto()));
+        $historyAcessoCard = new HistoryAcessoCardService(new HistoryAcessoCardRepository(new HistoryAcessoCard));
 
         $documents = $this->service->getData($fullFileName, 0);
         $names = $this->service->getData($fullFileName, 1);
@@ -63,7 +67,15 @@ class AcessoCard extends Award
             $params['acesso_card_demand_id'] = $demandId;
             $params['acesso_card_award_id'] = $save->id;
 
-            $this->service->save($params);
+            $acesso = $this->service->save($params);
+
+            $findBaseId = $findBase->id ?? null;
+            if ($findBaseId) {
+                $historyAcessoCard->save([
+                    'history_acesso_card_id' => $acesso->id,
+                    'history_base_id' => $findBase->id,
+                ]);
+            }
 
             $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
             $unlikedCard = $unlikedCard->base_acesso_card_number;
@@ -89,6 +101,7 @@ class AcessoCard extends Award
         $fullFileName = $fullFileName->awarded_upload_table;
 
         $baseAcessoCardService = new BaseAcessoCardsCompletoService(new BaseAcessoCardsCompletoRepository(new BaseAcessoCardsCompleto()));
+        $historyAcessoCard = new HistoryAcessoCardService(new HistoryAcessoCardRepository(new HistoryAcessoCard));
 
         $documents = $this->service->getData($fullFileName, 0);
         $names = $this->service->getData($fullFileName, 1);
@@ -113,6 +126,11 @@ class AcessoCard extends Award
                     $params = [];
                     $params['acesso_card_number'] = $baseAcessoCardNumber;
                     $this->service->updateByDocument($params, $document);
+
+                    $historyAcessoCard->save([
+                        'history_acesso_card_id' => $this->service->findByDocument($document)->id,
+                        'history_base_id' => $baseAcessoCardService->findByCard($baseAcessoCardNumber)->id,
+                    ]);
                 }
             }
         }

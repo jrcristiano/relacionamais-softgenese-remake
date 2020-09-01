@@ -60,7 +60,7 @@ $(document).ready(function () {
         }
 
         $.post(path, collection, function (response) {
-            // console.log(response)
+            console.log(response)
             let filename = response;
 
             let url = `${domain}/storage/shipments/${filename}`

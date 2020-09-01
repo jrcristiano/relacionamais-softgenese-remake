@@ -13,7 +13,7 @@ class CreateHistoryAcessoCardTable extends Migration
      */
     public function up()
     {
-        Schema::create('history_acesso_card', function (Blueprint $table) {
+        Schema::create('history_acesso_cards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('history_base_id');
 
@@ -25,9 +25,6 @@ class CreateHistoryAcessoCardTable extends Migration
             $table->foreign('history_acesso_card_id')
                 ->on('acesso_cards')
                 ->references('id');
-
-            $table->decimal('history_acesso_card_value', 11, 4)
-                ->unsigned();
 
             $table->timestamps();
         });
