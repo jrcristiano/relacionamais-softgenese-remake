@@ -59,7 +59,7 @@
                         <div class="row p-3">
                             <label class="font-weight-bold">Saldo</label>
                             <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-                                R$ {{ $demand->sale_formatted }}
+                                R$ {{ number_format($demand->sale_formatted, 2, ',', '.') }}
                             </div>
                         </div>
                         <div class="row p-3">
@@ -160,9 +160,6 @@
                                             @if ($award->awarded_type == 1 && $award->awarded_status == 1)
                                                 <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
                                                     <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
                                                 </a>
                                             @endif
 

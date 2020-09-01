@@ -69,6 +69,12 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
       'resources/js/demands/index.js'
    ], 'public/js/receives/index-receive.js')
    .scripts([
+    'resources/js/shipments/deposit-account.js'
+ ], 'public/js/shipments/deposit-account.js')
+ .scripts([
+    'resources/js/shipments/acesso-card.js'
+ ], 'public/js/shipments/acesso-card.js')
+   .scripts([
       'resources/js/receives/create.js',
       'resources/js/save-button.js'
    ], 'public/js/receives/create-edit-receive.js')

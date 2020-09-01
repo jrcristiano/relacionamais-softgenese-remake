@@ -253,6 +253,12 @@ class CashFlowRepository extends Repository
             ->where('awards.awarded_type', 3)
             ->where('awards.awarded_status', 1);
 
+        $queryAwardAcessoCardRaw =  DB::raw('sum(awards.awarded_value) as acesso_card_value');
+        $awardAcessoCards = $this->repository->select($queryAwardAcessoCardRaw)
+            ->leftJoin('awards', 'cash_flows.flow_award_id', '=', 'awards.id')
+            ->where('awards.awarded_type', 1)
+            ->where('awards.awarded_status', 1);
+
         if (in_array(null, $between) && $bankId == null) {
             $awards = $queryReceive->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id');
 
@@ -262,8 +268,9 @@ class CashFlowRepository extends Repository
             $awards = (float) $queryReceive->first()->award_real_value ?? 0;
             $shipments = (float) $shipments->first()->shipment_value ?? 0;
             $awardManualsValue = (float) $awardManuals->first()->award_manual_value ?? 0;
+            $awardAcessoCards = (float) $awardAcessoCards->first()->acesso_card_value ?? 0;
 
-            return ($awards - $shipments) - $awardManualsValue;
+            return ($awards - $shipments) - $awardManualsValue - $awardAcessoCards;
         }
 
         if (!in_array(null, $between) && $bankId == null) {
@@ -280,8 +287,9 @@ class CashFlowRepository extends Repository
 
             $awards = (float) $queryReceive->first()->award_real_value ?? 0;
             $shipments = (float) $queryShipment->first()->shipment_value ?? 0;
+            $awardAcessoCards = (float) $awardAcessoCards->first()->acesso_card_value ?? 0;
 
-            return ($awards - $shipments + $transferTotal) - $awardManualsValue;
+            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards;
         }
 
         if (in_array(null, $between) && isset($bankId)) {
@@ -315,7 +323,11 @@ class CashFlowRepository extends Repository
                 ->where('banks.id', '=', $bankId)
                 ->first()->award_manual_value ?? 0;
 
-            return ($awards - $shipments + $transferTotal) - $awardManualsValue + ($transferCredit - $transferDebit);
+            $awardAcessoCards = (float) $awardAcessoCards->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
+                ->where('banks.id', '=', $bankId)
+                ->first()->acesso_card_value ?? 0;
+
+            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards + ($transferCredit - $transferDebit);
         }
 
         if (!in_array(null, $between) && isset($bankId)) {
@@ -337,7 +349,12 @@ class CashFlowRepository extends Repository
                 ->where('banks.id', '=', $bankId)
                 ->first()->award_manual_value ?? 0;
 
-            return ($awards - $shipments + $transferTotal) - $awardManualsValue;
+            $awardAcessoCards = (float) $awardAcessoCards->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
+                ->whereBetween('flow_movement_date', $between)
+                ->where('banks.id', '=', $bankId)
+                ->first()->acesso_card_value ?? 0;
+
+            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards;
         }
 
         $awards = $queryReceive->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
@@ -357,7 +374,7 @@ class CashFlowRepository extends Repository
             ->where('banks.id', '=', $bankId)
             ->first()->award_manual_value ?? 0;
 
-        return ($awards - $shipments) - $awardManualsValue;
+        return ($awards - $shipments) - $awardManualsValue - $awardAcessoCards;
     }
 
     public function hasMovementDateBetween($between)

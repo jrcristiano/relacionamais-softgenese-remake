@@ -3,8 +3,8 @@
         <i class="fas fa-close"></i>
     </button>
     <a href="{{ route('admin.home') }}" class="nav-brand">
-        <div class="sgi-logo mb-2 mt-1">
-            <img src="{{ asset('/imgs/white-logo.png') }}" width="140" height="65" alt="Logo tipo da SoftGenese">
+        <div class="sgi-logo py-3 mt-2">
+            <img src="{{ asset('/imgs/white-logo.png') }}" width="140" height="70" alt="Logo tipo da SoftGenese">
         </div>
     </a>
     <span class="sgi-tag mt-3">

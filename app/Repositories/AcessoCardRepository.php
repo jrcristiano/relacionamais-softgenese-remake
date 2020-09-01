@@ -26,6 +26,18 @@ class AcessoCardRepository extends Repository
             ->get();
     }
 
+    public function findByAwardId($id)
+    {
+        return $this->repository->where('acesso_card_award_id', $id)
+            ->get();
+    }
+
+    public function findByCard($card)
+    {
+        return $this->repository->where('acesso_card_number', $card)
+            ->first();
+    }
+
     public function updateByDocument(array $data, $document)
     {
         return $this->repository->where('acesso_card_document', $document)

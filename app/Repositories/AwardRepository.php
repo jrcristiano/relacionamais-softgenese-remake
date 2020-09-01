@@ -31,17 +31,22 @@ class AwardRepository extends Repository
         ->paginate($perPage);
     }
 
-    public function getShipmentsbyPaginate($perPage = 100)
+    public function getShipmentsbyPaginate($perPage = 100, $awardType = null)
     {
-        return $this->repository->select([
+        $query =  $this->repository->select([
             'awards.*',
             'shipments_api.shipment_generated'
         ])
-        ->where('awarded_status', '!=', 3)
+        ->where('awarded_status', '=', 1)
         ->whereNotNull('awarded_upload_table')
         ->orderBy('id', 'desc')
-        ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
-        ->paginate($perPage);
+        ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id');
+
+        if ($awardType) {
+            $query->where('awarded_type', $awardType);
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function getFirstPathByAwardedUploadSpreadsheet($id)

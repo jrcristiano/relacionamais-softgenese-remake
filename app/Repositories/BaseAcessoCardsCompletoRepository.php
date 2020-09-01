@@ -31,4 +31,15 @@ class BaseAcessoCardsCompletoRepository extends Repository
         return $this->repository->whereNull('base_acesso_card_cpf')
             ->first();
     }
+
+    public function findByCard($card)
+    {
+        return $this->repository->select([
+            'acesso_cards.acesso_card_value',
+            'base_acesso_cards_completo.base_acesso_card_proxy'
+        ])
+        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_number', '=', 'acesso_cards.acesso_card_number')
+        ->where('base_acesso_card_number', $card)
+        ->first();
+    }
 }

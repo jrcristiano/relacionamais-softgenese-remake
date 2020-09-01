@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\AwardRepository;
+use Illuminate\Http\Request;
 
 class ShipmentController extends Controller
 {
@@ -18,9 +19,10 @@ class ShipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $awards = $this->awardRepo->getShipmentsbyPaginate(100);
+        $awardType = $request->tipo_premiacao;
+        $awards = $this->awardRepo->getShipmentsbyPaginate(500, $awardType);
         return view('shipments.index', compact('awards'));
     }
 }

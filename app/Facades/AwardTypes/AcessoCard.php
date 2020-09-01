@@ -52,7 +52,9 @@ class AcessoCard extends Award
 
             $acessoCardNumber = $baseAcessoCardService->firstBaseAcessoCardNumberByDocument($document);
             $params = [];
-            $params['acesso_card_name'] = $names[$key];
+            $acessoCardDocument = $findAcesso->acesso_card_document ?? null;
+            $acessoCardName = $findAcesso->acesso_card_name ?? null;
+            $params['acesso_card_name'] = $acessoCardDocument == $documents[$key] ? $acessoCardName : $names[$key];
             $params['acesso_card_value'] = $values[$key];
             $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
             $params['acesso_card_number'] = $cardNumber;

@@ -2,9 +2,6 @@
 @section('title', 'Remessas')
 @section('content')
 <div class="container-fluid">
-    @php
-      // dd($awards);
-    @endphp
     <div class="row shadow bg-white rounded">
 
         @include('components.leftbar')
@@ -20,6 +17,19 @@
             @include('components.message')
 
             <div class="col-lg-12 mt-3 d-flex flex-nowrap mb-2 sgi-sub-content-header">
+
+                <div class="w-75">
+                    <form class="d-flex w-50" action="" method="get">
+                        <select name="tipo_premiacao" class="form-control">
+                            <option value="">SELECIONAR TIPO DE PREMIAÇÃO</option>
+                            <option {{ \Request::get('tipo_premiacao') == 1 ? 'selected' : '' }} value="1">REMESSA ACESSOCARD COMPLETO</option>
+                            <option {{ \Request::get('tipo_premiacao') == 2 ? 'selected' : '' }} value="2">REMESSA DEP. EM CONTA ITAÚ</option>
+                        </select>
+                        <button id="btn-date" type="submit" class="btn btn-primary mr-2 ml-2">
+                            <i aria-hidden="true" class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
                 {!! $awards->links() !!}
                 <input id="filter_table" class="col-lg-3 ml-auto form-control mr-sm-2" type="text" placeholder="Valor, tipo de premiação e etc." />
             </div>
@@ -32,7 +42,9 @@
                         <th scope="col">Tipo de premiação</th>
                         <th scope="col">Status</th>
                         <th scope="col">Data de emissão</th>
-                        <th scope="col">Adic. a remessa</th>
+                        @if(\Request::get('tipo_premiacao'))
+                            <th scope="col">Adic. a remessa</th>
+                        @endif
                         <th scope="col">Ações</th>
                     </tr>
                     </thead>
@@ -58,23 +70,32 @@
                                 <tr>
                                     <td class="text-uppercase">PEDIDO {{ $award->awarded_demand_id }} | PREMIAÇÃO {{ $award->id }}</td>
                                     <td>R$ {{ number_format($award->awarded_value, 2, ',', '.')  }}</td>
-                                    <td class="text-uppercase">{{ $award->awarded_type ? 'CARTÃO ACESSO' : 'DEPÓSITO EM CONTA' }}</td>
+                                    <td class="text-uppercase">{{ $award->awarded_type == 1 ? 'CARTÃO ACESSO' : 'DEPÓSITO EM CONTA' }}</td>
                                     <td class="text-uppercase">{{ $status ?? '' }}</td>
                                     <td>{{ $award->created_at_formatted }}</td>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            @if ($award->shipment_generated)
-                                                <i class="fas fa-check text-success"></i>
-                                            @else
-                                                @if (!$award->awarded_shipment_cancelled)
-                                                    <input data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
-                                                    <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
-                                                @elseif($award->awarded_shipment_cancelled)
-                                                    <i aria-hidden="true" class="fas fa-close text-danger"></i>
+                                    @if(\Request::get('tipo_premiacao'))
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                @if ($award->shipment_generated)
+                                                    <i class="fas fa-check text-success"></i>
+                                                @else
+                                                    @if (!$award->awarded_shipment_cancelled && $award->awarded_type == 1)
+                                                        <input data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
+                                                    @elseif($award->awarded_shipment_cancelled)
+                                                        <i aria-hidden="true" class="fas fa-close text-danger"></i>
+                                                    @endif
+
+                                                    @if (!$award->awarded_shipment_cancelled && $award->awarded_type == 2)
+                                                        <input data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
+                                                    @elseif($award->awarded_shipment_cancelled)
+                                                        <i aria-hidden="true" class="fas fa-close text-danger"></i>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                                            </div>
+                                        </td>
+                                    @endif
                                     <td>
                                         <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.awardeds.show', ['id' => $award->id]) }}">
                                             <i class="far fa-eye"></i>
@@ -97,7 +118,9 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td class="text-center" colspan="9"><i class="fas fa-frown"></i> Nenhuma remessa ainda registrada...</td>
+                                <td class="text-center" colspan="9">
+                                    <i class="fas fa-frown"></i> Nenhuma remessa ainda registrada...
+                                </td>
                             @endforelse
                         </tbody>
                     </table>
@@ -129,6 +152,14 @@
 </div>
 @endsection
 
-@push('scripts')
-<script src="{{ asset('/js/receives/index-receive.js') }}"></script>
-@endpush
+@if(\Request::get('tipo_premiacao') == 1)
+    @push('scripts')
+        <script src="{{ asset('/js/shipments/acesso-card.js') }}"></script>
+    @endpush
+@endif
+
+@if(\Request::get('tipo_premiacao') == 2)
+    @push('scripts')
+        <script src="{{ asset('/js/shipments/deposit-account.js') }}"></script>
+    @endpush
+@endif

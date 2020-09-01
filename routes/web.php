@@ -46,6 +46,10 @@ Route::group(['prefix' => 'admin'], function () {
             Route::group(['prefix' => '/award', 'as' => 'award.'], function () {
                 Route::post('/store', 'Api\\AwardControllerApi@store')->name('award-api.store');
             });
+
+            Route::group(['prefix' => '/acesso-card'], function () {
+                Route::post('/store', 'Api\\AcessoCardControllerApi@store')->name('acesso-card-api.store');
+            });
         });
 
         Route::get('/home', 'DemandController@index')->name('home');

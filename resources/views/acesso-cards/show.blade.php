@@ -41,7 +41,7 @@
                         <tr>
                             <td class="text-uppercase">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
-                            <td>{{ $acessoCard->acesso_card_number }}</td>
+                            <td>{{ $acessoCard->acesso_card_number ?? 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value }}</td>
                             <td>
                                 @if (!$acessoCard->spreadsheet_chargeback && $acessoCard->shipment_generated)

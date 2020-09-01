@@ -29,6 +29,16 @@ class AcessoCardService extends Service
         return $this->service->find($id);
     }
 
+    public function findByCard($card)
+    {
+        return $this->service->findByCard($card);
+    }
+
+    public function findByAwardId($id)
+    {
+        return $this->service->findByAwardId($id);
+    }
+
     public function delete($id)
     {
         return $this->service->delete($id);

@@ -22,4 +22,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->firstUnlikedBaseCardCompleto();
     }
+
+    public function findByCard($card)
+    {
+        return $this->service->findByCard($card);
+    }
 }

@@ -26,8 +26,14 @@
     </label>
     <select name="awarded_status" id="awarded_status" class="form-control status_deposit_account" style="border: 2px solid #ced4da;">
         <option value="">SELECIONAR STATUS DE PREMIAÇÃO</option>
-        @if ($id)
+        @if ($id && $awardedStatus == 1)
+            <option {{ $awardedStatus == 2 ? 'selected' : '' }} value="2">AGUARDANDO PAGAMENTO</option>
+        @endif
+        @if ($id && $awardedStatus == 2)
             <option {{ $awardedStatus == 1 ? 'selected' : '' }} value="1">ENVIAR PARA REMESSA</option>
+        @endif
+
+        @if ($id && $awardedStatus == 3)
             <option {{ $awardedStatus == 2 ? 'selected' : '' }} value="2">AGUARDANDO PAGAMENTO</option>
         @endif
         @if (!$id)

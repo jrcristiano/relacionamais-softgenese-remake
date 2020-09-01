@@ -33,6 +33,22 @@
 
     <div id="app">
         <div class="p-0">
+            <div id="new-loading" class="position-absolute w-100 d-none" style="z-index:99; top: 0;">
+                <div class="w-100 vh-100 bg-white d-flex justify-content-center align-items-center flex-wrap" style="z-index:9;">
+
+                    <div width="300" height="300">
+                        <div class="d-flex flex-wrap">
+                            <img width="190" height="105" src="{{ asset('/imgs/logo.png') }}" />
+                        </div><br>
+
+                        <div class="p-2 bg-white d-flex justify-content-center">
+                            <div class="spinner-border text-primary ml-1 mr-1 mb-1" role="status">
+                                <span style="font-size: 28px;" class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @yield('content')
         </div>
     </div>

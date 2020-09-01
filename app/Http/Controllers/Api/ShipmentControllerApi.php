@@ -93,7 +93,8 @@ class ShipmentControllerApi extends Controller
         }
 
         foreach ($identifies as $key => $id) {
-            $demandId = \App\Award::select('awarded_demand_id')->where('id', $id)
+            $demandId = \App\Award::select('awarded_demand_id')
+                ->where('id', $id)
                 ->first()
                 ->awarded_demand_id;
 
