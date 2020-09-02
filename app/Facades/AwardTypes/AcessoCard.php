@@ -104,6 +104,7 @@ class AcessoCard extends Award
         $historyAcessoCard = new HistoryAcessoCardService(new HistoryAcessoCardRepository(new HistoryAcessoCard));
 
         $documents = $this->service->getData($fullFileName, 0);
+
         $names = $this->service->getData($fullFileName, 1);
         $values = $this->service->getData($fullFileName, 2);
 
@@ -113,11 +114,10 @@ class AcessoCard extends Award
         if ($data['awarded_status'] == 2) {
             foreach ($documents as $key => $document) {
                 $findBase = $baseAcessoCardService->findByDocument($document);
+                $baseAcessoCardNumber = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
+                $baseAcessoCardNumber = $baseAcessoCardNumber->base_acesso_card_number;
 
                 if (!$findBase) {
-                    $baseAcessoCardNumber = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
-                    $baseAcessoCardNumber = $baseAcessoCardNumber->base_acesso_card_number;
-
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => $documents[$key],
@@ -126,12 +126,12 @@ class AcessoCard extends Award
                     $params = [];
                     $params['acesso_card_number'] = $baseAcessoCardNumber;
                     $this->service->updateByDocument($params, $document);
-
-                    $historyAcessoCard->save([
-                        'history_acesso_card_id' => $this->service->findByDocument($document)->id,
-                        'history_base_id' => $baseAcessoCardService->findByCard($baseAcessoCardNumber)->id,
-                    ]);
                 }
+
+                $historyAcessoCard->save([
+                    'history_acesso_card_id' => $this->service->findByDocument($document)->id,
+                    'history_base_id' => $baseAcessoCardService->findByCard($baseAcessoCardNumber)->id,
+                ]);
             }
         }
     }

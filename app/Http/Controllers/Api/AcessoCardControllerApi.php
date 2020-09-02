@@ -53,16 +53,6 @@ class AcessoCardControllerApi extends Controller
             }
         }
 
-        // return $collectCards;
-
-        $spreadsheet = new Spreadsheet;
-
-        $sheet = $spreadsheet->getActiveSheet();
-
-        $sheet->setCellValue('A1', 'CODPRGCRG');
-        $sheet->setCellValue('B1', 'PROXY');
-        $sheet->setCellValue('C1', 'VALOR');
-
         $cards = [];
         foreach ($collectCards as $card) {
 
@@ -94,6 +84,14 @@ class AcessoCardControllerApi extends Controller
                 ]);
             }
         }
+
+        $spreadsheet = new Spreadsheet;
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'CODPRGCRG');
+        $sheet->setCellValue('B1', 'PROXY');
+        $sheet->setCellValue('C1', 'VALOR');
 
         foreach ($collectCards as $key => $card) {
             $key = $key + 2;
