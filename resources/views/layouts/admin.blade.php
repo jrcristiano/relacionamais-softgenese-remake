@@ -38,7 +38,7 @@
 
                     <div width="300" height="300">
                         <div class="d-flex flex-wrap">
-                            <img width="190" height="105" src="{{ asset('/imgs/logo.png') }}" />
+                            <img width="200" height="105" src="{{ asset('/imgs/logo.png') }}" />
                         </div><br>
 
                         <div class="p-2 bg-white d-flex justify-content-center">

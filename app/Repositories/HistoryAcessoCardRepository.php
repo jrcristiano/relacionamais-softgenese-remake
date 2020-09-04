@@ -24,4 +24,10 @@ class HistoryAcessoCardRepository extends Repository
         ->where('acesso_cards.acesso_card_award_id', $id)
         ->get();
     }
+
+    public function findAcessoCardId($id)
+    {
+        return $this->repository->where('history_acesso_card_id', $id)
+            ->first();
+    }
 }

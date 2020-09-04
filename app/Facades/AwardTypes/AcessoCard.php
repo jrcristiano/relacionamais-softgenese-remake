@@ -67,15 +67,7 @@ class AcessoCard extends Award
             $params['acesso_card_demand_id'] = $demandId;
             $params['acesso_card_award_id'] = $save->id;
 
-            $acesso = $this->service->save($params);
-
-            $findBaseId = $findBase->id ?? null;
-            if ($findBaseId) {
-                $historyAcessoCard->save([
-                    'history_acesso_card_id' => $acesso->id,
-                    'history_base_id' => $findBase->id,
-                ]);
-            }
+            $this->service->save($params);
 
             $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
             $unlikedCard = $unlikedCard->base_acesso_card_number;
@@ -128,10 +120,17 @@ class AcessoCard extends Award
                     $this->service->updateByDocument($params, $document);
                 }
 
-                $historyAcessoCard->save([
-                    'history_acesso_card_id' => $this->service->findByDocument($document)->id,
-                    'history_base_id' => $baseAcessoCardService->findByCard($baseAcessoCardNumber)->id,
-                ]);
+                $findAcessoCards = $this->service->getHistoriesByDocument($document);
+
+                foreach ($findAcessoCards as $findAcessoCard) {
+
+                    if (!$historyAcessoCard->findAcessoCardId($findAcessoCard->id)) {
+                        $historyAcessoCard->save([
+                            'history_acesso_card_id' => $findAcessoCard->id,
+                            'history_base_id' => $baseAcessoCardService->findByDocument($document)->id,
+                        ]);
+                    }
+                }
             }
         }
     }

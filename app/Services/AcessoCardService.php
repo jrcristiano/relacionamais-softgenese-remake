@@ -54,6 +54,11 @@ class AcessoCardService extends Service
         return $this->service->findByDocument($document);
     }
 
+    public function getHistoriesByDocument($document)
+    {
+        return $this->service->getHistoriesByDocument($document);
+    }
+
     public function getAcessoCardByDocument($document)
     {
         return $this->service->getAcessoCardByDocument($document);

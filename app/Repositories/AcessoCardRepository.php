@@ -20,6 +20,12 @@ class AcessoCardRepository extends Repository
             ->first();
     }
 
+    public function getHistoriesByDocument($document)
+    {
+        return $this->repository->where('acesso_card_document', $document)
+            ->get();
+    }
+
     public function getAcessoCardByDocument($document)
     {
         return $this->repository->where('acesso_card_document', $document)

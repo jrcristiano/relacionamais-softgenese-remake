@@ -12,4 +12,9 @@ class HistoryAcessoCardService extends Service
     {
         $this->service = $repository;
     }
+
+    public function findAcessoCardId($id)
+    {
+        return $this->service->findAcessoCardId($id);
+    }
 }
