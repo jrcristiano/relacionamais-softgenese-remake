@@ -42,24 +42,18 @@
                             <td class="text-uppercase">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
                             <td>{{ $acessoCard->acesso_card_number ?? 'EMITIR CARTÃO' }}</td>
-                            <td>R$ {{ $acessoCard->acesso_card_value }}</td>
+                            <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>
-                                @if (!$acessoCard->spreadsheet_chargeback && $acessoCard->shipment_generated)
-                                    <form class="d-inline" action="{{ route('admin.api.spreadsheet-api.update', ['id' => $acessoCard->id]) }}" method="post">
+                                @if (!$acessoCard->acesso_card_chargeback)
+                                    <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->id]) }}" method="post">
                                         @csrf
                                         @method('PUT')
-                                        <input type="hidden" name="spreadsheet_chargeback" value="1" />
-                                        <input type="hidden" name="award_id" value="{{ $acessoCard->acesso_card_award_id }}" />
+                                        <input type="hidden" name="acesso_card_chargeback" value="1" />
+                                        <input type="hidden" name="award_id" value="{{ $acessoCard->id }}" />
                                         <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger sgi-cancel">
                                             <i class="fas fa-undo-alt"></i>
                                         </button>
                                     </form>
-                                @elseif(!$acessoCard->acesso_card_shipment_generated)
-                                <div class="d-none">
-                                </div>
-                                @else
-                                    <div class="d-none">
-                                    </div>
                                 @endif
                                 <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
                                     @csrf

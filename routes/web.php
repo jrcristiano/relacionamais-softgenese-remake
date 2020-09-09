@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::group(['prefix' => '/acesso-card'], function () {
                 Route::post('/store', 'Api\\AcessoCardControllerApi@store')->name('acesso-card-api.store');
+                Route::put('/{id}/update', 'Api\\AcessoCardControllerApi@update')->name('acesso-card-api.update');
             });
         });
 
@@ -166,6 +167,10 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::group(['prefix' => 'operacional', 'as' => 'operational.'], function () {
             Route::get('/central-de-atendimento', 'CallCenterController@index')->name('call-center');
+        });
+
+        Route::group(['prefix' => 'download'], function () {
+            Route::get('/', 'DownloadController@download')->name('download');
         });
     });
 });

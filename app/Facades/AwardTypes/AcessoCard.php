@@ -40,7 +40,6 @@ class AcessoCard extends Award
     public function storeCard(array $data, $fullFileName)
     {
         $baseAcessoCardService = new BaseAcessoCardsCompletoService(new BaseAcessoCardsCompletoRepository(new BaseAcessoCardsCompleto()));
-        $historyAcessoCard = new HistoryAcessoCardService(new HistoryAcessoCardRepository(new HistoryAcessoCard));
 
         $documents = $this->service->getData($fullFileName, 0);
         $names = $this->service->getData($fullFileName, 1);
@@ -96,11 +95,11 @@ class AcessoCard extends Award
         $historyAcessoCard = new HistoryAcessoCardService(new HistoryAcessoCardRepository(new HistoryAcessoCard));
 
         $documents = $this->service->getData($fullFileName, 0);
-
         $names = $this->service->getData($fullFileName, 1);
         $values = $this->service->getData($fullFileName, 2);
 
         $data['awarded_value'] = array_sum($values);
+
         $this->awardRepo->save($data, $id);
 
         if ($data['awarded_status'] == 2) {
@@ -132,6 +131,15 @@ class AcessoCard extends Award
                     }
                 }
             }
+        }
+
+        $awardedsAwaitingPaymentFileName = $this->service->getAwardedsAwaitingPayment($id);
+
+        if ($data['awarded_status'] == 2) {
+            \App\AwaitingPayment::create([
+                'awaiting_payment_award_id' => $id,
+                'awaiting_payment_file' => $awardedsAwaitingPaymentFileName,
+            ]);
         }
     }
 }

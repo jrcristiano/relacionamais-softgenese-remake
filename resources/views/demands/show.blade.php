@@ -105,6 +105,7 @@
                             <th scope="col">Valor</th>
                             <th scope="col">Tipo de premiação</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Cartões vinc.</th>
                             <th scope="col">Criado em</th>
                             <th scope="col">Ações</th>
                         </tr>
@@ -136,6 +137,21 @@
                                             }
                                         @endphp
                                         <td class="text-uppercase">{{ $status }}</td>
+                                        <td class="text-uppercase">
+                                            @if ($award->awarded_status == 2)
+                                                <a id="makeLinked"
+                                                    class="btn btn-success btn-sm font-weight-bold"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Baixar"
+                                                    download="{{ $award->awaiting_payment_file }}"
+                                                    href="{{ asset("storage/vincs/{$award->awaiting_payment_file}") }}">
+                                                        <i class="fas fa-download"></i>
+                                                </a>
+                                            @else
+                                            --
+                                            @endif
+                                        </td>
                                         <td>{{ $award->created_at_formatted }}</td>
 
                                         <td>
@@ -301,3 +317,5 @@
     </div>
 </div>
 @endsection
+
+

@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\AcessoCardRepository as AcessoCardRepo;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use yidas\phpSpreadsheet\Helper;
 
 class AcessoCardService extends Service
@@ -74,5 +77,37 @@ class AcessoCardService extends Service
         }
 
         return $data;
+    }
+
+    public function getAwardedsAwaitingPayment($id)
+    {
+        $data = $this->service->getAwardedsAwaitingPayment($id);
+
+        $spreadsheet = new Spreadsheet;
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'PROXY');
+        $sheet->setCellValue('B1', 'CPF');
+        $sheet->setCellValue('C1', 'NOME');
+
+        foreach ($data as $key => $value) {
+            $key = $key + 2;
+            $sheet->setCellValue("A{$key}", $value->base_acesso_card_proxy);
+            $sheet->setCellValue("B{$key}", $value->acesso_card_document, DataType::TYPE_STRING);
+            $sheet->setCellValue("C{$key}", $value->acesso_card_name);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        $path = storage_path();
+        $awardId = $data[0]->acesso_card_award_id;
+        $awardId = str_pad($awardId, 2, '0', STR_PAD_LEFT);
+
+        $storageFileName = "{$path}/app/public/vincs/VINC{$awardId}.xlsx";
+
+        $writer->save($storageFileName);
+
+        return "VINC{$awardId}.xlsx";
     }
 }

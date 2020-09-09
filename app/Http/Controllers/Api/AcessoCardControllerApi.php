@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\HistoryAcessoCard;
 use App\Http\Controllers\Controller;
+use App\Repositories\AwardRepository;
 use App\Repositories\HistoryAcessoCardRepository;
 use App\Services\AcessoCardService;
-use App\Services\BaseAcessoCardsCompletoService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class AcessoCardControllerApi extends Controller
 {
-    private $baseAcessoCardCompleto;
-    private $acessoCardService;
     private $historyAcessoCardRepo;
+    private $acessoCardService;
+    private $awardRepo;
 
-    public function __construct(BaseAcessoCardsCompletoService $baseAcessoCardCompleto,
-        AcessoCardService $acessoCardService,
-        HistoryAcessoCardRepository $historyAcessoCardRepo)
+    public function __construct(HistoryAcessoCardRepository $historyAcessoCardRepo,
+        AwardRepository $awardRepo,
+        AcessoCardService $acessoCardService)
     {
-        $this->baseAcessoCardCompleto = $baseAcessoCardCompleto;
-        $this->acessoCardService = $acessoCardService;
         $this->historyAcessoCardRepo = $historyAcessoCardRepo;
+        $this->awardRepo = $awardRepo;
+        $this->acessoCardService = $acessoCardService;
     }
 
     public function store(Request $request)
@@ -41,9 +41,12 @@ class AcessoCardControllerApi extends Controller
         $setLastField = !$lastField ? 1 : $lastField->shipment_last_field + 1;
         $shipmentFieldNumber = $setLastField;
 
+        $params = [];
         foreach ($data as $id) {
             $cards[] = $this->historyAcessoCardRepo->getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id);
+            $params[] = $this->awardRepo->find($id);
         }
+
 
         $collectCards = [];
         foreach ($cards as $key => $objCards) {
@@ -74,15 +77,19 @@ class AcessoCardControllerApi extends Controller
                     'shipment_last_field' => $shipmentFieldNumber,
                     'shipment_file' => $filename,
                 ]);
-
-                \App\CashFlow::create([
-                    'flow_movement_date' => date('Y-m-d'),
-                    'flow_bank_id' => 1,
-                    'flow_award_id' => $id,
-                    'flow_award_generated_shipment' => date('Y-m-d'),
-                    'flow_demand_id' => $card->acesso_card_demand_id,
-                ]);
             }
+
+            $demandId[] = $card->acesso_card_demand_id;
+        }
+
+        foreach ($params as $param) {
+            \App\CashFlow::create([
+                'flow_movement_date' => date('Y-m-d'),
+                'flow_bank_id' => 1,
+                'flow_award_id' => $param->id,
+                'flow_award_generated_shipment' => date('Y-m-d'),
+                'flow_demand_id' => $param->awarded_demand_id,
+            ]);
         }
 
         $spreadsheet = new Spreadsheet;
@@ -105,5 +112,34 @@ class AcessoCardControllerApi extends Controller
         $writer->save($storageFileName);
 
         return $filename;
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $this->validate($request, [
+            'acesso_card_chargeback' => 'required|boolean',
+        ]);
+
+        $lessAcessoCardValue = (float) \App\AcessoCard::select('acesso_card_value')
+                ->where('id', $id)
+                ->whereNull('acesso_card_chargeback')
+                ->first()
+                ->acesso_card_value;
+
+        $acessoCardTotal = (float) \App\AcessoCard::select(DB::raw('sum(acesso_card_value) as total'))
+                ->where('acesso_card_award_id', $request->award_id)
+                ->whereNull('acesso_card_chargeback')
+                ->first()
+                ->total;
+
+        $total = (float) $acessoCardTotal - $lessAcessoCardValue;
+
+        \App\Award::where('id', $request->award_id)
+            ->update([
+                'awarded_value' => $total
+            ]);
+
+        $this->acessoCardService->save($data, $request->award_id);
+        return redirect()->back();
     }
 }

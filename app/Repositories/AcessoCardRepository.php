@@ -26,6 +26,19 @@ class AcessoCardRepository extends Repository
             ->get();
     }
 
+    public function getAwardedsAwaitingPayment($id)
+    {
+        return $this->repository->select([
+            'acesso_cards.acesso_card_document',
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_award_id',
+            'base_acesso_cards_completo.base_acesso_card_proxy'
+        ])
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
+        ->where('acesso_card_award_id', $id)
+        ->get();
+    }
+
     public function getAcessoCardByDocument($document)
     {
         return $this->repository->where('acesso_card_document', $document)

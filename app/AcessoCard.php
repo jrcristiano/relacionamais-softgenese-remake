@@ -14,9 +14,10 @@ class AcessoCard extends Model
         'acesso_card_spreadsheet_line',
         'acesso_card_demand_id',
         'acesso_card_award_id',
+        'acesso_card_chargeback',
     ];
 
-    public function getAcessoCardValueAttribute()
+    public function getAcessoCardValueFormattedAttribute()
     {
         return number_format($this->attributes['acesso_card_value'], 2, ',', '.');
     }

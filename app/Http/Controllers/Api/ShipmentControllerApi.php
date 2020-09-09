@@ -148,7 +148,7 @@ class ShipmentControllerApi extends Controller
     public function update(Request $request, $id)
     {
         $data = $this->validate($request, [
-            'awarded_shipment_cancelled' => 'boolean'
+            'awarded_shipment_cancelled' => 'required|boolean'
         ]);
 
         $this->awardRepo->save($data, $id);

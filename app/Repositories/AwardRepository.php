@@ -25,7 +25,9 @@ class AwardRepository extends Repository
         return $this->repository->select([
             'awards.*',
             'shipments_api.shipment_generated',
+            'awaiting_payments.awaiting_payment_file',
         ])
+        ->leftJoin('awaiting_payments', 'awards.id', '=', 'awaiting_payments.awaiting_payment_award_id')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
         ->where('awards.awarded_demand_id', $id)
         ->paginate($perPage);

@@ -253,7 +253,7 @@ class CashFlowRepository extends Repository
             ->where('awards.awarded_type', 3)
             ->where('awards.awarded_status', 1);
 
-        $queryAwardAcessoCardRaw =  DB::raw('sum(awards.awarded_value) as acesso_card_value');
+        $queryAwardAcessoCardRaw = DB::raw('sum(awards.awarded_value) as acesso_card_value');
         $awardAcessoCards = $this->repository->select($queryAwardAcessoCardRaw)
             ->leftJoin('awards', 'cash_flows.flow_award_id', '=', 'awards.id')
             ->where('awards.awarded_type', 1)
