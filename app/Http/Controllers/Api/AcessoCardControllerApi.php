@@ -43,7 +43,7 @@ class AcessoCardControllerApi extends Controller
 
         $params = [];
         foreach ($data as $id) {
-            $cards[] = $this->historyAcessoCardRepo->getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id);
+            $cards[] = $this->historyAcessoCardRepo->getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id);
             $params[] = $this->awardRepo->find($id);
         }
 

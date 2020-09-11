@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Remessas')
 @section('content')
+
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
 

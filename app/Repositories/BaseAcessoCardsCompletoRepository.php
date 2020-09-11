@@ -32,6 +32,12 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function saveByDocument($data, $document)
+    {
+        return $this->repository->where('base_acesso_card_cpf', $document)
+            ->update($data);
+    }
+
     public function findByCard($card)
     {
         return $this->repository->select([

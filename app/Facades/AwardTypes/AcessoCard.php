@@ -122,7 +122,6 @@ class AcessoCard extends Award
                 $findAcessoCards = $this->service->getHistoriesByDocument($document);
 
                 foreach ($findAcessoCards as $findAcessoCard) {
-
                     if (!$historyAcessoCard->findAcessoCardId($findAcessoCard->id)) {
                         $historyAcessoCard->save([
                             'history_acesso_card_id' => $findAcessoCard->id,
@@ -131,14 +130,18 @@ class AcessoCard extends Award
                     }
                 }
             }
-        }
 
-        $awardedsAwaitingPaymentFileName = $this->service->getAwardedsAwaitingPayment($id);
-
-        if ($data['awarded_status'] == 2) {
+            $awardedsAwaitingPaymentFileName = $this->service->getAwardedsAwaitingPayment($id);
             \App\AwaitingPayment::create([
                 'awaiting_payment_award_id' => $id,
                 'awaiting_payment_file' => $awardedsAwaitingPaymentFileName,
+            ]);
+        }
+
+        if ($data['awarded_status'] == 1) {
+            $awardedsAwaitingNotGeneratedPaymentFileName = $this->service->getAwardedsAwaitingPaymentNotGenerated($id);
+            \App\AwaitingPayment::where('awaiting_payment_award_id', $id)->update([
+                'awaiting_payment_all_file' => $awardedsAwaitingNotGeneratedPaymentFileName,
             ]);
         }
     }

@@ -25,6 +25,8 @@ class CreateBaseAcessoCardsCompletoTable extends Migration
             $table->string('base_acesso_card_proxy');
             $table->date('base_acesso_card_due_date');
 
+            $table->boolean('base_acesso_card_generated')->nullable();
+
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class AwaitingPaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('awaiting_payment_award_id');
             $table->string('awaiting_payment_file');
+            $table->string('awaiting_payment_all_file')->nullable();
             $table->timestamps();
         });
     }

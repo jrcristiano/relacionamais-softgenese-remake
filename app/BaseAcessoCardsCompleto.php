@@ -10,5 +10,6 @@ class BaseAcessoCardsCompleto extends Model
     protected $fillable = [
         'base_acesso_card_name',
         'base_acesso_card_cpf',
+        'base_acesso_card_generated',
     ];
 }

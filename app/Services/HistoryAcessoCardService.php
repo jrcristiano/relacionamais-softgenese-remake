@@ -17,4 +17,14 @@ class HistoryAcessoCardService extends Service
     {
         return $this->service->findAcessoCardId($id);
     }
+
+    public function getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id)
+    {
+        return $this->service->getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id);
+    }
+
+    public function getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id)
+    {
+        return $this->service->getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id);
+    }
 }

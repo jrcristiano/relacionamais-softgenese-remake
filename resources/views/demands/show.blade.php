@@ -138,7 +138,7 @@
                                         @endphp
                                         <td class="text-uppercase">{{ $status }}</td>
                                         <td class="text-uppercase">
-                                            @if ($award->awarded_status == 2)
+                                            @if ($award->awarded_status == 2 && $award->awaiting_payment_file)
                                                 <a id="makeLinked"
                                                     class="btn btn-success btn-sm font-weight-bold"
                                                     data-toggle="tooltip"

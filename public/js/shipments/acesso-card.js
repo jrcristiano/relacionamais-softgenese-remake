@@ -2,6 +2,18 @@ $(document).ready(function () {
     var collection_id = [];
     var domain = window.location.origin;
 
+    function download(filename, url) {
+        var element = document.createElement('a');
+        element.setAttribute('href', url)
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+        document.body.removeChild(element);
+    }
+
     $('.custom-control-input').click(function () {
         var data_id = $(this).data('id');
 
@@ -47,24 +59,11 @@ $(document).ready(function () {
     })
 
     $('.button-send').click(function () {
-        function download(filename, url) {
-            var element = document.createElement('a');
-            element.setAttribute('href', url)
-            element.setAttribute('download', filename);
-
-            element.style.display = 'none';
-            document.body.appendChild(element);
-
-            element.click();
-            document.body.removeChild(element);
-        }
-
         $.post(path, collection, function (response) {
             console.log(response)
             let filename = response;
 
             let url = `${domain}/storage/shipments/${filename}`
-            // console.log(url)
 
             download(filename, url)
             window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`

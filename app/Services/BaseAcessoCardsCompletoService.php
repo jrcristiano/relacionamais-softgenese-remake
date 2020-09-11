@@ -27,4 +27,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->findByCard($card);
     }
+
+    public function saveByDocument(array $data, $document)
+    {
+        return $this->service->saveByDocument($data, $document);
+    }
 }

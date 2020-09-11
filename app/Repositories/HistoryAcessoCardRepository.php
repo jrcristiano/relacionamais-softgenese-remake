@@ -25,6 +25,19 @@ class HistoryAcessoCardRepository extends Repository
         ->get();
     }
 
+    public function getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id)
+    {
+        return $this->repository->select([
+            'acesso_cards.*',
+            'base_acesso_cards_completo.*',
+        ])
+        ->leftJoin('acesso_cards', 'history_acesso_cards.history_acesso_card_id', '=', 'acesso_cards.id')
+        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
+        ->where('acesso_cards.acesso_card_award_id', $id)
+        ->whereNull('base_acesso_card_generated')
+        ->get();
+    }
+
     public function findAcessoCardId($id)
     {
         return $this->repository->where('history_acesso_card_id', $id)
