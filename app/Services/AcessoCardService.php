@@ -104,7 +104,7 @@ class AcessoCardService extends Service
         $awardId = $data[0]->acesso_card_award_id;
         $awardId = str_pad($awardId, 2, '0', STR_PAD_LEFT);
 
-        $storageFileName = "{$path}/app/public/vincs/TODOSVINC{$awardId}.xlsx";
+        $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$awardId}.xlsx";
 
         $writer->save($storageFileName);
 
@@ -133,10 +133,9 @@ class AcessoCardService extends Service
         $writer = new Xlsx($spreadsheet);
 
         $path = storage_path();
-        $awardId = $data[0]->acesso_card_award_id;
-        $awardId = str_pad($awardId, 2, '0', STR_PAD_LEFT);
+        $awardId = str_pad($id, 2, '0', STR_PAD_LEFT);
 
-        $storageFileName = "{$path}/app/public/vincs/VINC{$awardId}.xlsx";
+        $storageFileName = "{$path}/app/public/shipments/VINC{$id}.xlsx";
 
         $writer->save($storageFileName);
 

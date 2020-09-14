@@ -55,12 +55,14 @@
                                         </button>
                                     </form>
                                 @endif
-                                <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
-                                    @csrf
-                                    <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </form>
+                                @if ($acessoCard->acesso_card_status == 3)
+                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
+                                        @csrf
+                                        <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty

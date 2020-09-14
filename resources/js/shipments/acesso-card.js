@@ -61,11 +61,16 @@ $(document).ready(function () {
     $('.button-send').click(function () {
         $.post(path, collection, function (response) {
             console.log(response)
-            let filename = response;
+            let files = response;
 
-            let url = `${domain}/storage/shipments/${filename}`
+            for (file of files) {
+                if (file) {
+                    let url = `${domain}/storage/shipments/${file}`
+                    console.log(url)
+                    download(file, url)
+                }
+            }
 
-            download(filename, url)
             window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
         })
     })
