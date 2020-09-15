@@ -47,7 +47,7 @@ class AcessoCardRepository extends Repository
             'acesso_cards.acesso_card_award_id',
             'base_acesso_cards_completo.base_acesso_card_proxy'
         ])
-        ->join('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
         ->where('acesso_card_award_id', $id)
         ->whereNull('base_acesso_card_generated')
         ->get();
@@ -74,6 +74,12 @@ class AcessoCardRepository extends Repository
     public function updateByDocument(array $data, $document)
     {
         return $this->repository->where('acesso_card_document', $document)
+            ->update($data);
+    }
+
+    public function saveByParam(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
             ->update($data);
     }
 

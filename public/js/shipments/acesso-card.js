@@ -14,6 +14,26 @@ $(document).ready(function () {
         document.body.removeChild(element);
     }
 
+    $('#generate-vincs').click(function () {
+        var id = $(this).data('id')
+        var path = `${domain}/admin/api/base-acesso-card-completo/${id}/update`
+        var data = {
+            base_acesso_card_generated: 1
+        }
+
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
+        $.post(path, data, function (response) {
+            console.log(response)
+        })
+
+        window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+    });
+
     $('.custom-control-input').click(function () {
         var data_id = $(this).data('id');
 
@@ -61,15 +81,10 @@ $(document).ready(function () {
     $('.button-send').click(function () {
         $.post(path, collection, function (response) {
             console.log(response)
-            let files = response;
 
-            for (file of files) {
-                if (file) {
-                    let url = `${domain}/storage/shipments/${file}`
-                    console.log(url)
-                    download(file, url)
-                }
-            }
+            let url = `${domain}/storage/shipments/${response}`
+            console.log(url)
+            download(response, url)
 
             window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
         })

@@ -10,11 +10,12 @@ use yidas\phpSpreadsheet\Helper;
 
 class AcessoCardService extends Service
 {
-    protected $service;
+    protected $service, $baseAcessoCardsCompletoService;
 
-    public function __construct(AcessoCardRepo $repository)
+    public function __construct(AcessoCardRepo $repository, BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
     {
         $this->service = $repository;
+        $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
     }
 
     public function storeCard($fileName, $demandId, $awardDemandId, $params)
@@ -40,6 +41,11 @@ class AcessoCardService extends Service
     public function findByAwardId($id)
     {
         return $this->service->findByAwardId($id);
+    }
+
+    public function saveByParam(array $data, $param, $value)
+    {
+        return $this->service->saveByParam($data, $param, $value);
     }
 
     public function delete($id)
@@ -81,39 +87,7 @@ class AcessoCardService extends Service
 
     public function getAwardedsAwaitingPayment($id)
     {
-        $data = $this->service->getAwardedsAwaitingPayment($id);
-
-        $spreadsheet = new Spreadsheet;
-
-        $sheet = $spreadsheet->getActiveSheet();
-
-        $sheet->setCellValue('A1', 'PROXY');
-        $sheet->setCellValue('B1', 'CPF');
-        $sheet->setCellValue('C1', 'NOME');
-
-        foreach ($data as $key => $value) {
-            $key = $key + 2;
-            $sheet->setCellValue("A{$key}", $value->base_acesso_card_proxy);
-            $sheet->setCellValue("B{$key}", $value->acesso_card_document, DataType::TYPE_STRING);
-            $sheet->setCellValue("C{$key}", $value->acesso_card_name);
-        }
-
-        $writer = new Xlsx($spreadsheet);
-
-        $path = storage_path();
-        $awardId = $data[0]->acesso_card_award_id;
-        $awardId = str_pad($awardId, 2, '0', STR_PAD_LEFT);
-
-        $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$awardId}.xlsx";
-
-        $writer->save($storageFileName);
-
-        return "TODOSVINC{$awardId}.xlsx";
-    }
-
-    public function getAwardedsAwaitingPaymentNotGenerated($id)
-    {
-        $data = $this->service->getAwardedsAwaitingPaymentNotGenerated($id);
+        $data = $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated();
 
         $spreadsheet = new Spreadsheet;
 
@@ -135,10 +109,15 @@ class AcessoCardService extends Service
         $path = storage_path();
         $awardId = str_pad($id, 2, '0', STR_PAD_LEFT);
 
-        $storageFileName = "{$path}/app/public/shipments/VINC{$id}.xlsx";
+        $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$awardId}.xlsx";
 
         $writer->save($storageFileName);
 
-        return "VINC{$awardId}.xlsx";
+        return "TODOSVINC{$awardId}.xlsx";
+    }
+
+    public function getAwardedsAwaitingPaymentNotGenerated($id)
+    {
+        return $this->service->getAwardedsAwaitingPaymentNotGenerated($id);
     }
 }

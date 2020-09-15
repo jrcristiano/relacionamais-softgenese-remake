@@ -20,14 +20,8 @@ class BaseAcessoCardCompletoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $histories = $this->historyAcessoCardService->getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id);
-
-        foreach ($histories as $history) {
-            $this->baseAcessoCardsCompletoService->saveByDocument([
-                'base_acesso_card_generated' => 1
-            ], $history->acesso_card_document);
-        }
-
-        return redirect()->back()->with('message', 'Premiação cadastrada com sucesso!');
+        $this->baseAcessoCardsCompletoService->save([
+            'base_acesso_card_generated' => 1,
+        ], $id);
     }
 }

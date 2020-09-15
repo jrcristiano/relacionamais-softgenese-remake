@@ -43,4 +43,10 @@ class HistoryAcessoCardRepository extends Repository
         return $this->repository->where('history_acesso_card_id', $id)
             ->first();
     }
+
+    public function saveByHistoryAcessoCardId($data, $id)
+    {
+        return $this->repository->where('history_acesso_card_id', $id)
+            ->update($data);
+    }
 }

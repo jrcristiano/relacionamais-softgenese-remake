@@ -32,4 +32,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->saveByDocument($data, $document);
     }
+
+    public function getAcessoCardCompletoNotGenerated()
+    {
+        return $this->service->getAcessoCardCompletoNotGenerated();
+    }
 }

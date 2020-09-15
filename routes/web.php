@@ -53,7 +53,7 @@ Route::group(['prefix' => 'admin'], function () {
             });
 
             Route::group(['prefix' => 'base-acesso-card-completo'], function () {
-                Route::put('/{id}/update', 'Api\\BaseAcessoCardCompletoController@update')->name('base-acesso-card-completo.update');
+                Route::post('/{id}/update', 'Api\\BaseAcessoCardCompletoController@update')->name('base-acesso-card-completo.update');
             });
         });
 

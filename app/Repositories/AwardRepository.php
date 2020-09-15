@@ -35,10 +35,11 @@ class AwardRepository extends Repository
 
     public function getShipmentsbyPaginate($perPage = 100, $awardType = null)
     {
-        $query =  $this->repository->select([
+        $query = $this->repository->select([
             'awards.*',
             'shipments_api.shipment_generated',
             'awaiting_payments.awaiting_payment_all_file',
+            'awaiting_payments.awaiting_payment_file',
         ])
         ->where('awarded_status', '=', 1)
         ->whereNotNull('awarded_upload_table')

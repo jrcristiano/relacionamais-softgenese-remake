@@ -2,6 +2,10 @@
 @section('title', 'Remessas')
 @section('content')
 
+@php
+    //dd($alerts)
+@endphp
+
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
 
@@ -14,6 +18,22 @@
                 'route' => 'admin.home',
                 'icon' => 'fas fa-home'
             ])
+
+            @if (\Request::get('tipo_premiacao') == 1)
+                @foreach ($alerts as $alert)
+                    @if ($alert->acesso_card_generated == 1)
+                        <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                            <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
+
+                            <a id="generate-vincs" data-id="{{ $alert->id }}" href="{{ asset("/storage/shipments/{$alert->awaiting_payment_all_file}") }}" download="{{ $alert->awaiting_payment_all_file }}" class="alert-link">CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO</a>
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
 
             @include('components.message')
 

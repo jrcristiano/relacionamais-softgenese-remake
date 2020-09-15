@@ -10,5 +10,6 @@ class HistoryAcessoCard extends Model
     protected $fillable = [
         'history_base_id',
         'history_acesso_card_id',
+        'history_acesso_card_generated'
     ];
 }

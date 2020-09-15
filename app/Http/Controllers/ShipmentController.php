@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\AwardRepository;
+use App\Services\BaseAcessoCardsCompletoService;
 use Illuminate\Http\Request;
 
 class ShipmentController extends Controller
 {
-    private $awardRepo;
+    private $awardRepo, $baseAcessoCardsCompletoService;
 
-    public function __construct(AwardRepository $awardRepo)
+    public function __construct(AwardRepository $awardRepo, BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
     {
         $this->awardRepo = $awardRepo;
+        $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
     }
 
     /**
@@ -23,6 +25,7 @@ class ShipmentController extends Controller
     {
         $awardType = $request->tipo_premiacao;
         $awards = $this->awardRepo->getShipmentsbyPaginate(500, $awardType);
-        return view('shipments.index', compact('awards'));
+        $alerts = $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated();
+        return view('shipments.index', compact('awards', 'alerts'));
     }
 }

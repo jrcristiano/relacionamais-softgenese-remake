@@ -46,8 +46,12 @@ class AcessoCardControllerApi extends Controller
 
         $params = [];
         foreach ($data as $id) {
-            $cards[] = $this->historyAcessoCardRepo->getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id);
+            $cards[] = $this->historyAcessoCardRepo->getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id);
             $params[] = $this->awardRepo->find($id);
+
+            $this->acessoCardService->saveByParam([
+                'acesso_card_generated' => 1
+            ], 'acesso_card_award_id', $id);
         }
 
         $collectCards = [];
@@ -58,85 +62,8 @@ class AcessoCardControllerApi extends Controller
             }
         }
 
-        if (!$collectCards) {
-            $secondCards = $this->historyAcessoCardRepo->getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id);
-            $secondCollectCards = [];
-            foreach ($secondCards as $secondCollectCard) {
-                $secondCollectCard->shipment_number = str_pad($shipmentFieldNumber, 4, '0', STR_PAD_LEFT);
-                $secondCollectCards[] = $secondCollectCard;
-            }
-
-            $cards = [];
-            foreach ($secondCollectCards as $card) {
-
-                $this->baseAcessoCardsCompletoService->saveByDocument([
-                    'base_acesso_card_generated' => 1,
-                ], $card->acesso_card_document);
-
-                $date = Carbon::parse(Carbon::now())->format('dm');
-                $field = str_pad($shipmentFieldNumber, 2, '0', STR_PAD_LEFT);
-
-                $path = storage_path('app/public/shipments');
-                $filename = "R{$date}{$field}.xlsx";
-                $storageFileName = "{$path}/{$filename}";
-
-                $awardId = $card->acesso_card_award_id;
-                $hasShipmentApiAward = \App\ShipmentApi::where('shipment_award_id', $awardId)
-                    ->first();
-
-                if (!$hasShipmentApiAward) {
-                    \App\ShipmentApi::create([
-                        'shipment_award_id' => $awardId,
-                        'shipment_generated' => 1,
-                        'shipment_last_field' => $shipmentFieldNumber,
-                        'shipment_file' => $filename,
-                    ]);
-                }
-
-                $demandId[] = $card->acesso_card_demand_id;
-            }
-
-            foreach ($params as $param) {
-                \App\CashFlow::create([
-                    'flow_movement_date' => date('Y-m-d'),
-                    'flow_bank_id' => 1,
-                    'flow_award_id' => $param->id,
-                    'flow_award_generated_shipment' => date('Y-m-d'),
-                    'flow_demand_id' => $param->awarded_demand_id,
-                ]);
-            }
-
-            $spreadsheet = new Spreadsheet;
-
-            $sheet = $spreadsheet->getActiveSheet();
-
-            $sheet->setCellValue('A1', 'CODPRGCRG');
-            $sheet->setCellValue('B1', 'PROXY');
-            $sheet->setCellValue('C1', 'VALOR');
-
-            foreach ($secondCollectCards as $key => $card) {
-                $key = $key + 2;
-                $sheet->setCellValue("A{$key}", $card->shipment_number);
-                $sheet->setCellValue("B{$key}", $card->base_acesso_card_proxy, DataType::TYPE_STRING);
-                $sheet->setCellValue("C{$key}", $card->acesso_card_value);
-            }
-
-            $writer = new Xlsx($spreadsheet);
-
-            $writer->save($storageFileName);
-
-            $files = [];
-            $files[] = $filename;
-
-            return $files;
-        }
-
         $cards = [];
         foreach ($collectCards as $card) {
-
-            $this->baseAcessoCardsCompletoService->saveByDocument([
-                'base_acesso_card_generated' => 1,
-            ], $card->acesso_card_document);
 
             $date = Carbon::parse(Carbon::now())->format('dm');
             $field = str_pad($shipmentFieldNumber, 2, '0', STR_PAD_LEFT);
@@ -190,15 +117,7 @@ class AcessoCardControllerApi extends Controller
 
         $writer->save($storageFileName);
 
-        $awaitingPayment = \App\AwaitingPayment::select('awaiting_payment_file')
-            ->where('awaiting_payment_award_id', $awardId)
-            ->first();
-
-        $files = [];
-        $files[] = $filename;
-        $files[] = $awaitingPayment->awaiting_payment_file ?? null;
-
-        return $files;
+        return $filename;
     }
 
     public function update(Request $request, $id)

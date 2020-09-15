@@ -49,4 +49,23 @@ class BaseAcessoCardsCompletoRepository extends Repository
         ->where('base_acesso_card_number', $card)
         ->first();
     }
+
+    public function getAcessoCardCompletoNotGenerated()
+    {
+        return $this->repository->select([
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_document',
+            'base_acesso_cards_completo.id',
+            'base_acesso_cards_completo.base_acesso_card_cpf',
+            'awaiting_payments.awaiting_payment_all_file',
+            'base_acesso_cards_completo.base_acesso_card_proxy',
+            'acesso_cards.acesso_card_generated'
+        ])
+        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
+        ->leftJoin('awaiting_payments', 'acesso_cards.acesso_card_award_id', '=', 'awaiting_payments.awaiting_payment_award_id')
+        ->whereNull('base_acesso_card_generated')
+        ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
+        ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
+        ->get();
+    }
 }

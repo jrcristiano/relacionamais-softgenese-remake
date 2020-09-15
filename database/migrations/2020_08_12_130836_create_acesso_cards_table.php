@@ -24,6 +24,7 @@ class CreateAcessoCardsTable extends Migration
             $table->unsignedBigInteger('acesso_card_spreadsheet_line');
 
             $table->boolean('acesso_card_chargeback')->nullable();
+            $table->boolean('acesso_card_generated')->nullable();
 
             $table->unsignedBigInteger('acesso_card_demand_id');
             $table->foreign('acesso_card_demand_id')->on('demands')

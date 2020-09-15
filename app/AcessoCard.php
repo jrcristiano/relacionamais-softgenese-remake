@@ -15,6 +15,7 @@ class AcessoCard extends Model
         'acesso_card_demand_id',
         'acesso_card_award_id',
         'acesso_card_chargeback',
+        'acesso_card_generated',
     ];
 
     public function getAcessoCardValueFormattedAttribute()
