@@ -9,13 +9,15 @@
         @include('components.leftbar')
         <div class="col-lg-10 sgi-container shadow-sm rounded p-0">
             <header class="sgi-content-header d-flex align-items-center">
-                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0"><i class="fas fa-bars"></i></button>
+                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h2 class="sgi-content-title">Premiados</h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
-                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.home') }}">
-                    <i class="fas fa-undo"></i> Voltar a home
+                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.show', [ 'id' => \Request::get('pedido_id'), 'premiacao' => 1 ]) }}">
+                    <i class="fas fa-undo"></i> Voltar
                 </a>
             </header>
 

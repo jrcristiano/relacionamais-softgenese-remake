@@ -19,6 +19,7 @@ class AcessoCardControllerApi extends Controller
     private $historyAcessoCardRepo;
     private $acessoCardService;
     private $awardRepo;
+    private $baseAcessoCardsCompletoService;
 
     public function __construct(HistoryAcessoCardRepository $historyAcessoCardRepo,
         AwardRepository $awardRepo,
@@ -50,7 +51,7 @@ class AcessoCardControllerApi extends Controller
             $params[] = $this->awardRepo->find($id);
 
             $this->acessoCardService->saveByParam([
-                'acesso_card_generated' => 1
+                'acesso_card_generated' => 1,
             ], 'acesso_card_award_id', $id);
         }
 
@@ -64,7 +65,6 @@ class AcessoCardControllerApi extends Controller
 
         $cards = [];
         foreach ($collectCards as $card) {
-
             $date = Carbon::parse(Carbon::now())->format('dm');
             $field = str_pad($shipmentFieldNumber, 2, '0', STR_PAD_LEFT);
 

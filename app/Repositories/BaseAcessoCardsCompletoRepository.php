@@ -32,6 +32,14 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function getUnlikedBaseCardCompleto()
+    {
+        return $this->repository->whereNotNull('base_acesso_card_name')
+            ->whereNotNull('base_acesso_card_cpf')
+            ->whereNull('base_acesso_card_generated')
+            ->get();
+    }
+
     public function saveByDocument($data, $document)
     {
         return $this->repository->where('base_acesso_card_cpf', $document)
@@ -67,5 +75,27 @@ class BaseAcessoCardsCompletoRepository extends Repository
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
         ->get();
+    }
+
+    public function getAlert()
+    {
+        return $this->repository->select([
+            'awaiting_payments.awaiting_payment_all_file',
+            'acesso_cards.acesso_card_award_id',
+            'acesso_cards.acesso_card_generated'
+        ])
+        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
+        ->leftJoin('awaiting_payments', 'acesso_cards.acesso_card_award_id', '=', 'awaiting_payments.awaiting_payment_award_id')
+        ->whereNull('base_acesso_card_generated')
+        ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
+        ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
+        ->groupBy('awaiting_payment_all_file')
+        ->first();
+    }
+
+    public function saveByParam(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->update($data);
     }
 }
