@@ -22,7 +22,7 @@
             @include('components.message')
 
             <div class="col-lg-12 mt-4 d-flex flex-nowrap mb-2">
-                {!! $spreadsheets->links() !!}
+                {!! $spreadsheets->appends(['pedido_id' => \Request::get('pedido_id')])->links() !!}
                 <input id="filter_table" class="col-lg-3 ml-auto form-control mr-sm-2" type="text" placeholder="Nome, documento e etc." />
             </div>
 
@@ -88,7 +88,7 @@
 
             @if ($spreadsheets->count() >= 200)
                 <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
-                    {!! $spreadsheets->links() !!}
+                    {!! $spreadsheets->appends(['pedido_id' => \Request::get('pedido_id')])->links() !!}
                     <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
                 </div>
             @endif

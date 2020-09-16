@@ -105,6 +105,8 @@ class AcessoCard extends Award
 
         if ($data['awarded_status'] == 2) {
             foreach ($documents as $key => $document) {
+                $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+
                 $findBase = $baseAcessoCardService->findByDocument($document);
                 $baseAcessoCardNumber = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
                 $baseAcessoCardNumber = $baseAcessoCardNumber->base_acesso_card_number;
@@ -112,7 +114,7 @@ class AcessoCard extends Award
                 if (!$findBase) {
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
-                        'base_acesso_card_cpf' => str_pad($documents[$key], 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_cpf' => $document,
                     ], 'base_acesso_card_number', $baseAcessoCardNumber);
 
                     $params = [];
