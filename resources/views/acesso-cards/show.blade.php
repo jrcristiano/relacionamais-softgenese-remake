@@ -51,7 +51,7 @@
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="acesso_card_chargeback" value="1" />
-                                        <input type="hidden" name="award_id" value="{{ $acessoCard->id }}" />
+                                        <input type="hidden" name="award_id" value="{{ $acessoCard->acesso_card_award_id }}" />
                                         <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger sgi-cancel">
                                             <i class="fas fa-undo-alt"></i>
                                         </button>

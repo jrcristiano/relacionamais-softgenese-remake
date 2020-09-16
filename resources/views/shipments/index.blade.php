@@ -2,6 +2,10 @@
 @section('title', 'Remessas')
 @section('content')
 
+@php
+    //dd($awards)
+@endphp
+
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
 
@@ -112,9 +116,16 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.awardeds.show', ['id' => $award->id]) }}">
-                                            <i class="far fa-eye"></i>
-                                        </a>
+                                        @if ($award->awarded_type == 1)
+                                            <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.acesso-cards.show', ['id' => $award->id, 'pedido_id' => $award->awarded_demand_id]) }}">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                        @endif
+                                        @if ($award->awarded_type == 2)
+                                            <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.awardeds.show', ['id' => $award->id, 'pedido_id' => $award->awarded_demand_id]) }}">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                        @endif
 
                                         @if (!$award->awarded_shipment_cancelled)
                                             <form class="d-inline" action="{{ route('admin.api.shipment-api.update', ['id' => $award->id]) }}" method="post">

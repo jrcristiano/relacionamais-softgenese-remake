@@ -19,7 +19,6 @@ class AcessoCardControllerApi extends Controller
     private $historyAcessoCardRepo;
     private $acessoCardService;
     private $awardRepo;
-    private $baseAcessoCardsCompletoService;
 
     public function __construct(HistoryAcessoCardRepository $historyAcessoCardRepo,
         AwardRepository $awardRepo,
@@ -29,7 +28,6 @@ class AcessoCardControllerApi extends Controller
         $this->historyAcessoCardRepo = $historyAcessoCardRepo;
         $this->awardRepo = $awardRepo;
         $this->acessoCardService = $acessoCardService;
-        $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
     }
 
     public function store(Request $request)
@@ -145,7 +143,16 @@ class AcessoCardControllerApi extends Controller
                 'awarded_value' => $total
             ]);
 
-        $this->acessoCardService->save($data, $request->award_id);
+        $awardId = $request->award_id;
+
+        $data['acesso_card_chargeback'] = 1;
+        $this->acessoCardService->save($data, $id);
+
+        $findAward = $this->awardRepo->find($awardId);
+        $this->awardRepo->save([
+            'awarded_value' => $total,
+        ], $findAward->id);
+
         return redirect()->back();
     }
 }
