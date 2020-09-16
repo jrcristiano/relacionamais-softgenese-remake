@@ -37,6 +37,7 @@ class AwardRepository extends Repository
     {
         $query = $this->repository->select([
             'awards.*',
+            'notes.note_number',
             'shipments_api.shipment_generated',
             'awaiting_payments.awaiting_payment_all_file',
             'awaiting_payments.awaiting_payment_file',
@@ -45,6 +46,7 @@ class AwardRepository extends Repository
         ->whereNotNull('awarded_upload_table')
         ->orderBy('id', 'desc')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
+        ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id')
         ->leftJoin('awaiting_payments', 'awards.id', '=', 'awaiting_payments.awaiting_payment_award_id');
 
         if ($awardType) {

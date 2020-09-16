@@ -21,8 +21,8 @@ class CreateBaseAcessoCardsCompletoTable extends Migration
             $table->string('base_acesso_card_cpf')->nullable()
                 ->unique();
 
-            $table->string('base_acesso_card_number')->unique();
-            $table->string('base_acesso_card_proxy');
+            $table->string('base_acesso_card_number');
+            $table->string('base_acesso_card_proxy')->unique();
             $table->date('base_acesso_card_due_date');
 
             $table->boolean('base_acesso_card_generated')->nullable();

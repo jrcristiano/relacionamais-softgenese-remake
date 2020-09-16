@@ -62,7 +62,7 @@ class AcessoCard extends Award
             $params['acesso_card_value'] = $values[$key];
             $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
             $params['acesso_card_number'] = $cardNumber;
-            $params['acesso_card_document'] = $documents[$key];
+            $params['acesso_card_document'] = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
             $params['acesso_card_spreadsheet_line'] = $key + 1;
             $params['acesso_card_demand_id'] = $demandId;
             $params['acesso_card_award_id'] = $save->id;
@@ -75,7 +75,7 @@ class AcessoCard extends Award
             if (!$findBase && $data['awarded_status'] == 2) {
                 $baseAcessoCardService->update([
                     'base_acesso_card_name' => $names[$key],
-                    'base_acesso_card_cpf' => $document,
+                    'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
                 ], 'base_acesso_card_number', $unlikedCard);
             }
         }
@@ -112,7 +112,7 @@ class AcessoCard extends Award
                 if (!$findBase) {
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
-                        'base_acesso_card_cpf' => $documents[$key],
+                        'base_acesso_card_cpf' => str_pad($documents[$key], 11, '0', STR_PAD_LEFT),
                     ], 'base_acesso_card_number', $baseAcessoCardNumber);
 
                     $params = [];
