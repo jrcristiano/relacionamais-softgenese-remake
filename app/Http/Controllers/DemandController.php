@@ -28,7 +28,7 @@ class DemandController extends Controller
      */
     public function index()
     {
-        $demands = $this->demandRepo->getDemandsByPaginate(10);
+        $demands = $this->demandRepo->getDemandsByPaginate(500);
         return view('demands.index', compact('demands'));
     }
 
