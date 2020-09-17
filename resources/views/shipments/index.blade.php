@@ -89,7 +89,7 @@
                                 @endphp
                                 <tr>
                                     <td class="text-uppercase">PEDIDO {{ $award->awarded_demand_id }} | PREMIAÇÃO {{ $award->id }}</td>
-                                    <td>{{ $award->note_fiscal ?? '' }}</td>
+                                    <td>{{ $award->note_number ?? '' }}</td>
                                     <td>R$ {{ number_format($award->awarded_value, 2, ',', '.')  }}</td>
                                     <td class="text-uppercase">{{ $award->awarded_type == 1 ? 'CARTÃO ACESSO' : 'DEPÓSITO EM CONTA' }}</td>
                                     <td class="text-uppercase">{{ $status ?? '' }}</td>
