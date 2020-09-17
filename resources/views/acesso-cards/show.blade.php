@@ -33,6 +33,7 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Documento</th>
+                        <th scope="col">Proxy</th>
                         <th scope="col">Cartão</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Ações</th>
@@ -43,6 +44,7 @@
                         <tr>
                             <td class="text-uppercase">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
+                            <td>{{ $acessoCard->base_acesso_card_proxy }}</td>
                             <td>{{ $acessoCard->acesso_card_number ?? 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>

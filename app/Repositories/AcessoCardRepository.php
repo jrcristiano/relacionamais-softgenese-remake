@@ -111,9 +111,11 @@ class AcessoCardRepository extends Repository
     {
         return $this->repository->select([
             'acesso_cards.*',
+            'base_acesso_cards_completo.base_acesso_card_proxy',
             'shipments_api.shipment_generated',
         ])
         ->leftJoin('shipments_api', 'acesso_cards.acesso_card_award_id', '=', 'shipments_api.shipment_award_id')
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_number', '=', 'base_acesso_cards_completo.base_acesso_card_number')
         ->where('acesso_cards.acesso_card_award_id', $id)
         ->paginate($perPage);
     }

@@ -108,14 +108,15 @@ class AcessoCard extends Award
                 $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
 
                 $findBase = $baseAcessoCardService->findByDocument($document);
-                $baseAcessoCardNumber = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
-                $baseAcessoCardNumber = $baseAcessoCardNumber->base_acesso_card_number;
+                $baseAcessoCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
+                $baseAcessoCardProxy = $baseAcessoCard->base_acesso_card_proxy;
+                $baseAcessoCardNumber = $baseAcessoCard->base_acesso_card_number;
 
                 if (!$findBase) {
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => $document,
-                    ], 'base_acesso_card_number', $baseAcessoCardNumber);
+                    ], 'base_acesso_card_proxy', $baseAcessoCardProxy);
 
                     $params = [];
                     $params['acesso_card_number'] = $baseAcessoCardNumber;
