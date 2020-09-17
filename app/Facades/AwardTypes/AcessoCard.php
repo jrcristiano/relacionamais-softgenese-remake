@@ -51,6 +51,8 @@ class AcessoCard extends Award
         $save = $this->awardRepo->save($data);
 
         foreach ($documents as $key => $document) {
+            $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+
             $findBase = $baseAcessoCardService->findByDocument($document);
             $findAcesso = $this->service->findByDocument($document);
 
@@ -68,6 +70,12 @@ class AcessoCard extends Award
             $params['acesso_card_award_id'] = $save->id;
 
             $this->service->save($params);
+
+            if ($findAcesso) {
+                $this->service->saveByParam([
+                    'acesso_card_number' => $params['acesso_card_number'],
+                ], 'acesso_card_document', $document);
+            }
 
             $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
             $unlikedCard = $unlikedCard->base_acesso_card_number;
