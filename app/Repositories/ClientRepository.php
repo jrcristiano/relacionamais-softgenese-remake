@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Client;
-use App\Helpers\Number;
 
 class ClientRepository extends Repository
 {
@@ -29,9 +28,13 @@ class ClientRepository extends Repository
     public function getData($data)
     {
         $data = is_numeric($data) ? (float) $data : (string) $data;
-        return $this->repository->select(['client_company', 'client_rate_admin', 'client_cnpj'])
-            ->where('client_cnpj', $data)
-            ->get();
+        return $this->repository->select([
+            'client_company',
+            'client_rate_admin',
+            'client_cnpj'
+        ])
+        ->where('client_cnpj', $data)
+        ->get();
     }
 
     public function getCalculation($awardValue, $cnpj)

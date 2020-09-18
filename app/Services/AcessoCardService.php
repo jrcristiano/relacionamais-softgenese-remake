@@ -99,7 +99,13 @@ class AcessoCardService extends Service
 
         foreach ($data as $key => $value) {
             $key = $key + 2;
-            $sheet->setCellValue("A{$key}", $value->base_acesso_card_proxy, DataType::TYPE_STRING);
+            $proxy = $value->base_acesso_card_proxy;
+
+            $sheet->setCellValueExplicit(
+                "A{$key}",
+                $proxy,
+                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+            );
             $sheet->setCellValue("B{$key}", $value->acesso_card_document, DataType::TYPE_STRING);
             $sheet->setCellValue("C{$key}", $value->acesso_card_name);
         }

@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Repositories\AwardRepository;
 use App\Repositories\HistoryAcessoCardRepository;
 use App\Services\AcessoCardService;
-use App\Services\BaseAcessoCardsCompletoService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -22,8 +20,7 @@ class AcessoCardControllerApi extends Controller
 
     public function __construct(HistoryAcessoCardRepository $historyAcessoCardRepo,
         AwardRepository $awardRepo,
-        AcessoCardService $acessoCardService,
-        BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
+        AcessoCardService $acessoCardService)
     {
         $this->historyAcessoCardRepo = $historyAcessoCardRepo;
         $this->awardRepo = $awardRepo;
@@ -106,8 +103,13 @@ class AcessoCardControllerApi extends Controller
 
         foreach ($collectCards as $key => $card) {
             $key = $key + 2;
-            $sheet->setCellValue("A{$key}", $card->shipment_number);
-            $sheet->setCellValue("B{$key}", $card->base_acesso_card_proxy, DataType::TYPE_STRING);
+            $proxy = $card->base_acesso_card_proxy;
+            $sheet->setCellValue("A{$key}", "R{$date}{$field}");
+            $sheet->setCellValueExplicit(
+                "B{$key}",
+                $proxy,
+                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+            );
             $sheet->setCellValue("C{$key}", $card->acesso_card_value);
         }
 
