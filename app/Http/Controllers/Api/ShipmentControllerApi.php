@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\SoftgeneseCnab\Cnab240\Banks\Itau\Facades\Itau;
 use App\Repositories\AwardRepository as AwardRepo;
 use App\Repositories\SpreadsheetRepository as SpreadsheetRepo;
+use App\Services\AcessoCardService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -13,11 +14,16 @@ class ShipmentControllerApi extends Controller
 {
     private $spreadsheetRepo;
     private $awardRepo;
+    private $acessoCardService;
 
-    public function __construct(SpreadsheetRepo $spreadsheetRepo, AwardRepo $awardRepo)
+    public function __construct(
+        SpreadsheetRepo $spreadsheetRepo,
+        AwardRepo $awardRepo,
+        AcessoCardService $acessoCardService)
     {
         $this->spreadsheetRepo = $spreadsheetRepo;
         $this->awardRepo = $awardRepo;
+        $this->acessoCardService = $acessoCardService;
     }
 
     /**
@@ -152,6 +158,10 @@ class ShipmentControllerApi extends Controller
         ]);
 
         $this->awardRepo->save($data, $id);
+        $this->acessoCardService->saveByParam([
+            'acesso_card_chargeback' => $data['awarded_shipment_cancelled'],
+        ], 'acesso_card_award_id', $id);
+
         return redirect()->back();
     }
 

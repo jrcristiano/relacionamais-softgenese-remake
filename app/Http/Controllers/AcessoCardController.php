@@ -40,7 +40,7 @@ class AcessoCardController extends Controller
         $data = $request->only(array_keys($request->rules()));
         $data['awarded_type'] = 1;
         $data['awarded_status'] = 3;
-        $data['awarded_bank_id'] = 1;
+        $data['awarded_bank_id'] = 3;
         $data['awarded_card_type'] = 1;
         $data['awarded_demand_id'] = $request->get('pedido_id');
 
