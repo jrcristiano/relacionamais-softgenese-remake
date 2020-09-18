@@ -89,7 +89,7 @@ class AcessoCardControllerApi extends Controller
         foreach ($params as $param) {
             \App\CashFlow::create([
                 'flow_movement_date' => date('Y-m-d'),
-                'flow_bank_id' => 1,
+                'flow_bank_id' => 3,
                 'flow_award_id' => $param->id,
                 'flow_award_generated_shipment' => date('Y-m-d'),
                 'flow_demand_id' => $param->awarded_demand_id,
