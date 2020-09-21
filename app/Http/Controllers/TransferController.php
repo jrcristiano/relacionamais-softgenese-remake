@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\CashFlow;
-use App\Events\Transfers\TransferAtCashFlowSaved;
 use App\Repositories\TransferRepository as TransferRepo;
 use App\Repositories\BankRepository as BankRepo;
 use App\Repositories\CashFlowRepository as CashFlowRepo;
@@ -53,11 +52,20 @@ class TransferController extends Controller
     {
         $data = $request->only(array_keys($request->rules()));
         $transfer = $this->transferRepo->save($data);
+
         $data['id'] = $transfer->id;
+        $params = [
+            'flow_movement_date' => $data['transfer_date'],
+            'flow_bank_id' => $data['transfer_account_credit'],
+            'flow_transfer_id' => $data['id'],
+        ];
 
-        $cashFlowRepo = new CashFlowRepo(new CashFlow);
+        $params['flow_transfer_credit_or_debit'] = 1;
+        $this->cashFlowRepo->save($params);
 
-        event(new TransferAtCashFlowSaved($cashFlowRepo, $data));
+        $params['flow_transfer_credit_or_debit'] = 2;
+        $this->cashFlowRepo->save($params);
+
         return redirect()->route('admin.financial.transfers');
     }
 
@@ -84,12 +92,21 @@ class TransferController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(array_keys($request->rules()));
-        $this->transferRepo->save($data, $id);
+        $transfer = $this->transferRepo->save($data, $id);
 
-        $data['id'] = $id;
-        $cashFlowRepo = new CashFlowRepo(new CashFlow);
+        $data['id'] = $transfer->id;
+        $params = [
+            'flow_movement_date' => $data['transfer_date'],
+            'flow_bank_id' => $data['transfer_account_credit'],
+            'flow_transfer_id' => $data['id'],
+        ];
 
-        event(new TransferAtCashFlowSaved($cashFlowRepo, $data));
+        $params['flow_transfer_credit_or_debit'] = 1;
+        $this->cashFlowRepo->save($params, $id);
+
+        $params['flow_transfer_credit_or_debit'] = 2;
+        $this->cashFlowRepo->save($params, $id);
+
         return redirect()->route('admin.financial.transfers');
     }
 

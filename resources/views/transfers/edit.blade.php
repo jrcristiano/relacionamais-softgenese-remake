@@ -33,5 +33,5 @@
 @endpush
 
 @push('scripts')
-<script src="{{ asset('/js/receives/create-edit-receive.js') }}"></script>
+<script src="{{ asset('/js/transfer/create-edit-transfer.js') }}"></script>
 @endpush

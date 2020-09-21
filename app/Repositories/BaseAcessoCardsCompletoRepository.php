@@ -29,6 +29,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function firstUnlikedBaseCardCompleto()
     {
         return $this->repository->whereNull('base_acesso_card_cpf')
+            ->orderBy('id', 'desc')
             ->first();
     }
 

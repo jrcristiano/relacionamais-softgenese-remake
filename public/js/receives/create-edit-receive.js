@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $('#bill_value').click(function () {
+        $('#bill_value').maskMoney();
+    })
+
     $('.sgi-select2').select2({
         theme:'bootstrap4'
     });
@@ -26,7 +30,6 @@ $(document).ready(function () {
         });
 
         $('#demand_client_cnpj').mask('00.000.000/0000-00', {reverse:true});
-        $('#bill_value').maskMoney();
     });
 
 $('.save-button').click(function (e) {
