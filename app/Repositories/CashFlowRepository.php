@@ -446,6 +446,12 @@ class CashFlowRepository extends Repository
         return $transferTotal;
     }
 
+    public function saveByParam(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->update($data);
+    }
+
     public function removeBillsWhere($id)
     {
         return $this->repository->where('flow_bill_id', $id)

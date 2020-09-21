@@ -51,6 +51,7 @@ class TransferController extends Controller
     public function store(Request $request)
     {
         $data = $request->only(array_keys($request->rules()));
+
         $transfer = $this->transferRepo->save($data);
 
         $data['id'] = $transfer->id;
@@ -63,6 +64,7 @@ class TransferController extends Controller
         $params['flow_transfer_credit_or_debit'] = 1;
         $this->cashFlowRepo->save($params);
 
+        $params['flow_bank_id'] = $data['transfer_account_debit'];
         $params['flow_transfer_credit_or_debit'] = 2;
         $this->cashFlowRepo->save($params);
 
@@ -92,21 +94,25 @@ class TransferController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(array_keys($request->rules()));
-        $transfer = $this->transferRepo->save($data, $id);
+        $this->transferRepo->save($data, $id);
 
-        $data['id'] = $transfer->id;
         $params = [
             'flow_movement_date' => $data['transfer_date'],
             'flow_bank_id' => $data['transfer_account_credit'],
-            'flow_transfer_id' => $data['id'],
+            'flow_transfer_id' => $id,
+            'flow_transfer_credit_or_debit' => 1,
         ];
 
-        $params['flow_transfer_credit_or_debit'] = 1;
-        $this->cashFlowRepo->save($params, $id);
+        $this->cashFlowRepo->saveByParam($params, 'flow_award_id', $id);
 
-        $params['flow_transfer_credit_or_debit'] = 2;
-        $this->cashFlowRepo->save($params, $id);
+        $params = [
+            'flow_movement_date' => $data['transfer_date'],
+            'flow_bank_id' => $data['transfer_account_debit'],
+            'flow_transfer_id' => $id,
+            'flow_transfer_credit_or_debit' => 2
+        ];
 
+        $this->cashFlowRepo->saveByParam($params, 'flow_award_id', $id);
         return redirect()->route('admin.financial.transfers');
     }
 
