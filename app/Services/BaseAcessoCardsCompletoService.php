@@ -28,9 +28,9 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->getUnlikedBaseCardCompleto();
     }
 
-    public function getUngenerateCards()
+    public function getLikedAndUngenerateCards()
     {
-        return $this->service->getUngenerateCards();
+        return $this->service->getLikedAndUngenerateCards();
     }
 
     public function findByCard($card)

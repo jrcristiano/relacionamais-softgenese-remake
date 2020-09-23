@@ -12,6 +12,7 @@ class ShipmentApi extends Model
         'shipment_last_field',
         'shipment_generated',
         'shipment_file',
-        'shipment_file_vinc'
+        'shipment_file_vinc',
+        'shipment_file_vinc_generated',
     ];
 }

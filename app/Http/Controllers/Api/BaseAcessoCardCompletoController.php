@@ -32,9 +32,9 @@ class BaseAcessoCardCompletoController extends Controller
             $data[] = $this->acessoCardService->getAcessoCardCompletoNotGenerated($item->shipment_award_id);
 
             foreach ($findBaseAcessoCards as $findBaseAcessoCard) {
-                $this->baseAcessoCardsCompletoService->save([
+                $this->baseAcessoCardsCompletoService->saveByDocument([
                     'base_acesso_card_generated' => 1,
-                ], $findBaseAcessoCard->id);
+                ], $findBaseAcessoCard->acesso_card_document);
             }
         }
 
@@ -93,5 +93,7 @@ class BaseAcessoCardCompletoController extends Controller
         $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$field}.xlsx";
 
         $writer->save($storageFileName);
+
+        return "TODOSVINC{$field}.xlsx";
     }
 }

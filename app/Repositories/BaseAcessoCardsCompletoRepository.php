@@ -47,6 +47,14 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->get();
     }
 
+    public function getLikedAndUngenerateCards()
+    {
+        return $this->repository->whereNull('base_acesso_card_generated')
+            ->whereNotNull('base_acesso_card_name')
+            ->whereNotNull('base_acesso_card_cpf')
+            ->get();
+    }
+
     public function saveByDocument($data, $document)
     {
         return $this->repository->where('base_acesso_card_cpf', $document)

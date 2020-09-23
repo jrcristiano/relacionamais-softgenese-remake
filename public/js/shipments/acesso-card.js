@@ -32,6 +32,10 @@ $(document).ready(function () {
 
         $.post(path, data, function (response) {
             console.log(response)
+
+            let url = `${domain}/storage/shipments/${response}`
+            console.log(url)
+            download(response, url)
         })
 
         // window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
@@ -91,7 +95,7 @@ $(document).ready(function () {
             console.log(url)
             download(response, url)
 
-            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+            // window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
         })
     })
 })

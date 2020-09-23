@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    // dd($alerts)
+    // dd($hasNotGenerateds)
 @endphp
 
 <div class="container-fluid">
@@ -21,11 +21,13 @@
 
             @if (\Request::get('tipo_premiacao') == 1)
                 @foreach ($alerts as $alert)
-                    @if ($alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated)
+                    @if ($alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated && count($hasNotGenerateds) > 0)
                         <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
                             <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
-                            <a id="generate-vincs" data-file="{{ $alert->shipment_file_vinc }}" data-id="{{ $alert->id }}" href="{{ asset("/storage/shipments/{$alert->shipment_file_vinc}") }}" download="{{ $alert->shipment_file_vinc }}" class="alert-link">CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO</a>
+                            <button class="btn btn-danger" id="generate-vincs" data-file="{{ $alert->shipment_file_vinc }}" data-id="{{ $alert->id }}" class="alert-link">
+                                <i class="fas fa-download"></i> CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO
+                            </button>
 
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
