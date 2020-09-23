@@ -16,9 +16,12 @@ $(document).ready(function () {
 
     $('#generate-vincs').click(function () {
         var id = $(this).data('id')
+        var file = $(this).data('file')
+
         var path = `${domain}/admin/api/base-acesso-card-completo/${id}/update`
         var data = {
-            base_acesso_card_generated: 1
+            base_acesso_card_generated: 1,
+            shipment_file_vinc: file
         }
 
         $.ajaxSetup({

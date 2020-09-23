@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    //dd($awards)
+    // dd($alerts)
 @endphp
 
 <div class="container-fluid">
@@ -20,17 +20,19 @@
             ])
 
             @if (\Request::get('tipo_premiacao') == 1)
-                @if ($alert && $alert->acesso_card_generated == 1)
-                    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
-                        <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
+                @foreach ($alerts as $alert)
+                    @if ($alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated)
+                        <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                            <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
-                        <a id="generate-vincs" data-id="{{ $alert->acesso_card_award_id }}" href="{{ asset("/storage/shipments/{$alert->awaiting_payment_all_file}") }}" download="{{ $alert->awaiting_payment_all_file }}" class="alert-link">CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO</a>
+                            <a id="generate-vincs" data-file="{{ $alert->shipment_file_vinc }}" data-id="{{ $alert->id }}" href="{{ asset("/storage/shipments/{$alert->shipment_file_vinc}") }}" download="{{ $alert->shipment_file_vinc }}" class="alert-link">CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO</a>
 
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
             @endif
 
             @include('components.message')

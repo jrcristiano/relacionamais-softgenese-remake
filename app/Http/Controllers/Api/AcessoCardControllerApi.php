@@ -77,6 +77,7 @@ class AcessoCardControllerApi extends Controller
                     'shipment_generated' => 1,
                     'shipment_last_field' => $shipmentFieldNumber,
                     'shipment_file' => $filename,
+                    'shipment_file_vinc' => "TODOSVINC{$field}.xlsx",
                 ]);
             }
 

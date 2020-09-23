@@ -142,21 +142,6 @@ class AcessoCard extends Award
                     }
                 }
             }
-
-            $date = Carbon::parse(Carbon::now())->format('dm');
-            $awardId = str_pad($id, 2, '0', STR_PAD_LEFT);
-
-            \App\AwaitingPayment::create([
-                'awaiting_payment_award_id' => $id,
-                'awaiting_payment_file' => "R{$date}{$awardId}.xlsx",
-            ]);
-        }
-
-        if ($data['awarded_status'] == 1) {
-            $awardedsAwaitingPaymentFileName = $this->service->getAwardedsAwaitingPayment($id);
-            \App\AwaitingPayment::where('awaiting_payment_award_id', $id)->update([
-                'awaiting_payment_all_file' => $awardedsAwaitingPaymentFileName,
-            ]);
         }
     }
 }

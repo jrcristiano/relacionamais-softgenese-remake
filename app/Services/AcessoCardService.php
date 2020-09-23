@@ -85,9 +85,19 @@ class AcessoCardService extends Service
         return $data;
     }
 
+    public function getAcessoCardCompletoNotGenerated($id)
+    {
+        return $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
+    }
+
+    public function firstAcessoCardCompletoNotGenerated($id)
+    {
+        return $this->baseAcessoCardsCompletoService->firstAcessoCardCompletoNotGenerated($id);
+    }
+
     public function getAwardedsAwaitingPayment($id)
     {
-        $data = $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated();
+        $data = $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
 
         $spreadsheet = new Spreadsheet;
 
@@ -106,7 +116,11 @@ class AcessoCardService extends Service
                 $proxy,
                 \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
             );
-            $sheet->setCellValue("B{$key}", $value->acesso_card_document, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit(
+                "B{$key}",
+                $value->acesso_card_document,
+                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+            );
             $sheet->setCellValue("C{$key}", $value->acesso_card_name);
         }
 
@@ -115,11 +129,17 @@ class AcessoCardService extends Service
         $path = storage_path();
         $awardId = str_pad($id, 2, '0', STR_PAD_LEFT);
 
-        $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$awardId}.xlsx";
+        $field = \App\ShipmentApi::select('shipment_last_field')
+            ->where('shipment_award_id', $awardId)
+            ->first();
+
+        $field = str_pad($field->shipment_last_field, 2, '0', STR_PAD_LEFT);
+
+        $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$field}.xlsx";
 
         $writer->save($storageFileName);
 
-        return "TODOSVINC{$awardId}.xlsx";
+        return "TODOSVINC{$field}.xlsx";
     }
 
     public function getAwardedsAwaitingPaymentNotGenerated($id)

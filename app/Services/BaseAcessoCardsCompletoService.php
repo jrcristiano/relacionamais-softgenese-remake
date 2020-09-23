@@ -28,6 +28,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->getUnlikedBaseCardCompleto();
     }
 
+    public function getUngenerateCards()
+    {
+        return $this->service->getUngenerateCards();
+    }
+
     public function findByCard($card)
     {
         return $this->service->findByCard($card);
@@ -43,13 +48,13 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->saveByParam($data, $param, $value);
     }
 
-    public function getAcessoCardCompletoNotGenerated()
+    public function getAcessoCardCompletoNotGenerated($id)
     {
-        return $this->service->getAcessoCardCompletoNotGenerated();
+        return $this->service->getAcessoCardCompletoNotGenerated($id);
     }
 
-    public function getAlerts()
+    public function firstAcessoCardCompletoNotGenerated($id)
     {
-        return $this->service->getAlert();
+        return $this->service->firstAcessoCardCompletoNotGenerated($id);
     }
 }

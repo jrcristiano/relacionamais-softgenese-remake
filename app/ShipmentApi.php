@@ -11,7 +11,7 @@ class ShipmentApi extends Model
         'shipment_award_id',
         'shipment_last_field',
         'shipment_generated',
-        'shipment_downloaded',
         'shipment_file',
+        'shipment_file_vinc'
     ];
 }

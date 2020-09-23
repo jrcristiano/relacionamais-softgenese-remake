@@ -25,9 +25,8 @@ class AwardRepository extends Repository
         return $this->repository->select([
             'awards.*',
             'shipments_api.shipment_generated',
-            'awaiting_payments.awaiting_payment_file',
+            'shipments_api.shipment_file_vinc',
         ])
-        ->leftJoin('awaiting_payments', 'awards.id', '=', 'awaiting_payments.awaiting_payment_award_id')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
         ->where('awards.awarded_demand_id', $id)
         ->paginate($perPage);
@@ -39,21 +38,35 @@ class AwardRepository extends Repository
             'awards.*',
             'notes.note_number',
             'shipments_api.shipment_generated',
-            'awaiting_payments.awaiting_payment_all_file',
-            'awaiting_payments.awaiting_payment_file',
+            'shipments_api.shipment_file_vinc'
         ])
         ->where('awarded_status', '=', 1)
         ->whereNotNull('awarded_upload_table')
         ->orderBy('id', 'desc')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
-        ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id')
-        ->leftJoin('awaiting_payments', 'awards.id', '=', 'awaiting_payments.awaiting_payment_award_id');
+        ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id');
 
         if ($awardType) {
             $query->where('awarded_type', $awardType);
         }
 
         return $query->paginate($perPage);
+    }
+
+    public function getAlerts()
+    {
+        return $this->repository->select([
+            'awards.id',
+            'shipments_api.shipment_file_vinc',
+            'shipments_api.shipment_generated',
+            'shipments_api.shipment_file_vinc_generated',
+        ])
+        ->where('awarded_status', '=', 1)
+        ->whereNotNull('awarded_upload_table')
+        ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
+        ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id')
+        ->groupBy('shipment_file_vinc')
+        ->get();
     }
 
     public function getFirstPathByAwardedUploadSpreadsheet($id)
