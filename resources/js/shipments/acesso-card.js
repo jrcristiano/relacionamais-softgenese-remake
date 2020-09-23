@@ -38,7 +38,7 @@ $(document).ready(function () {
             download(response, url)
         })
 
-        // window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+        window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
 
         $('.alert').addClass('d-none')
     });
@@ -95,7 +95,7 @@ $(document).ready(function () {
             console.log(url)
             download(response, url)
 
-            // window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
         })
     })
 })
