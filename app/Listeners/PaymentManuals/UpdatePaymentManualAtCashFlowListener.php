@@ -20,7 +20,7 @@ class UpdatePaymentManualAtCashFlowListener
                 'flow_hide_line' => 0
             ];
 
-            $cashFlow->save($data, $paramsPaymentManualPaydOut['flow_award_id']);
+            $cashFlow->saveByParam($data, 'flow_award_id', $paramsPaymentManualPaydOut['flow_award_id']);
         }
 
         if ($data['awarded_type'] == 3 && $data['awarded_status'] == 4) {
@@ -32,7 +32,9 @@ class UpdatePaymentManualAtCashFlowListener
                 'flow_hide_line' => 1
             ];
 
-            $cashFlow->save($data, $paramsPaymentManualCancelled['flow_award_id']);
+            dd($paramsPaymentManualPaydOut['flow_award_id']);
+
+            $cashFlow->saveByParam($data, 'flow_award_id',  $paramsPaymentManualCancelled['flow_award_id']);
         }
     }
 }
