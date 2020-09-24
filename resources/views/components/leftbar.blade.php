@@ -73,6 +73,19 @@
                 </li>
             </ul>
 
+            <span class="sgi-tag mt-3">
+                Operacional
+            </span>
+
+            <ul class="nav flex-column sgi-left-bar">
+                <li class="nav-item sgi-link-menu">
+                    <a class="btn btn-primary btn-block text-left" href="{{ route('admin.operational.consult-awardeds') }}">
+                        <i class="fas fa-donate ml-4"></i> Premiados
+                    </a>
+                </li>
+
+            </ul>
+
             <span class="sgi-tag mt-3">Mais</span>
                 <ul class="nav flex-column sgi-left-bar">
                     <li class="nav-item sgi-link-menu">

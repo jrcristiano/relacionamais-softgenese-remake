@@ -171,6 +171,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::group(['prefix' => 'operacional', 'as' => 'operational.'], function () {
             Route::get('/central-de-atendimento', 'CallCenterController@index')->name('call-center');
+            Route::get('/consulta-de-premiados', 'ConsultAwardedController@index')->name('consult-awardeds');
         });
 
         Route::group(['prefix' => 'download'], function () {

@@ -25,6 +25,23 @@ class HistoryAcessoCardRepository extends Repository
         ->get();
     }
 
+    public function getAwardedsByAllAwards($perPage = 500)
+    {
+        return $this->repository->select([
+            'awards.awarded_status',
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_number',
+            'acesso_cards.acesso_card_value',
+            'acesso_cards.acesso_card_document',
+            'acesso_cards.created_at',
+            'base_acesso_cards_completo.base_acesso_card_proxy',
+        ])
+        ->leftJoin('acesso_cards', 'history_acesso_cards.history_acesso_card_id', '=', 'acesso_cards.id')
+        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
+        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
+        ->paginate($perPage);
+    }
+
     public function getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id)
     {
         return $this->repository->select([
