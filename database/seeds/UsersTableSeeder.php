@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Carlos',
                 'email' => 'carlos@softgenese.com',
                 'email_verified_at' => now(),
-                'password' => bcrypt('$oft384512'),
+                'password' => bcrypt('$oft302718'),
                 'remember_token' => Str::random(10),
                 'role' => User::ROLE_ADMIN,
             ]
