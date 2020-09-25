@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    // dd($hasNotGenerateds)
+    //dd($hasNotGenerateds)
 @endphp
 
 <div class="container-fluid">

@@ -35,9 +35,10 @@ class BaseAcessoCardsCompletoRepository extends Repository
 
     public function getUnlikedBaseCardCompleto()
     {
-        return $this->repository->whereNotNull('base_acesso_card_name')
-            ->whereNotNull('base_acesso_card_cpf')
+        return $this->repository->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
             ->whereNull('base_acesso_card_generated')
+            ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
+            ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
             ->get();
     }
 
