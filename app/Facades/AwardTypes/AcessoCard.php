@@ -51,40 +51,42 @@ class AcessoCard extends Award
         $save = $this->awardRepo->save($data);
 
         foreach ($documents as $key => $document) {
-            $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+            if ($names[$key] != null) {
+                $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
 
-            $findBase = $baseAcessoCardService->findByDocument($document);
-            $findAcesso = $this->service->findByDocument($document);
+                $findBase = $baseAcessoCardService->findByDocument($document);
+                $findAcesso = $this->service->findByDocument($document);
 
-            $acessoCardNumber = $baseAcessoCardService->firstBaseAcessoCardNumberByDocument($document);
-            $params = [];
-            $acessoCardDocument = $findAcesso->acesso_card_document ?? null;
-            $acessoCardName = $findAcesso->acesso_card_name ?? null;
-            $params['acesso_card_name'] = $acessoCardDocument == $documents[$key] ? $acessoCardName : $names[$key];
-            $params['acesso_card_value'] = $values[$key];
-            $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
-            $params['acesso_card_number'] = $cardNumber;
-            $params['acesso_card_document'] = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
-            $params['acesso_card_spreadsheet_line'] = $key + 1;
-            $params['acesso_card_demand_id'] = $demandId;
-            $params['acesso_card_award_id'] = $save->id;
+                $acessoCardNumber = $baseAcessoCardService->firstBaseAcessoCardNumberByDocument($document);
+                $params = [];
+                $acessoCardDocument = $findAcesso->acesso_card_document ?? null;
+                $acessoCardName = $findAcesso->acesso_card_name ?? null;
+                $params['acesso_card_name'] = $acessoCardName && $acessoCardDocument == $documents[$key] ? $acessoCardName : $names[$key];
+                $params['acesso_card_value'] = $values[$key];
+                $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
+                $params['acesso_card_number'] = $cardNumber;
+                $params['acesso_card_document'] = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+                $params['acesso_card_spreadsheet_line'] = $key + 1;
+                $params['acesso_card_demand_id'] = $demandId;
+                $params['acesso_card_award_id'] = $save->id;
 
-            $this->service->save($params);
+                $this->service->save($params);
 
-            if ($findAcesso) {
-                $this->service->saveByParam([
-                    'acesso_card_number' => $params['acesso_card_number'],
-                ], 'acesso_card_document', $document);
-            }
+                if ($findAcesso) {
+                    $this->service->saveByParam([
+                        'acesso_card_number' => $params['acesso_card_number'],
+                    ], 'acesso_card_document', $document);
+                }
 
-            $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
-            $unlikedCard = $unlikedCard->base_acesso_card_number;
+                $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
+                $unlikedCard = $unlikedCard->base_acesso_card_number;
 
-            if (!$findBase && $data['awarded_status'] == 2) {
-                $baseAcessoCardService->update([
-                    'base_acesso_card_name' => $names[$key],
-                    'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
-                ], 'base_acesso_card_number', $unlikedCard);
+                if (!$findBase && $data['awarded_status'] == 2) {
+                    $baseAcessoCardService->update([
+                        'base_acesso_card_name' => $names[$key],
+                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                    ], 'base_acesso_card_number', $unlikedCard);
+                }
             }
         }
     }

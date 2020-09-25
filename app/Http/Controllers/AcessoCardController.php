@@ -38,6 +38,7 @@ class AcessoCardController extends Controller
     public function store(Request $request)
     {
         $data = $request->only(array_keys($request->rules()));
+
         $data['awarded_type'] = 1;
         $data['awarded_status'] = 3;
         $data['awarded_bank_id'] = 3;
