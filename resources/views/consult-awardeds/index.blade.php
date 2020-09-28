@@ -20,33 +20,7 @@
             @include('components.message')
 
             <div class="col-lg-12 mt-4 d-flex flex-nowrap mb-2">
-                <form class="d-flex w-100" action="" method="get">
-                    <select name="nome" class="form-control text-uppercase">
-                        <option value="">FILTRAR POR NOME</option>
-                        @foreach ($filters as $filter)
-                            <option {{ \Request::get('nome') == $filter->base_acesso_card_name ? 'selected' : '' }} value="{{ $filter->base_acesso_card_name }}">
-                                {{ $filter->base_acesso_card_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <select name="cpf" class="form-control ml-2">
-                        <option value="">FILTRAR POR CPF</option>
-                        @foreach ($filters as $filter)
-                            <option {{ \Request::get('cpf') == $filter->base_acesso_card_cpf ? 'selected' : '' }} value="{{ $filter->base_acesso_card_cpf }}">{{ $filter->base_acesso_card_cpf }}</option>
-                        @endforeach
-                    </select>
-                    <select name="proxy" class="form-control ml-2">
-                        <option value="">FILTRAR POR PROXY</option>
-                        @foreach ($filters as $filter)
-                            <option {{ \Request::get('proxy') == $filter->base_acesso_card_proxy ? 'selected' : '' }} value="{{ $filter->base_acesso_card_proxy }}">
-                                {{ $filter->base_acesso_card_proxy }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <button id="btn-date" type="submit" class="btn btn-primary mr-2 ml-2">
-                        <i aria-hidden="true" class="fas fa-search"></i>
-                    </button>
-                </form>
+                <input id="filter_table" type="text" placeholder="Nome, documento e etc." class="col-lg-3 ml-auto form-control mr-sm-2">
             </div>
 
             <table id="client_table" class="table table-sm table-striped table-hover">
