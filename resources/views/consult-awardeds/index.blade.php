@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('title', 'Consulta de premiados')
 @section('content')
+@php
+    // dd($awardeds)
+@endphp
 
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
@@ -33,7 +36,7 @@
                         <th scope="col">Status do cartão</th>
                         <th scope="col">Proxy</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Criado em</th>
+                        <th scope="col">Data</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +52,15 @@
                             <td>{{ $awarded->base_acesso_card_proxy }}</td>
                             @php
                                 $status = $awarded->awarded_status == 3 ? 'Pendente' : ($awarded->awarded_status == 2 ? 'Aguardando pagamento' : 'Em remessa');
+
+                                if ($awarded->acesso_card_generated) {
+                                    $status = 'Remessa gerada';
+                                }
+
+                                if ($awarded->acesso_card_chargeback) {
+                                    $status = 'Remessa cancelada';
+                                }
+
                             @endphp
                             <td class="text-uppercase">{{ $status }}</td>
                             <td>{{ $awarded->created_at_formatted }}</td>
@@ -59,10 +71,9 @@
                 </tbody>
             </table>
 
-            @if ($awardeds->count() >= 200)
+            @if ($awardeds->count() >= 500)
                 <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
                     {!! $awardeds->appends(['pedido_id' => \Request::get('pedido_id')])->links() !!}
-                    <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
                 </div>
             @endif
         </div>
