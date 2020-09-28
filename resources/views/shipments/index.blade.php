@@ -173,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    @if ($awards->count() >= 100)
+                    @if ($awards->count() >= 500)
                         <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
                             {!! $awards->links() !!}
                             <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>

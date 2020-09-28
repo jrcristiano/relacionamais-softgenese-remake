@@ -27,8 +27,6 @@ class ShipmentController extends Controller
         $awards = $this->awardRepo->getShipmentsbyPaginate(500, $awardType);
         $alerts = $this->awardRepo->getAlerts();
         $hasNotGenerateds = $this->baseAcessoCardsCompletoService->getLikedAndUngenerateCards();
-        // dd($hasNotGenerateds);
-        // dd($alerts);
         return view('shipments.index', compact('awards', 'alerts', 'hasNotGenerateds'));
     }
 }

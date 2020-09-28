@@ -67,7 +67,7 @@
     @endphp
     <select class="form-control sgi-border-2" name="transfer_type" id="transfer_type">
         <option value="">SELECIONAR TIPO DE TRANSFERÊNCIA</option>
-        <option {{ $transferType == 1 ? 'selected' : '' }} value="1">Patrimônio</option>
-        <option {{ $transferType == 2 ? 'selected' : '' }} value="2">Premiação</option>
+        <option {{ $transferType == 1 ? 'selected' : '' }} value="1">PATRIMÔNIO</option>
+        <option {{ $transferType == 2 ? 'selected' : '' }} value="2">PREMIAÇÃO</option>
     </select>
 </div>

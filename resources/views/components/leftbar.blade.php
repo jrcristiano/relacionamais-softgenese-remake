@@ -80,7 +80,7 @@
             <ul class="nav flex-column sgi-left-bar">
                 <li class="nav-item sgi-link-menu">
                     <a class="btn btn-primary btn-block text-left" href="{{ route('admin.operational.consult-awardeds') }}">
-                        <i class="fas fa-donate ml-4"></i> Premiados
+                        <i class="fas fa-search-dollar ml-4"></i> Consulta de premiados
                     </a>
                 </li>
 

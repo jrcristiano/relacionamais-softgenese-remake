@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\HistoryAcessoCard;
+use Illuminate\Http\Request;
 
 class HistoryAcessoCardRepository extends Repository
 {
@@ -25,21 +26,55 @@ class HistoryAcessoCardRepository extends Repository
         ->get();
     }
 
-    public function getAwardedsByAllAwards($perPage = 500)
+    public function queryAwardedsOfAllAwards(Request $request, $perPage = 500)
     {
-        return $this->repository->select([
+        $query = $this->repository->select([
             'awards.awarded_status',
             'acesso_cards.acesso_card_name',
             'acesso_cards.acesso_card_number',
             'acesso_cards.acesso_card_value',
             'acesso_cards.acesso_card_document',
             'acesso_cards.created_at',
+            'base_acesso_cards_completo.base_acesso_card_name',
             'base_acesso_cards_completo.base_acesso_card_proxy',
+            'base_acesso_cards_completo.base_acesso_card_status',
         ])
         ->leftJoin('acesso_cards', 'history_acesso_cards.history_acesso_card_id', '=', 'acesso_cards.id')
         ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
-        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
-        ->paginate($perPage);
+        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id');
+
+        if ($request->name) {
+            $query->where('base_acesso_card_name', $request->name);
+        }
+
+        if ($request->cpf) {
+            $query->where('base_acesso_card_cpf', $request->cpf);
+        }
+
+        if ($request->proxy) {
+            $query->where('base_acesso_card_proxy', $request->proxy);
+        }
+
+        return $query->paginate($perPage);
+    }
+
+    public function queryDataByPaginate($perPage = 500)
+    {
+        return $this->repository->paginate($perPage);
+    }
+
+    public function getDataForFilters()
+    {
+        return $this->repository->select([
+            'base_acesso_cards_completo.base_acesso_card_name',
+            'base_acesso_cards_completo.base_acesso_card_cpf',
+            'base_acesso_cards_completo.base_acesso_card_proxy',
+            'base_acesso_cards_completo.base_acesso_card_status',
+        ])
+        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
+        ->whereNotNull('base_acesso_card_name')
+        ->whereNotNull('base_acesso_card_cpf')
+        ->get();
     }
 
     public function getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id)
@@ -52,6 +87,7 @@ class HistoryAcessoCardRepository extends Repository
         ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
         ->where('acesso_cards.acesso_card_award_id', $id)
         ->whereNull('base_acesso_card_generated')
+        ->where
         ->get();
     }
 

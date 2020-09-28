@@ -127,6 +127,7 @@ class AcessoCard extends Award
                         $baseAcessoCardService->update([
                             'base_acesso_card_name' => $names[$key],
                             'base_acesso_card_cpf' => $document,
+                            'base_acesso_card_status' => 1,
                         ], 'base_acesso_card_proxy', $baseAcessoCardProxy);
 
                         $params = [];

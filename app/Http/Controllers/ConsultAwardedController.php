@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\HistoryAcessoCard;
-use App\Repositories\AwardRepository as AwardRepo;
-use App\Repositories\ConsultAwardedRepository as ConsultAwardedRepo;
+use App\Services\AcessoCardService;
 use App\Services\HistoryAcessoCardService;
 use Illuminate\Http\Request;
 
 class ConsultAwardedController extends Controller
 {
-    private $consultAwardedRepo;
+
     private $historyAcessoCardService;
 
-    public function __construct(ConsultAwardedRepo $consultAwardedRepo, HistoryAcessoCardService $historyAcessoCardService)
+
+    public function __construct(HistoryAcessoCardService $historyAcessoCardService)
     {
-        $this->consultAwardedRepo = $consultAwardedRepo;
         $this->historyAcessoCardService = $historyAcessoCardService;
     }
     /**
@@ -23,10 +21,11 @@ class ConsultAwardedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $awardeds = $this->historyAcessoCardService->getAwardedsByAllAwards();
-        return view('consult-awardeds.index', compact('awardeds'));
+        $awardeds = $this->historyAcessoCardService->getAwardedsByAllAwards($request);
+        $filters = $this->historyAcessoCardService->getDataForFilters();
+        return view('consult-awardeds.index', compact('awardeds', 'filters'));
     }
 
     /**

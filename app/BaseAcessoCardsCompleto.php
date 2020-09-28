@@ -12,5 +12,10 @@ class BaseAcessoCardsCompleto extends Model
         'base_acesso_card_cpf',
         'base_acesso_card_generated',
         'base_acesso_card_award_id',
+        'base_acesso_card_status'
     ];
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_CANCELLED = 2;
+    const STATUS_RESERVED = 3;
 }

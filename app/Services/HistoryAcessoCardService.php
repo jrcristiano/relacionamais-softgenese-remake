@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\HistoryAcessoCardRepository;
+use Illuminate\Http\Request;
 
 class HistoryAcessoCardService extends Service
 {
@@ -28,8 +29,13 @@ class HistoryAcessoCardService extends Service
         return $this->service->getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id);
     }
 
-    public function getAwardedsByAllAwards()
+    public function getAwardedsByAllAwards(Request $request)
     {
-        return $this->service->getAwardedsByAllAwards();
+        return $this->service->queryAwardedsOfAllAwards($request);
+    }
+
+    public function getDataForFilters()
+    {
+        return $this->service->getDataForFilters();
     }
 }
