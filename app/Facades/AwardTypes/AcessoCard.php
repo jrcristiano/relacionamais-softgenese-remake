@@ -87,6 +87,21 @@ class AcessoCard extends Award
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_status' => 1,
+                    ], 'base_acesso_card_number', $unlikedCard);
+                }
+
+                if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $this->service->saveByParam([
+                        'acesso_card_number' => $unlikedCard,
+                    ], 'acesso_card_document', $document);
+                }
+
+                if ($baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $baseAcessoCardService->updateByParamWhereStatusNull([
+                        'base_acesso_card_name' => $names[$key],
+                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_status' => 1,
                     ], 'base_acesso_card_number', $unlikedCard);
                 }
 

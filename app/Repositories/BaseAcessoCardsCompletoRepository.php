@@ -70,6 +70,13 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->update($data);
     }
 
+    public function updateByParamWhereStatusNull(array $data, $param, $value)
+    {
+        return $this->repository->whereNull('base_acesso_card_status')
+            ->where($param, $value)
+            ->update($data);
+    }
+
     public function findByCard($card)
     {
         return $this->repository->select([
@@ -122,5 +129,13 @@ class BaseAcessoCardsCompletoRepository extends Repository
     {
         return $this->repository->where($param, $value)
             ->update($data);
+    }
+
+    public function findWhereStatusByDocument($status, $document)
+    {
+        return $this->repository->select('*')
+            ->where('base_acesso_card_status', '=', $status)
+            ->where('base_acesso_card_cpf', $document)
+            ->first();
     }
 }

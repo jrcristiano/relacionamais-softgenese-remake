@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Repositories\AcessoCardRepository as AcessoCardRepo;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
+=======
+>>>>>>> eb136039aab62f7c03e883f4d70488e80f05f7f8
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use yidas\phpSpreadsheet\Helper;
