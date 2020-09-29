@@ -10,7 +10,6 @@ use App\Repositories\HistoryAcessoCardRepository;
 use App\Services\AcessoCardService;
 use App\Services\BaseAcessoCardsCompletoService;
 use App\Services\HistoryAcessoCardService;
-use Carbon\Carbon;
 
 class AcessoCard extends Award
 {
@@ -72,7 +71,7 @@ class AcessoCard extends Award
 
                 $this->service->save($params);
 
-                if ($findAcesso) {
+                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
                     $this->service->saveByParam([
                         'acesso_card_number' => $params['acesso_card_number'],
                     ], 'acesso_card_document', $document);
@@ -85,6 +84,21 @@ class AcessoCard extends Award
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_status' => 1,
+                    ], 'base_acesso_card_number', $unlikedCard);
+                }
+
+                if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $this->service->saveByParam([
+                        'acesso_card_number' => $unlikedCard,
+                    ], 'acesso_card_document', $document);
+                }
+
+                if ($baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $baseAcessoCardService->updateByParamWhereStatusNull([
+                        'base_acesso_card_name' => $names[$key],
+                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_status' => 1,
                     ], 'base_acesso_card_number', $unlikedCard);
                 }
             }

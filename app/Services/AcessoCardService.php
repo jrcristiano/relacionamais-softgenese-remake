@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\AcessoCardRepository as AcessoCardRepo;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use yidas\phpSpreadsheet\Helper;

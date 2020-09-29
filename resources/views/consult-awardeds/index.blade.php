@@ -42,10 +42,10 @@
                 <tbody>
                     @forelse ($awardeds as $awarded)
                         <tr>
-                            <td class="text-uppercase">{{ $awarded->acesso_card_name }}</td>
-                            <td class="text-uppercase">{{ $awarded->acesso_card_document }}</td>
+                            <td class="text-uppercase">{{ $awarded->base_acesso_card_name }}</td>
+                            <td class="text-uppercase">{{ $awarded->base_acesso_card_cpf }}</td>
                             <td>R$ {{ $awarded->acesso_card_value_formatted }}</td>
-                            <td>{{ $awarded->acesso_card_number }}</td>
+                            <td>{{ $awarded->base_acesso_card_number }}</td>
                             <td class="text-uppercase">
                                 {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : 'Reservado') }}
                             </td>
@@ -66,7 +66,9 @@
                             <td>{{ $awarded->created_at_formatted }}</td>
                         </tr>
                     @empty
-                        <td colspan="10" class="text-center"><i class="fas fa-frown"></i> Nenhuma premiação ainda registrada...</td>
+                        <td colspan="10" class="text-center">
+                            <i class="fas fa-frown"></i> Nenhuma premiação ainda registrada...
+                        </td>
                     @endforelse
                 </tbody>
             </table>

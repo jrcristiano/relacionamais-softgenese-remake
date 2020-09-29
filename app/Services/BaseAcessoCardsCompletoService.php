@@ -57,4 +57,14 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->firstAcessoCardCompletoNotGenerated($id);
     }
+
+    public function findWhereStatusByDocument($status, $document)
+    {
+        return $this->service->findWhereStatusByDocument($status, $document);
+    }
+
+    public function updateByParamWhereStatusNull(array $data, $param, $value)
+    {
+        return $this->service->updateByParamWhereStatusNull($data, $param, $value);
+    }
 }

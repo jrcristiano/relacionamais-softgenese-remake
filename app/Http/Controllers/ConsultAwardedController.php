@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AcessoCardService;
 use App\Services\HistoryAcessoCardService;
 use Illuminate\Http\Request;
 
