@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\HistoryAcessoCardService;
+use App\Services\AcessoCardService;
 use Illuminate\Http\Request;
 
 class ConsultAwardedController extends Controller
