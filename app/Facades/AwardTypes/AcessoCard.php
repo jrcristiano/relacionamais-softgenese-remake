@@ -10,7 +10,6 @@ use App\Repositories\HistoryAcessoCardRepository;
 use App\Services\AcessoCardService;
 use App\Services\BaseAcessoCardsCompletoService;
 use App\Services\HistoryAcessoCardService;
-use Carbon\Carbon;
 
 class AcessoCard extends Award
 {
@@ -48,6 +47,7 @@ class AcessoCard extends Award
 
         $demandId = $data['awarded_demand_id'];
         $data['awarded_value'] = array_sum($values);
+
         $save = $this->awardRepo->save($data);
 
         foreach ($documents as $key => $document) {
@@ -70,9 +70,11 @@ class AcessoCard extends Award
                 $params['acesso_card_demand_id'] = $demandId;
                 $params['acesso_card_award_id'] = $save->id;
 
-                $this->service->save($params);
+                if (!$this->service->findByDocument($document) && !$baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $this->service->save($params);
+                }
 
-                if ($findAcesso) {
+                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
                     $this->service->saveByParam([
                         'acesso_card_number' => $params['acesso_card_number'],
                     ], 'acesso_card_document', $document);
@@ -85,6 +87,19 @@ class AcessoCard extends Award
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                    ], 'base_acesso_card_number', $unlikedCard);
+                }
+
+                if ($this->service->findByDocument($document) && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $params['acesso_card_number'] = $unlikedCard;
+                    $this->service->save($params);
+                }
+
+                if ($baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    $baseAcessoCardService->update([
+                        'base_acesso_card_name' => $names[$key],
+                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_status' => 1,
                     ], 'base_acesso_card_number', $unlikedCard);
                 }
             }

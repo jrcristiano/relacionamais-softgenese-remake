@@ -2,7 +2,7 @@
 @section('title', "Lista de premiações")
 @section('content')
 @php
-    //dd($acessoCards);
+    // dd($acessoCards);
 @endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
@@ -45,11 +45,11 @@
                             <td class="text-uppercase">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
                             <td>{{ $acessoCard->base_acesso_card_proxy }}</td>
-                            <td>{{ $acessoCard->acesso_card_number ?? 'EMITIR CARTÃO' }}</td>
+                            <td>{{ $acessoCard->base_acesso_card_number ?? 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>
                                 @if (!$acessoCard->acesso_card_chargeback)
-                                    <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->id]) }}" method="post">
+                                    <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_award_id]) }}" method="post">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="acesso_card_chargeback" value="1" />
@@ -60,7 +60,7 @@
                                     </form>
                                 @endif
                                 @if ($acessoCard->acesso_card_status == 3)
-                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
+                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->acesso_card_award_id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
                                         @csrf
                                         <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
                                             <i class="fas fa-times"></i>

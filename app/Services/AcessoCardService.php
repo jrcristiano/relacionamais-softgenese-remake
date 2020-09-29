@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\AcessoCardRepository as AcessoCardRepo;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use yidas\phpSpreadsheet\Helper;
@@ -56,6 +56,11 @@ class AcessoCardService extends Service
     public function getAcessoCardsWhereAwarded($id)
     {
         return $this->service->getAcessoCardsWhereAwarded($id);
+    }
+
+    public function getAwardedsByAllAwards(Request $request)
+    {
+        return $this->service->getAwardedsByAllAwards($request);
     }
 
     public function findByDocument($document)

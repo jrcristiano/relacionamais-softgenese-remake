@@ -42,6 +42,14 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->get();
     }
 
+    public function findWhereStatusByDocument($status, $document)
+    {
+        return $this->repository->select('*')
+            ->where('base_acesso_card_status', $status)
+            ->where('base_acesso_card_cpf', $document)
+            ->first();
+    }
+
     public function getUngenerateCards()
     {
         return $this->repository->whereNull('base_acesso_card_generated')

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\AcessoCard;
+use Illuminate\Http\Request;
 use yidas\phpSpreadsheet\Helper;
 
 class AcessoCardRepository extends Repository
@@ -111,12 +112,38 @@ class AcessoCardRepository extends Repository
     {
         return $this->repository->select([
             'acesso_cards.*',
-            'base_acesso_cards_completo.base_acesso_card_proxy',
+            'base_acesso_cards_completo.*',
             'shipments_api.shipment_generated',
         ])
         ->leftJoin('shipments_api', 'acesso_cards.acesso_card_award_id', '=', 'shipments_api.shipment_award_id')
         ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
         ->where('acesso_cards.acesso_card_award_id', $id)
         ->paginate($perPage);
+    }
+
+    public function getAwardedsByAllAwards(Request $request, $perPage = 500)
+    {
+        $query = $this->repository->select([
+            'awards.awarded_status',
+            'base_acesso_cards_completo.*',
+            'acesso_cards.*',
+        ])
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
+        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
+        ->groupBy('base_acesso_cards_completo.base_acesso_card_proxy');
+
+        if ($request->name) {
+            $query->where('base_acesso_card_name', $request->name);
+        }
+
+        if ($request->cpf) {
+            $query->where('base_acesso_card_cpf', $request->cpf);
+        }
+
+        if ($request->proxy) {
+            $query->where('base_acesso_card_proxy', $request->proxy);
+        }
+
+        return $query->paginate($perPage);
     }
 }

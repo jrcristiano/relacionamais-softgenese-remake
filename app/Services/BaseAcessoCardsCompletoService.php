@@ -57,4 +57,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->firstAcessoCardCompletoNotGenerated($id);
     }
+
+    public function findWhereStatusByDocument($status, $document)
+    {
+        return $this->service->findWhereStatusByDocument($status, $document);
+    }
 }

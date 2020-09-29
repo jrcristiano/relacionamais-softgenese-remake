@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class ConsultAwardedController extends Controller
 {
-
     private $historyAcessoCardService;
+    private $acessoCardService;
 
-
-    public function __construct(HistoryAcessoCardService $historyAcessoCardService)
+    public function __construct(HistoryAcessoCardService $historyAcessoCardService, AcessoCardService $acessoCardService)
     {
         $this->historyAcessoCardService = $historyAcessoCardService;
+        $this->acessoCardService = $acessoCardService;
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class ConsultAwardedController extends Controller
      */
     public function index(Request $request)
     {
-        $awardeds = $this->historyAcessoCardService->getAwardedsByAllAwards($request);
+        $awardeds = $this->acessoCardService->getAwardedsByAllAwards($request);
         $filters = $this->historyAcessoCardService->getDataForFilters();
         return view('consult-awardeds.index', compact('awardeds', 'filters'));
     }
