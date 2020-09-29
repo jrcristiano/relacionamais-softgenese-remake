@@ -62,12 +62,10 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->findWhereStatusByDocument($status, $document);
     }
-<<<<<<< HEAD
-=======
 
     public function updateByParamWhereStatusNull(array $data, $param, $value)
     {
         return $this->service->updateByParamWhereStatusNull($data, $param, $value);
     }
->>>>>>> eb136039aab62f7c03e883f4d70488e80f05f7f8
+
 }
