@@ -135,6 +135,12 @@ class AcessoCard extends Award
                     $baseAcessoCardProxy = $baseAcessoCard->base_acesso_card_proxy;
                     $baseAcessoCardNumber = $baseAcessoCard->base_acesso_card_number;
 
+                    $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
+                    $unlikedCard = $unlikedCard->base_acesso_card_number;
+
+                    $unlikedProxy = $baseAcessoCardService->getBaseAcessoCardProxy($unlikedCard);
+                    $unlikedProxy = $unlikedProxy->base_acesso_card_proxy;
+
                     if (!$findBase) {
                         $baseAcessoCardService->update([
                             'base_acesso_card_name' => $names[$key],
@@ -144,15 +150,14 @@ class AcessoCard extends Award
 
                         $params = [];
                         $params['acesso_card_number'] = $baseAcessoCardNumber;
+                        $params['acesso_card_proxy'] = $baseAcessoCardProxy;
                         $this->service->updateByDocument($params, $document);
                     }
-
-                    $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
-                    $unlikedCard = $unlikedCard->base_acesso_card_number;
 
                     if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
                         $this->service->saveByParam([
                             'acesso_card_number' => $unlikedCard,
+                            'acesso_card_proxy' => $unlikedProxy,
                         ], 'acesso_card_award_id', $id);
                     }
 
@@ -165,6 +170,7 @@ class AcessoCard extends Award
 
                         $this->service->saveByParam([
                             'acesso_card_number' => $unlikedCard,
+                            'acesso_card_proxy' => $unlikedProxy,
                         ], 'acesso_card_award_id', $id);
                     }
 

@@ -64,6 +64,13 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->get();
     }
 
+    public function getBaseAcessoCardProxy($unlikedCard)
+    {
+        return $this->repository->select('base_acesso_card_proxy')
+            ->where('base_acesso_card_number', $unlikedCard)
+            ->first();
+    }
+
     public function saveByDocument($data, $document)
     {
         return $this->repository->where('base_acesso_card_cpf', $document)

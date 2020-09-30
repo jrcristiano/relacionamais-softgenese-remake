@@ -116,7 +116,7 @@ class AcessoCardRepository extends Repository
             'shipments_api.shipment_generated',
         ])
         ->leftJoin('shipments_api', 'acesso_cards.acesso_card_award_id', '=', 'shipments_api.shipment_award_id')
-        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_cards_completo.base_acesso_card_proxy')
         ->where('acesso_cards.acesso_card_award_id', $id)
         ->paginate($perPage);
     }
