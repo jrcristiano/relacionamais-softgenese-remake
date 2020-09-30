@@ -70,11 +70,13 @@ class AcessoCard extends Award
                 $params['acesso_card_demand_id'] = $demandId;
                 $params['acesso_card_award_id'] = $save->id;
 
-                if (!$this->service->findByDocument($document) && !$baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                $status = $data['awarded_status'];
+
+                if (!$findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 3) {
                     $this->service->save($params);
                 }
 
-                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 2) {
                     $this->service->saveByParam([
                         'acesso_card_number' => $params['acesso_card_number'],
                     ], 'acesso_card_document', $document);
@@ -83,7 +85,7 @@ class AcessoCard extends Award
                 $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
                 $unlikedCard = $unlikedCard->base_acesso_card_number;
 
-                if (!$findBase && $data['awarded_status'] == 2) {
+                if (!$findBase && $status == 2) {
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
                         'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
@@ -91,31 +93,9 @@ class AcessoCard extends Award
                     ], 'base_acesso_card_number', $unlikedCard);
                 }
 
-                if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
-                    $this->service->saveByParam([
-                        'acesso_card_number' => $unlikedCard,
-                    ], 'acesso_card_document', $document);
-                }
-
-                if ($baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
-                    $baseAcessoCardService->updateByParamWhereStatusNull([
-                        'base_acesso_card_name' => $names[$key],
-                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
-                        'base_acesso_card_status' => 1,
-                    ], 'base_acesso_card_number', $unlikedCard);
-                }
-
-                if ($this->service->findByDocument($document) && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
-                    $params['acesso_card_number'] = $unlikedCard;
+                if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 3) {
+                    $params['acesso_card_number'] = null;
                     $this->service->save($params);
-                }
-
-                if ($baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
-                    $baseAcessoCardService->update([
-                        'base_acesso_card_name' => $names[$key],
-                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
-                        'base_acesso_card_status' => 1,
-                    ], 'base_acesso_card_number', $unlikedCard);
                 }
             }
         }
@@ -149,6 +129,8 @@ class AcessoCard extends Award
                     $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
 
                     $findBase = $baseAcessoCardService->findByDocument($document);
+                    $findAcesso = $this->service->findByDocument($document);
+
                     $baseAcessoCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
                     $baseAcessoCardProxy = $baseAcessoCard->base_acesso_card_proxy;
                     $baseAcessoCardNumber = $baseAcessoCard->base_acesso_card_number;
@@ -163,6 +145,27 @@ class AcessoCard extends Award
                         $params = [];
                         $params['acesso_card_number'] = $baseAcessoCardNumber;
                         $this->service->updateByDocument($params, $document);
+                    }
+
+                    $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
+                    $unlikedCard = $unlikedCard->base_acesso_card_number;
+
+                    if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                        $this->service->saveByParam([
+                            'acesso_card_number' => $unlikedCard,
+                        ], 'acesso_card_award_id', $id);
+                    }
+
+                    if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                        $baseAcessoCardService->update([
+                            'base_acesso_card_name' => $names[$key],
+                            'base_acesso_card_cpf' => $document,
+                            'base_acesso_card_status' => 1,
+                        ], 'base_acesso_card_proxy', $baseAcessoCardProxy);
+
+                        $this->service->saveByParam([
+                            'acesso_card_number' => $unlikedCard,
+                        ], 'acesso_card_award_id', $id);
                     }
 
                     $findAcessoCards = $this->service->getHistoriesByDocument($document);

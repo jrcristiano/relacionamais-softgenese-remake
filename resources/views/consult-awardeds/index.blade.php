@@ -33,8 +33,8 @@
                         <th scope="col">Documento</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Número do cartão</th>
-                        <th scope="col">Status do cartão</th>
                         <th scope="col">Proxy</th>
+                        <th scope="col">Status do cartão</th>
                         <th scope="col">Status</th>
                         <th scope="col">Data</th>
                     </tr>
@@ -42,13 +42,10 @@
                 <tbody>
                     @forelse ($awardeds as $awarded)
                         <tr>
-                            <td class="text-uppercase">{{ $awarded->base_acesso_card_name }}</td>
-                            <td class="text-uppercase">{{ $awarded->base_acesso_card_cpf }}</td>
+                            <td class="text-uppercase">{{ $awarded->acesso_card_name }}</td>
+                            <td class="text-uppercase">{{ $awarded->acesso_card_document }}</td>
                             <td>R$ {{ $awarded->acesso_card_value_formatted }}</td>
                             <td>{{ $awarded->base_acesso_card_number }}</td>
-                            <td class="text-uppercase">
-                                {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : 'Reservado') }}
-                            </td>
                             <td>{{ $awarded->base_acesso_card_proxy }}</td>
                             @php
                                 $status = $awarded->awarded_status == 3 ? 'Pendente' : ($awarded->awarded_status == 2 ? 'Aguardando pagamento' : 'Em remessa');
@@ -62,6 +59,9 @@
                                 }
 
                             @endphp
+                            <td class="text-uppercase">
+                                {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : 'Reservado') }}
+                            </td>
                             <td class="text-uppercase">{{ $status }}</td>
                             <td>{{ $awarded->created_at_formatted }}</td>
                         </tr>
