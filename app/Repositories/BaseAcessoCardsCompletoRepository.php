@@ -71,6 +71,14 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function getBaseAcessoCardProxyByDocument($document)
+    {
+        return $this->repository->select('base_acesso_card_proxy')
+            ->where('base_acesso_card_cpf', $document)
+            ->where('base_acesso_card_status', 1)
+            ->first();
+    }
+
     public function saveByDocument($data, $document)
     {
         return $this->repository->where('base_acesso_card_cpf', $document)
@@ -111,6 +119,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
         ->where('acesso_cards.acesso_card_award_id', $id)
+        ->where('base_acesso_cards_completo.base_acesso_card_status', 1)
         ->get();
     }
 

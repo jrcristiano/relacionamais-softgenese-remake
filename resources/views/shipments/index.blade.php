@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    //dd($hasNotGenerateds)
+    // dd($awards)
 @endphp
 
 <div class="container-fluid">
@@ -66,9 +66,7 @@
                         <th scope="col">Tipo de premiação</th>
                         <th scope="col">Status</th>
                         <th scope="col">Data de emissão</th>
-                        @if(\Request::get('tipo_premiacao'))
-                            <th scope="col">Adic. a remessa</th>
-                        @endif
+                        <th scope="col">Adic. a remessa</th>
                         <th scope="col">Ações</th>
                     </tr>
                     </thead>
@@ -98,14 +96,15 @@
                                     <td class="text-uppercase">{{ $award->awarded_type == 1 ? 'CARTÃO ACESSO' : 'DEPÓSITO EM CONTA' }}</td>
                                     <td class="text-uppercase">{{ $status ?? '' }}</td>
                                     <td>{{ $award->created_at_formatted }}</td>
-                                    @if(\Request::get('tipo_premiacao'))
-                                        <td>
+                                    <td>
+                                        @if(\Request::get('tipo_premiacao'))
+
                                             <div class="custom-control custom-checkbox">
                                                 @if ($award->shipment_generated)
                                                     <i class="fas fa-check text-success"></i>
                                                 @else
                                                     @if (!$award->awarded_shipment_cancelled && $award->awarded_type == 1)
-                                                        <input data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <input {{ $alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated && count($hasNotGenerateds) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
                                                         <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
                                                     @elseif($award->awarded_shipment_cancelled)
                                                         <i aria-hidden="true" class="fas fa-close text-danger"></i>
@@ -119,8 +118,8 @@
                                                     @endif
                                                 @endif
                                             </div>
-                                        </td>
-                                    @endif
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($award->awarded_type == 1)
                                             <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.acesso-cards.show', ['id' => $award->id, 'pedido_id' => $award->awarded_demand_id]) }}">

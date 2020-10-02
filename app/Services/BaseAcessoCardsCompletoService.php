@@ -72,4 +72,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->getBaseAcessoCardProxy($unlikedCard);
     }
+
+    public function getBaseAcessoCardProxyByDocument($document)
+    {
+        return $this->service->getBaseAcessoCardProxyByDocument($document);
+    }
 }

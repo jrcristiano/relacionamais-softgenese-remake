@@ -76,6 +76,13 @@ class AcessoCard extends Award
                     $this->service->save($params);
                 }
 
+                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 3) {
+                    $proxy = $baseAcessoCardService->getBaseAcessoCardProxyByDocument($document);
+                    $proxy = $proxy->base_acesso_card_proxy;
+                    $params['acesso_card_proxy'] = $proxy;
+                    $this->service->save($params);
+                }
+
                 if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 2) {
                     $this->service->saveByParam([
                         'acesso_card_number' => $params['acesso_card_number'],

@@ -38,7 +38,8 @@ class AwardRepository extends Repository
             'awards.*',
             'notes.note_number',
             'shipments_api.shipment_generated',
-            'shipments_api.shipment_file_vinc'
+            'shipments_api.shipment_file_vinc',
+            'shipments_api.shipment_file_vinc_generated',
         ])
         ->where('awarded_status', '=', 1)
         ->whereNotNull('awarded_upload_table')

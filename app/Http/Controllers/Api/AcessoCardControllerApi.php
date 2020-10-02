@@ -104,7 +104,7 @@ class AcessoCardControllerApi extends Controller
 
         foreach ($collectCards as $key => $card) {
             $key = $key + 2;
-            $proxy = $card->base_acesso_card_proxy;
+            $proxy = $card->acesso_card_proxy;
             $sheet->setCellValue("A{$key}", "R{$date}{$field}");
             $sheet->setCellValueExplicit(
                 "B{$key}",

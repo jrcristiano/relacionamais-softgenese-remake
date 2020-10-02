@@ -36,9 +36,9 @@ $(document).ready(function () {
             let url = `${domain}/storage/shipments/${response}`
             console.log(url)
             download(response, url)
-        })
 
-        // window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+        })
 
         $('.alert').addClass('d-none')
     });
