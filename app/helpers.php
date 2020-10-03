@@ -2,9 +2,12 @@
 
     use App\Award;
     use App\Bank;
-    use App\Helpers\Number;
+use App\BaseAcessoCardsCompleto;
+use App\Helpers\Number;
     use App\Repositories\BankRepository;
-    use Illuminate\Support\Facades\DB;
+use App\Repositories\BaseAcessoCardsCompletoRepository;
+use App\Services\BaseAcessoCardsCompletoService;
+use Illuminate\Support\Facades\DB;
 
     // SUBSTITUIR HELPERS POR FACADES
 
@@ -138,4 +141,9 @@
         $pathFileName = "{$path}/{$filename}.txt";
 
         return $pathFileName;
+    }
+
+    function getAcessoCardCompletoNotGenerated($id) {
+        $baseAcessoCardsCompletoService = new BaseAcessoCardsCompletoService(new BaseAcessoCardsCompletoRepository(new BaseAcessoCardsCompleto));
+        return $baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
     }

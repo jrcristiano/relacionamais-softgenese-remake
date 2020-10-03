@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    // dd($awards)
+    // dd()
 @endphp
 
 <div class="container-fluid">
@@ -21,7 +21,7 @@
 
             @if (\Request::get('tipo_premiacao') == 1)
                 @foreach ($alerts as $alert)
-                    @if ($alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated && count($hasNotGenerateds) > 0)
+                    @if ($alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated && count(getAcessoCardCompletoNotGenerated($alert->id)) > 0)
                         <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
                             <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
@@ -104,7 +104,7 @@
                                                     <i class="fas fa-check text-success"></i>
                                                 @else
                                                     @if (!$award->awarded_shipment_cancelled && $award->awarded_type == 1)
-                                                        <input {{ $alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated && count($hasNotGenerateds) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <input {{ $alert->shipment_file_vinc && !$alert->shipment_file_vinc_generated && count(getAcessoCardCompletoNotGenerated($alert->id)) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
                                                         <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
                                                     @elseif($award->awarded_shipment_cancelled)
                                                         <i aria-hidden="true" class="fas fa-close text-danger"></i>
