@@ -52,41 +52,42 @@ class AcessoCard extends Award
 
         foreach ($documents as $key => $document) {
             if ($names[$key] != null) {
-                $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+                $document = str_pad($document, 11, '0', STR_PAD_LEFT);
+                $formattedDocument = \App\Helpers\Text::cleanDocument($document);
 
-                $findBase = $baseAcessoCardService->findByDocument($document);
-                $findAcesso = $this->service->findByDocument($document);
+                $findBase = $baseAcessoCardService->findByDocument($formattedDocument);
+                $findAcesso = $this->service->findByDocument($formattedDocument);
 
-                $acessoCardNumber = $baseAcessoCardService->firstBaseAcessoCardNumberByDocument($document);
+                $acessoCardNumber = $baseAcessoCardService->firstBaseAcessoCardNumberByDocument($formattedDocument);
                 $params = [];
                 $acessoCardDocument = $findAcesso->acesso_card_document ?? null;
                 $acessoCardName = $findAcesso->acesso_card_name ?? null;
-                $params['acesso_card_name'] = $acessoCardName && $acessoCardDocument == $documents[$key] ? $acessoCardName : $names[$key];
+                $params['acesso_card_name'] = $acessoCardName && $acessoCardDocument == $formattedDocument ? $acessoCardName : $names[$key];
                 $params['acesso_card_value'] = $values[$key];
                 $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
                 $params['acesso_card_number'] = $cardNumber;
-                $params['acesso_card_document'] = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+                $params['acesso_card_document'] = str_pad($formattedDocument, 11, '0', STR_PAD_LEFT);
                 $params['acesso_card_spreadsheet_line'] = $key + 1;
                 $params['acesso_card_demand_id'] = $demandId;
                 $params['acesso_card_award_id'] = $save->id;
 
                 $status = $data['awarded_status'];
 
-                if (!$findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 3) {
+                if (!$findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument) && $status == 3) {
                     $this->service->save($params);
                 }
 
-                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 3) {
-                    $proxy = $baseAcessoCardService->getBaseAcessoCardProxyByDocument($document);
+                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument) && $status == 3) {
+                    $proxy = $baseAcessoCardService->getBaseAcessoCardProxyByDocument($formattedDocument);
                     $proxy = $proxy->base_acesso_card_proxy ?? null;
                     $params['acesso_card_proxy'] = $proxy;
                     $this->service->save($params);
                 }
 
-                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 2) {
+                if ($findAcesso && !$baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument) && $status == 2) {
                     $this->service->saveByParam([
                         'acesso_card_number' => $params['acesso_card_number'],
-                    ], 'acesso_card_document', $document);
+                    ], 'acesso_card_document', $formattedDocument);
                 }
 
                 $unlikedCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
@@ -95,12 +96,12 @@ class AcessoCard extends Award
                 if (!$findBase && $status == 2) {
                     $baseAcessoCardService->update([
                         'base_acesso_card_name' => $names[$key],
-                        'base_acesso_card_cpf' => str_pad($document, 11, '0', STR_PAD_LEFT),
+                        'base_acesso_card_cpf' => str_pad($formattedDocument, 11, '0', STR_PAD_LEFT),
                         'base_acesso_card_status' => 1,
                     ], 'base_acesso_card_number', $unlikedCard);
                 }
 
-                if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document) && $status == 3) {
+                if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument) && $status == 3) {
                     $params['acesso_card_number'] = null;
                     $this->service->save($params);
                 }
@@ -133,10 +134,11 @@ class AcessoCard extends Award
         if ($data['awarded_status'] == 2) {
             foreach ($documents as $key => $document) {
                 if ($names[$key]) {
-                    $document = str_pad($documents[$key], 11, '0', STR_PAD_LEFT);
+                    $document = str_pad($document, 11, '0', STR_PAD_LEFT);
+                    $formattedDocument = \App\Helpers\Text::cleanDocument($document);
 
-                    $findBase = $baseAcessoCardService->findByDocument($document);
-                    $findAcesso = $this->service->findByDocument($document);
+                    $findBase = $baseAcessoCardService->findByDocument($formattedDocument);
+                    $findAcesso = $this->service->findByDocument($formattedDocument);
 
                     $baseAcessoCard = $baseAcessoCardService->firstUnlikedBaseCardCompleto();
                     $baseAcessoCardProxy = $baseAcessoCard->base_acesso_card_proxy;
@@ -151,27 +153,27 @@ class AcessoCard extends Award
                     if (!$findBase) {
                         $baseAcessoCardService->update([
                             'base_acesso_card_name' => $names[$key],
-                            'base_acesso_card_cpf' => $document,
+                            'base_acesso_card_cpf' => $formattedDocument,
                             'base_acesso_card_status' => 1,
                         ], 'base_acesso_card_proxy', $baseAcessoCardProxy);
 
                         $params = [];
                         $params['acesso_card_number'] = $baseAcessoCardNumber;
                         $params['acesso_card_proxy'] = $baseAcessoCardProxy;
-                        $this->service->updateByDocument($params, $document);
+                        $this->service->updateByDocument($params, $formattedDocument);
                     }
 
-                    if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument)) {
                         $this->service->saveByParam([
                             'acesso_card_number' => $unlikedCard,
                             'acesso_card_proxy' => $unlikedProxy,
                         ], 'acesso_card_award_id', $id);
                     }
 
-                    if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $document)) {
+                    if ($findAcesso && $baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument)) {
                         $baseAcessoCardService->update([
                             'base_acesso_card_name' => $names[$key],
-                            'base_acesso_card_cpf' => $document,
+                            'base_acesso_card_cpf' => $formattedDocument,
                             'base_acesso_card_status' => 1,
                         ], 'base_acesso_card_proxy', $baseAcessoCardProxy);
 
@@ -181,13 +183,13 @@ class AcessoCard extends Award
                         ], 'acesso_card_award_id', $id);
                     }
 
-                    $findAcessoCards = $this->service->getHistoriesByDocument($document);
+                    $findAcessoCards = $this->service->getHistoriesByDocument($formattedDocument);
 
                     foreach ($findAcessoCards as $findAcessoCard) {
                         if (!$historyAcessoCard->findAcessoCardId($findAcessoCard->id)) {
                             $historyAcessoCard->save([
                                 'history_acesso_card_id' => $findAcessoCard->id,
-                                'history_base_id' => $baseAcessoCardService->findByDocument($document)->id,
+                                'history_base_id' => $baseAcessoCardService->findByDocument($formattedDocument)->id,
                             ]);
                         }
                     }
