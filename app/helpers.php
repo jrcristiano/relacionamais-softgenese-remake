@@ -1,10 +1,10 @@
 <?php
 
-    use App\Award;
-    use App\Bank;
+use App\Award;
+use App\Bank;
 use App\BaseAcessoCardsCompleto;
 use App\Helpers\Number;
-    use App\Repositories\BankRepository;
+use App\Repositories\BankRepository;
 use App\Repositories\BaseAcessoCardsCompletoRepository;
 use App\Services\BaseAcessoCardsCompletoService;
 use Illuminate\Support\Facades\DB;

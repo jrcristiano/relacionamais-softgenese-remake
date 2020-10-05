@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    // dd(getAcessoCardCompletoNotGenerated())
+    // dd($alerts)
 @endphp
 
 <div class="container-fluid">
