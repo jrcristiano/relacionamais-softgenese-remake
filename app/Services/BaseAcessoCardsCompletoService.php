@@ -53,6 +53,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->getAcessoCardCompletoNotGenerated($id);
     }
 
+    public function getAcessoCardCompletoNotGeneratedView()
+    {
+        return $this->service->getAcessoCardCompletoNotGeneratedView();
+    }
+
     public function firstAcessoCardCompletoNotGenerated($id)
     {
         return $this->service->firstAcessoCardCompletoNotGenerated($id);

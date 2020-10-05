@@ -123,6 +123,25 @@ class BaseAcessoCardsCompletoRepository extends Repository
         ->get();
     }
 
+    public function getAcessoCardCompletoNotGeneratedView()
+    {
+        return $this->repository->select([
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_document',
+            'base_acesso_cards_completo.id',
+            'base_acesso_cards_completo.base_acesso_card_cpf',
+            'base_acesso_cards_completo.base_acesso_card_proxy',
+            'acesso_cards.acesso_card_generated'
+        ])
+        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
+        ->whereNull('base_acesso_card_generated')
+        ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
+        ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
+        ->where('base_acesso_cards_completo.base_acesso_card_status', 1)
+        ->where('acesso_cards.acesso_card_generated', 1)
+        ->get();
+    }
+
     public function firstAcessoCardCompletoNotGenerated($id)
     {
         return $this->repository->select([
