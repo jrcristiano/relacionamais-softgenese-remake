@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\AcessoCardService;
 use App\Services\BaseAcessoCardsCompletoService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -88,12 +89,13 @@ class BaseAcessoCardCompletoController extends Controller
             ->where('shipment_award_id', $awardId)
             ->first();
 
+        $date = Carbon::parse(Carbon::now())->format('dm');
         $field = str_pad($field->shipment_last_field, 2, '0', STR_PAD_LEFT);
 
-        $storageFileName = "{$path}/app/public/shipments/TODOSVINC{$field}.xlsx";
+        $storageFileName = "{$path}/app/public/shipments/VINC{$date}{$field}.xlsx";
 
         $writer->save($storageFileName);
 
-        return "TODOSVINC{$field}.xlsx";
+        return "VINC{$date}{$field}.xlsx";
     }
 }
