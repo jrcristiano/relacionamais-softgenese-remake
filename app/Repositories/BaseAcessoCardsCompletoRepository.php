@@ -33,12 +33,21 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function findByDocumentWhereCardActive($document)
+    {
+        return $this->repository->where('base_acesso_card_status', 1)
+            ->where('base_acesso_card_cpf', $document)
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+
     public function getUnlikedBaseCardCompleto()
     {
         return $this->repository->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
             ->whereNull('base_acesso_card_generated')
             ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
             ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
+            ->where('base_acesso_card_status', 1)
             ->get();
     }
 

@@ -23,6 +23,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->firstUnlikedBaseCardCompleto();
     }
 
+    public function findByDocumentWhereCardActive($document)
+    {
+        return $this->service->findByDocumentWhereCardActive($document);
+    }
+
     public function getUnlikedBaseCardCompleto()
     {
         return $this->service->getUnlikedBaseCardCompleto();
