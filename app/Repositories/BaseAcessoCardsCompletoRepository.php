@@ -123,7 +123,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
             'base_acesso_cards_completo.base_acesso_card_proxy',
             'acesso_cards.acesso_card_generated'
         ])
-        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
+        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_proxy', '=', 'acesso_cards.acesso_card_proxy')
         ->whereNull('base_acesso_card_generated')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
@@ -142,7 +142,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
             'base_acesso_cards_completo.base_acesso_card_proxy',
             'acesso_cards.acesso_card_generated'
         ])
-        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_cpf', '=', 'acesso_cards.acesso_card_document')
+        ->leftJoin('acesso_cards', 'base_acesso_cards_completo.base_acesso_card_proxy', '=', 'acesso_cards.acesso_card_proxy')
         ->whereNull('base_acesso_card_generated')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
