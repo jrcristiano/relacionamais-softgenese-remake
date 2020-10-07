@@ -44,7 +44,10 @@
         <span class="sgi-tag mt-3">Financeiro</span>
             <ul class="nav flex-column sgi-left-bar">
                 <li class="nav-item sgi-link-menu">
-                    <a class="btn btn-primary btn-block text-left" href="{{ route('admin.financial.bills') }}">
+                    <a class="btn btn-primary btn-block text-left" href="{{ route('admin.financial.bills', [
+                        'bill_in' => date('Y-m-d'),
+                        'bill_until' => date('Y-m-d')
+                    ]) }}">
                         <i class="fas fa-file-invoice-dollar ml-4"></i> Contas a pagar
                     </a>
                 </li>

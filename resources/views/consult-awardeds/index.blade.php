@@ -60,7 +60,7 @@
 
                             @endphp
                             <td class="text-uppercase">
-                                {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : 'Reservado') }}
+                                {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : '') }}
                             </td>
                             <td class="text-uppercase">{{ $status }}</td>
                             <td>{{ $awarded->created_at_formatted }}</td>

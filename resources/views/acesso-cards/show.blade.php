@@ -2,7 +2,7 @@
 @section('title', "Lista de premiações")
 @section('content')
 @php
-    // dd($acessoCards);
+    //dd($acessoCards);
 @endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
@@ -42,10 +42,10 @@
                 <tbody>
                     @forelse ($acessoCards as $acessoCard)
                         <tr>
-                            <td class="text-uppercase {{ $acessoCard->acesso_card_generated == 1 ? '' : 'font-weight-bold' }}">{{ $acessoCard->acesso_card_name }}</td>
+                            <td class="text-uppercase {{ $acessoCard->base_acesso_card_generated == null ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
-                            <td class="{{ $acessoCard->acesso_card_generated == 1 ? '' : 'font-weight-bold' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->base_acesso_card_proxy : null }}</td>
-                            <td class="{{ $acessoCard->acesso_card_generated == 1 ? '' : 'font-weight-bold' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->base_acesso_card_number : 'EMITIR CARTÃO' }}</td>
+                            <td class="{{ $acessoCard->base_acesso_card_generated == null ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->base_acesso_card_proxy : null }}</td>
+                            <td class="{{ $acessoCard->base_acesso_card_generated == null ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->base_acesso_card_number : 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>
                                 @if (!$acessoCard->acesso_card_chargeback)
