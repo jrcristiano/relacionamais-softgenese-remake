@@ -12,6 +12,7 @@ class AcessoCard extends Model
         'acesso_card_value',
         'acesso_card_number',
         'acesso_card_proxy',
+        'acesso_card_already_exists',
         'acesso_card_spreadsheet_line',
         'acesso_card_demand_id',
         'acesso_card_award_id',

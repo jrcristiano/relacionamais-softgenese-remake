@@ -73,6 +73,10 @@ class AcessoCard extends Award
 
                 $status = $data['awarded_status'];
 
+                if ($findAcesso) {
+                    $params['acesso_card_already_exists'] = 1;
+                }
+
                 $statusActive = $baseAcessoCardService->findWhereStatusByDocument(1, $formattedDocument);
                 $statusCancelled = $baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument);
 
