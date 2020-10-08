@@ -29,6 +29,9 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function firstUnlikedBaseCardCompleto()
     {
         return $this->repository->whereNull('base_acesso_card_cpf')
+            ->where('base_acesso_card_status', 1)
+            ->orWhereNull('base_acesso_card_status')
+            ->whereNull('base_acesso_card_status')
             ->orderBy('id', 'desc')
             ->first();
     }
@@ -77,6 +80,9 @@ class BaseAcessoCardsCompletoRepository extends Repository
     {
         return $this->repository->select('base_acesso_card_proxy')
             ->where('base_acesso_card_number', $unlikedCard)
+            ->where('base_acesso_card_status', 1)
+            ->orWhereNull('base_acesso_card_status')
+            ->orWhereNull('base_acesso_card_status')
             ->first();
     }
 
@@ -172,6 +178,15 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function saveByParam(array $data, $param, $value)
     {
         return $this->repository->where($param, $value)
+            ->update($data);
+    }
+
+    public function updateWhereStatusNotCancelledAndStatusNotReserved(array $data, $param, $value)
+    {
+        return $this->repository->where('base_acesso_card_status', '!=', 2)
+            ->where('base_acesso_card_status', '!=', 3)
+            ->whereNull('base_acesso_card_status')
+            ->where($param, $value)
             ->update($data);
     }
 }

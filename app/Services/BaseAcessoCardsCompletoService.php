@@ -87,4 +87,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->getBaseAcessoCardProxyByDocument($document);
     }
+
+    public function updateWhereStatusNotCancelledAndStatusNotReserved(array $data, $param, $value)
+    {
+        return $this->service->updateWhereStatusNotCancelledAndStatusNotReserved($data, $param, $value);
+    }
 }

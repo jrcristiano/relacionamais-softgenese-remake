@@ -120,8 +120,6 @@ class AcessoCard extends Award
                     $params['acesso_card_proxy'] = $activeCard->base_acesso_card_proxy;
                     $this->service->save($params);
                 }
-
-                // E se só existir ativo sem cancelado?
             }
         }
     }

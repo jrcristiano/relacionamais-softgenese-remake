@@ -75,8 +75,11 @@ class BillController extends Controller
             $this->cashFlowRepo->save($flowData);
         }
 
-        return redirect()->route('admin.financial.bills')
-            ->with('message', 'Conta cadastrada com sucesso!');
+        return redirect()->route('admin.financial.bills', [
+            'bill_in' => date('Y-m-d'),
+            'bill_until' => date('Y-m-d')
+        ])
+        ->with('message', 'Conta cadastrada com sucesso!');
     }
 
     /**
