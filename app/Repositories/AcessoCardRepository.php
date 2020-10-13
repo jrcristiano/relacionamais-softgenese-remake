@@ -149,6 +149,7 @@ class AcessoCardRepository extends Repository
     public function findInfoAcessoCard($document)
     {
         return $this->repository->select([
+            'acesso_cards.acesso_card_name',
             'acesso_cards.acesso_card_proxy',
             'acesso_cards.acesso_card_value',
             'acesso_cards.acesso_card_document',

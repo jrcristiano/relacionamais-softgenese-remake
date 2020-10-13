@@ -2,6 +2,10 @@
 @section('title', 'Premiações')
 @section('content')
 
+@php
+    // dd($acessoCards)
+@endphp
+
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
         @include('components.leftbar')
@@ -10,7 +14,7 @@
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="sgi-content-title">Premiações </h2>
+                <h2 class="sgi-content-title">{{ $acessoCards[0]->acesso_card_name }} | {{ $acessoCards[0]->acesso_card_document }}</h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
