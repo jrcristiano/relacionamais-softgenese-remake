@@ -137,10 +137,10 @@ class AcessoCardRepository extends Repository
         ->orderBy('acesso_cards.id', 'desc');
 
         if ($request->search) {
-            $query->orWhere('base_acesso_card_name', 'like', "%{$request->search}%")
-                ->orWhere('base_acesso_card_number', 'like', "%{$request->search}%")
-                ->orWhere('base_acesso_card_cpf', 'like', "%{$request->search}%")
-                ->orWhere('base_acesso_card_proxy', 'like', "%{$request->search}%");
+            $query->orWhere('acesso_cards.acesso_card_name', 'like', "%{$request->search}%")
+                ->orWhere('acesso_cards.acesso_card_number', 'like', "%{$request->search}%")
+                ->orWhere('acesso_cards.acesso_card_document', 'like', "%{$request->search}%")
+                ->orWhere('acesso_cards.acesso_card_proxy', 'like', "%{$request->search}%");
         }
 
         return $query->paginate($perPage);
