@@ -133,7 +133,7 @@ class AcessoCardRepository extends Repository
         ])
         ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
         ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
-        ->groupBy('base_acesso_cards_completo.base_acesso_card_cpf')
+        ->groupBy('acesso_cards.acesso_card_document')
         ->orderBy('acesso_cards.id', 'desc');
 
         if ($request->search) {
