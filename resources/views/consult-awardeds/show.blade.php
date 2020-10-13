@@ -41,7 +41,7 @@
                         <tr>
                             <td class="text-uppercase">{{ $acessoCard->demand_client_name }}</td>
                             <td class="text-uppercase">{{ $acessoCard->base_acesso_card_number }}</td>
-                            <td>{{ $acessoCard->base_acesso_card_proxy }}</td>
+                            <td>{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
                             <td>{{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td class="text-uppercase">
                                {{ $acessoCard->awarded_status === 3 ? 'PENDENTE' : ($acessoCard->awarded_status === 2 ? 'AGUARDANDO PAGAMENTO' : ($acessoCard->awarded_status === 1 && $acessoCard->shipment_generated === null ? 'ENVIADO PARA REMESSA' : ($acessoCard->awarded_status === 1 && $acessoCard->shipment_generated === 1 ? 'REMESSA GERADA' : ''))) }}
