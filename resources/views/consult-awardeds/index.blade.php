@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Consulta de premiados')
+@section('title', 'Consulta de acesso cards')
 @section('content')
 @php
     // dd($awardeds)
@@ -10,8 +10,10 @@
         @include('components.leftbar')
         <div class="col-lg-10 sgi-container shadow-sm rounded p-0">
             <header class="sgi-content-header d-flex align-items-center">
-                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0"><i class="fas fa-bars"></i></button>
-                <h2 class="sgi-content-title">Consulta de premiados</h2>
+                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="sgi-content-title">Cartões AcessoCard</h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
@@ -23,7 +25,13 @@
             @include('components.message')
 
             <div class="col-lg-12 mt-4 d-flex flex-nowrap mb-2">
-                <input id="filter_table" type="text" placeholder="Nome, documento e etc." class="col-lg-3 ml-auto form-control mr-sm-2">
+                <form class="col-md-12 d-flex p-0" action="" method="get">
+                    <input class="form-control w-25" value="{{ old('search', \Request::get('search')) }}" type="text" name="search" id="search" placeholder="Nome, CPF, número do cartão e proxy..." />
+
+                    <button id="btn-date" class="btn btn-primary mr-2 ml-2" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
             </div>
 
             <table id="client_table" class="table table-sm table-striped table-hover">
@@ -31,7 +39,6 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Documento</th>
-                        <th scope="col">Valor</th>
                         <th scope="col">Número do cartão</th>
                         <th scope="col">Proxy</th>
                         <th scope="col">Status do cartão</th>
@@ -44,7 +51,6 @@
                         <tr>
                             <td class="text-uppercase">{{ $awarded->acesso_card_name }}</td>
                             <td class="text-uppercase">{{ $awarded->acesso_card_document }}</td>
-                            <td>R$ {{ $awarded->acesso_card_value_formatted }}</td>
                             <td>{{ $awarded->base_acesso_card_number }}</td>
                             <td>{{ $awarded->base_acesso_card_proxy }}</td>
                             @php

@@ -134,16 +134,11 @@ class AcessoCardRepository extends Repository
         ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
         ->groupBy('base_acesso_cards_completo.base_acesso_card_proxy');
 
-        if ($request->name) {
-            $query->where('base_acesso_card_name', $request->name);
-        }
-
-        if ($request->cpf) {
-            $query->where('base_acesso_card_cpf', $request->cpf);
-        }
-
-        if ($request->proxy) {
-            $query->where('base_acesso_card_proxy', $request->proxy);
+        if ($request->search) {
+            $query->orWhere('base_acesso_card_name', 'like', "%{$request->search}%")
+                ->orWhere('base_acesso_card_number', 'like', "%{$request->search}%")
+                ->orWhere('base_acesso_card_cpf', 'like', "%{$request->search}%")
+                ->orWhere('base_acesso_card_proxy', 'like', "%{$request->search}%");
         }
 
         return $query->paginate($perPage);

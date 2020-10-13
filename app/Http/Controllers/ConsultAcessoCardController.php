@@ -6,7 +6,7 @@ use App\Services\HistoryAcessoCardService;
 use App\Services\AcessoCardService;
 use Illuminate\Http\Request;
 
-class ConsultAwardedController extends Controller
+class ConsultAcessoCardController extends Controller
 {
     private $historyAcessoCardService;
     private $acessoCardService;
