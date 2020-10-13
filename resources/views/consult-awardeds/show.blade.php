@@ -10,7 +10,7 @@
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="sgi-content-title">Premiações</h2>
+                <h2 class="sgi-content-title">Premiações </h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
@@ -40,8 +40,8 @@
                     @forelse ($acessoCards as $acessoCard)
                         <tr>
                             <td class="text-uppercase">{{ $acessoCard->demand_client_name }}</td>
-                            <td class="text-uppercase">{{ $acessoCard->acesso_card_number }}</td>
-                            <td>{{ $acessoCard->acesso_card_proxy }}</td>
+                            <td class="text-uppercase">{{ $acessoCard->base_acesso_card_number }}</td>
+                            <td>{{ $acessoCard->base_acesso_card_proxy }}</td>
                             <td>{{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td class="text-uppercase">
                                {{ $acessoCard->awarded_status === 3 ? 'PENDENTE' : ($acessoCard->awarded_status === 2 ? 'AGUARDANDO PAGAMENTO' : ($acessoCard->awarded_status === 1 && $acessoCard->shipment_generated === null ? 'ENVIADO PARA REMESSA' : ($acessoCard->awarded_status === 1 && $acessoCard->shipment_generated === 1 ? 'REMESSA GERADA' : ''))) }}

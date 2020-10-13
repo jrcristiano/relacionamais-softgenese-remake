@@ -150,9 +150,9 @@ class AcessoCardRepository extends Repository
     {
         return $this->repository->select([
             'acesso_cards.acesso_card_proxy',
-            'acesso_cards.acesso_card_number',
             'acesso_cards.acesso_card_value',
             'acesso_cards.acesso_card_document',
+            'base_acesso_cards_completo.base_acesso_card_number',
             'base_acesso_cards_completo.base_acesso_card_proxy',
             'acesso_cards.created_at',
             'demands.demand_client_name',
