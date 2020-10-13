@@ -171,11 +171,9 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::group(['prefix' => 'operacional', 'as' => 'operational.'], function () {
             Route::get('/central-de-atendimento', 'CallCenterController@index')->name('call-center');
-            Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardController@index')->name('consult-acesso-cards');
-        });
 
-        Route::group(['prefix' => 'download'], function () {
-            Route::get('/', 'DownloadController@download')->name('download');
+            Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardController@index')->name('consult-acesso-cards');
+            Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardController@show')->name('consult-acesso-cards.show');
         });
     });
 });

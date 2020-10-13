@@ -129,6 +129,7 @@ class AcessoCardRepository extends Repository
             'awards.awarded_status',
             'base_acesso_cards_completo.*',
             'acesso_cards.*',
+            'acesso_cards.id as acesso_card_id',
         ])
         ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
         ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
@@ -142,5 +143,24 @@ class AcessoCardRepository extends Repository
         }
 
         return $query->paginate($perPage);
+    }
+
+    public function findInfoAcessoCard($document)
+    {
+        return $this->repository->select([
+            'acesso_cards.acesso_card_proxy',
+            'acesso_cards.acesso_card_number',
+            'acesso_cards.acesso_card_value',
+            'acesso_cards.acesso_card_document',
+            'acesso_cards.created_at',
+            'demands.demand_client_name',
+            'awards.awarded_status',
+            'shipments_api.shipment_generated',
+        ])
+        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
+        ->leftJoin('demands', 'awards.awarded_demand_id', '=', 'demands.id')
+        ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
+        ->where('acesso_cards.acesso_card_document', $document)
+        ->get();
     }
 }

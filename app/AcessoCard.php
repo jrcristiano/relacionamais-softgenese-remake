@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class AcessoCard extends Model
@@ -23,5 +24,10 @@ class AcessoCard extends Model
     public function getAcessoCardValueFormattedAttribute()
     {
         return number_format($this->attributes['acesso_card_value'], 2, ',', '.');
+    }
+
+    public function getCreatedAtFormattedAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 }

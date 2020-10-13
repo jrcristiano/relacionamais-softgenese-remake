@@ -42,8 +42,7 @@
                         <th scope="col">Número do cartão</th>
                         <th scope="col">Proxy</th>
                         <th scope="col">Status do cartão</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Data</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,23 +52,14 @@
                             <td class="text-uppercase">{{ $awarded->acesso_card_document }}</td>
                             <td>{{ $awarded->base_acesso_card_number }}</td>
                             <td>{{ $awarded->base_acesso_card_proxy }}</td>
-                            @php
-                                $status = $awarded->awarded_status == 3 ? 'Pendente' : ($awarded->awarded_status == 2 ? 'Aguardando pagamento' : 'Em remessa');
-
-                                if ($awarded->acesso_card_generated) {
-                                    $status = 'Remessa gerada';
-                                }
-
-                                if ($awarded->acesso_card_chargeback) {
-                                    $status = 'Remessa cancelada';
-                                }
-
-                            @endphp
                             <td class="text-uppercase">
                                 {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : '') }}
                             </td>
-                            <td class="text-uppercase">{{ $status }}</td>
-                            <td>{{ $awarded->created_at_formatted }}</td>
+                            <td>
+                                <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.consult-acesso-cards.show', ['document' => $awarded->acesso_card_document]) }}">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <td colspan="10" class="text-center">
