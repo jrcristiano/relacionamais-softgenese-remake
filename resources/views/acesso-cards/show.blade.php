@@ -2,7 +2,7 @@
 @section('title', "Lista de premiações")
 @section('content')
 @php
-    //dd($acessoCards);
+    // dd($acessoCards);
 @endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
@@ -47,8 +47,8 @@
                             @endphp
                             <td class="text-uppercase {{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_name }}</td>
                             <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
-                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->base_acesso_card_proxy : null }}</td>
-                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->base_acesso_card_number : 'EMITIR CARTÃO' }}</td>
+                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
+                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->acesso_card_number : 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>
                                 @if (!$acessoCard->acesso_card_chargeback)
