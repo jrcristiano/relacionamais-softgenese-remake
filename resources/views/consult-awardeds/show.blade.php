@@ -32,6 +32,8 @@
             <table id="client_table" class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
+                        <th scope>ID pedido</th>
+                        <th scope>ID premiação</th>
                         <th scope="col">Empresa</th>
                         <th scope="col">Número do cartão</th>
                         <th scope="col">Proxy do cartão</th>
@@ -43,12 +45,19 @@
                 <tbody>
                     @forelse ($acessoCards as $acessoCard)
                         <tr>
-                            <td class="text-uppercase">{{ $acessoCard->demand_client_name }}</td>
+                            <th class="text-uppercase">{{ $acessoCard->demand_id }}</td>
+                            <th class="text-uppercase">{{ $acessoCard->award_id }}</td>
+                            <td class="text-uppercase">
+                                {{ $acessoCard->demand_client_name }} | PREMIAÇÃO {{ $acessoCard->award_id }}
+                            </td>
                             <td class="text-uppercase">{{ $acessoCard->base_acesso_card_number }}</td>
                             <td>{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
                             <td>{{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td class="text-uppercase">
-                               {{ $acessoCard->awarded_status === 3 ? 'PENDENTE' : ($acessoCard->awarded_status === 2 ? 'AGUARDANDO PAGAMENTO' : ($acessoCard->awarded_status === 1 && $acessoCard->shipment_generated === null ? 'ENVIADO PARA REMESSA' : ($acessoCard->awarded_status === 1 && $acessoCard->shipment_generated === 1 ? 'REMESSA GERADA' : ''))) }}
+                                @php
+                                    // dd($acessoCard->awarded_status)
+                                @endphp
+                               {{ $acessoCard->awarded_status == 3 ? 'PENDENTE' : ($acessoCard->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($acessoCard->awarded_status == 1 && $acessoCard->shipment_generated == null ? 'ENVIADO PARA REMESSA' : ($acessoCard->awarded_status == 1 && $acessoCard->shipment_generated == 1 ? 'REMESSA GERADA' : ''))) }}
                             </td>
                             <td>{{ $acessoCard->created_at_formatted }}</td>
                         </tr>

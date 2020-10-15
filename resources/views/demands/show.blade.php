@@ -102,6 +102,7 @@
                     <table id="client_table" class="table table-sm table-striped table-hover mt-3">
                     <thead>
                         <tr>
+                            <th scope="col">ID</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Tipo de premiação</th>
                             <th scope="col">Status</th>
@@ -112,6 +113,7 @@
                             <tbody>
                                 @forelse ($awards as $award)
                                     <tr>
+                                        <th class="text-uppercase">{{ $award->id }}</th>
                                         <td>R$ {{ $award->awarded_value_formatted }}</td>
                                         <td class="text-uppercase">{{ $award->awarded_type == 3 ? 'PAGAMENTO MANUAL' : ($award->awarded_type == 2 ? 'DEPÓSITO EM CONTA' : ($award->awarded_type == 1 ? 'CARTÃO ACESSO' : '')) }}</td>
                                         @php

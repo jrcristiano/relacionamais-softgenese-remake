@@ -157,6 +157,8 @@ class AcessoCardRepository extends Repository
             'base_acesso_cards_completo.base_acesso_card_proxy',
             'acesso_cards.created_at',
             'demands.demand_client_name',
+            'demands.id as demand_id',
+            'awards.id as award_id',
             'awards.awarded_status',
             'shipments_api.shipment_generated',
         ])
