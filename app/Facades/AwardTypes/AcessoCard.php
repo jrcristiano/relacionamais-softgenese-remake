@@ -52,8 +52,8 @@ class AcessoCard extends Award
 
         foreach ($documents as $key => $document) {
             if ($names[$key] != null) {
-                $document = str_pad($document, 11, '0', STR_PAD_LEFT);
                 $formattedDocument = \App\Helpers\Text::cleanDocument($document);
+                $formattedDocument = str_pad($formattedDocument, 11, '0', STR_PAD_LEFT);
                 $formattedDocument = trim($formattedDocument);
 
                 $findBase = $baseAcessoCardService->findByDocument($formattedDocument);
@@ -153,8 +153,8 @@ class AcessoCard extends Award
         if ($data['awarded_status'] == 2) {
             foreach ($documents as $key => $document) {
                 if ($names[$key]) {
-                    $document = str_pad($document, 11, '0', STR_PAD_LEFT);
                     $formattedDocument = \App\Helpers\Text::cleanDocument($document);
+                    $formattedDocument = str_pad($formattedDocument, 11, '0', STR_PAD_LEFT);
                     $formattedDocument = trim($formattedDocument);
 
                     $findBase = $baseAcessoCardService->findByDocument($formattedDocument);
