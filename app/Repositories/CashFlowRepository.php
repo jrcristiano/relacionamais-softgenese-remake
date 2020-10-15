@@ -63,8 +63,7 @@ class CashFlowRepository extends Repository
         ->orderBy('cash_flows.id', 'asc')
         ->where('cash_flows.flow_hide_line', 0)
         ->whereNull('spreadsheets.spreadsheet_chargeback')
-        ->whereNull('demands.deleted_at')
-        ->where('awards.awarded_status', '!=', 4);
+        ->whereNull('demands.deleted_at');
 
         if (in_array(null, $between) && $bankId == null) {
             return $query->paginate($perPage);
