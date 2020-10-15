@@ -18,7 +18,7 @@
                     ])
 
                     <div class="col-md-12 mt-2">
-                        @if($cashFlows->count() >= 100)
+                        @if($cashFlows->count() >= 200)
                             {!!
                                 $cashFlows->appends([
                                     'cash_flow_in' => \Request::get('cash_flow_in'),

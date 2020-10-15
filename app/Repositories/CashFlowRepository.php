@@ -63,7 +63,8 @@ class CashFlowRepository extends Repository
         ->orderBy('cash_flows.id', 'asc')
         ->where('cash_flows.flow_hide_line', 0)
         ->whereNull('spreadsheets.spreadsheet_chargeback')
-        ->whereNull('demands.deleted_at');
+        ->whereNull('demands.deleted_at')
+        ->where('awards.awarded_status', '!=', 4);
 
         if (in_array(null, $between) && $bankId == null) {
             return $query->paginate($perPage);
@@ -286,6 +287,8 @@ class CashFlowRepository extends Repository
 
             $awardManualsValue = (float) $awardManuals->whereBetween('flow_movement_date', $between)
                 ->first()->award_manual_value ?? 0;
+
+            $awardAcessoCards = $awardAcessoCards->whereBetween('flow_movement_date', $between);
 
             $awards = (float) $queryReceive->first()->award_real_value ?? 0;
             $shipments = (float) $queryShipment->first()->shipment_value ?? 0;

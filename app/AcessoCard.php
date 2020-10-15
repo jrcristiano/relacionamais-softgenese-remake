@@ -21,21 +21,6 @@ class AcessoCard extends Model
         'acesso_card_generated',
     ];
 
-    public function setAcessoCardDocumentAttribute($value)
-    {
-        $this->attributes['acesso_card_document'] = trim($value);
-    }
-
-    public function setAcessoCardNumberAttribute($value)
-    {
-        $this->attributes['acesso_card_number'] = trim($value);
-    }
-
-    public function setAcessoCardProxyAttribute($value)
-    {
-        $this->attributes['acesso_card_proxy'] = trim($value);
-    }
-
     public function getAcessoCardValueFormattedAttribute()
     {
         return number_format($this->attributes['acesso_card_value'], 2, ',', '.');

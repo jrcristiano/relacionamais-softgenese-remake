@@ -54,18 +54,24 @@ class AcessoCard extends Award
             if ($names[$key] != null) {
                 $document = str_pad($document, 11, '0', STR_PAD_LEFT);
                 $formattedDocument = \App\Helpers\Text::cleanDocument($document);
+                $formattedDocument = trim($formattedDocument);
 
                 $findBase = $baseAcessoCardService->findByDocument($formattedDocument);
                 $findAcesso = $this->service->findByDocument($formattedDocument);
 
                 $acessoCardNumber = $baseAcessoCardService->firstBaseAcessoCardNumberByDocument($formattedDocument);
+                $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
+
+                $proxy = $baseAcessoCardService->getBaseAcessoCardProxyByDocument($formattedDocument);
+                $proxy = $proxy->base_acesso_card_proxy ?? null;
+
                 $params = [];
                 $acessoCardDocument = $findAcesso->acesso_card_document ?? null;
                 $acessoCardName = $findAcesso->acesso_card_name ?? null;
                 $params['acesso_card_name'] = $acessoCardName && $acessoCardDocument == $formattedDocument ? $acessoCardName : $names[$key];
                 $params['acesso_card_value'] = $values[$key];
-                $cardNumber = $acessoCardNumber->base_acesso_card_number ?? null;
                 $params['acesso_card_number'] = $cardNumber;
+                $params['acesso_card_proxy'] = $proxy;
                 $params['acesso_card_document'] = str_pad($formattedDocument, 11, '0', STR_PAD_LEFT);
                 $params['acesso_card_spreadsheet_line'] = $key + 1;
                 $params['acesso_card_demand_id'] = $demandId;
@@ -85,8 +91,6 @@ class AcessoCard extends Award
                 }
 
                 if ($findAcesso && !$statusCancelled && $status == 3) {
-                    $proxy = $baseAcessoCardService->getBaseAcessoCardProxyByDocument($formattedDocument);
-                    $proxy = $proxy->base_acesso_card_proxy ?? null;
                     $params['acesso_card_proxy'] = $proxy;
                     $this->service->save($params);
                 }
@@ -151,6 +155,7 @@ class AcessoCard extends Award
                 if ($names[$key]) {
                     $document = str_pad($document, 11, '0', STR_PAD_LEFT);
                     $formattedDocument = \App\Helpers\Text::cleanDocument($document);
+                    $formattedDocument = trim($formattedDocument);
 
                     $findBase = $baseAcessoCardService->findByDocument($formattedDocument);
                     $findAcesso = $this->service->findByDocument($formattedDocument);
