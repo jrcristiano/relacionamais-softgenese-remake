@@ -37,11 +37,12 @@ class ReceiveController extends Controller
         $receives = $this->receiveRepo->getDataDemandsNotesBanksByPaginate(500, $filter);
         $awardTotal = $this->receiveRepo->getAwardTotal($filter);
         $patrimonyTotal = $this->receiveRepo->getPatrimonyTotal($filter);
+        $demandTaxableManual = $this->receiveRepo->getTaxableManual($filter);
         $otherValueTotal = $this->receiveRepo->getOtherValues($filter);
 
-        $saleTotal = $awardTotal->award_total + $patrimonyTotal->patrimony_total + $otherValueTotal->other_value_total;
+        $saleTotal = $awardTotal->award_total + $patrimonyTotal->patrimony_total + $otherValueTotal->other_value_total + $demandTaxableManual->taxable_manual;
 
-        return view('receives.index', compact('receives', 'clients', 'awardTotal', 'patrimonyTotal', 'otherValueTotal', 'saleTotal'));
+        return view('receives.index', compact('receives', 'clients', 'awardTotal', 'patrimonyTotal', 'otherValueTotal', 'demandTaxableManual', 'saleTotal'));
     }
 
     /**

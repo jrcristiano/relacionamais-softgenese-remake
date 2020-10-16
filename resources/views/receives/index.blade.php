@@ -114,7 +114,7 @@
                             <div class="col-md-3 mt-3">
                                 <h5 class="sgi-content-title">
                                     @php
-                                        $receivePatrimonyTotal = $patrimonyTotal->patrimony_total + $otherValueTotal->other_value_total;
+                                        $receivePatrimonyTotal = $patrimonyTotal->patrimony_total + $otherValueTotal->other_value_total + $demandTaxableManual->taxable_manual;
                                     @endphp
                                 <span class="font-weight-bold">Patrimônio R$ {{ number_format($receivePatrimonyTotal, 2, ',', '.') }}</span>
                                 </h5>
