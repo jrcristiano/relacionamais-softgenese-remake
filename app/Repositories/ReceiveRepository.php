@@ -86,11 +86,9 @@ class ReceiveRepository extends Repository
         }
 
         if ($between[0] && $between[1] && $status == 2 && !$client) {
-            return $query->where(function ($query) use ($between, $status) {
-                $query->whereBetween('note_receipt_date', $between)
-                    ->where('notes.note_status', $status);
-            })
-            ->first();
+            return $query->whereBetween('note_receipt_date', $between)
+                ->where('notes.note_status', $status)
+                ->first();
         }
 
         if ($between[0] && $between[1] && $status != 2 && $client) {
@@ -113,12 +111,10 @@ class ReceiveRepository extends Repository
         }
 
         if ($between[0] && $between[1] && $status == 2 && $client) {
-            return $query->where(function ($query) use ($between, $status, $client) {
-                $query->whereBetween('note_receipt_date', $between)
-                    ->where('notes.note_status', $status)
-                    ->where('demands.demand_client_name', $client);
-            })
-            ->first();
+            return $query->whereBetween('note_receipt_date', $between)
+                ->where('notes.note_status', $status)
+                ->where('demands.demand_client_name', $client)
+                ->first();
         }
 
         if ($between[0] && $between[1] && !$status && $client) {
