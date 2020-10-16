@@ -23,7 +23,7 @@ class ReceiveRepository extends Repository
         $this->noteReceipt = $noteReceipt;
     }
 
-    public function getDataDemandsNotesBanksByPaginate($perPage = 50, array $filter = [], $id = null)
+    public function getDataDemandsNotesBanksByPaginate($perPage = 500, array $filter = [], $id = null)
     {
         $query = $this->demandRepo->select([
             'demands.demand_client_name',

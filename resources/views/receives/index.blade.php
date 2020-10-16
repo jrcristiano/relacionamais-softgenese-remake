@@ -98,18 +98,15 @@
                             @endforelse
                         </tbody>
                     </table>
-                    @if ($receives->count() >= 100)
-                        <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
-                            {!!
-                                $receives->appends([
-                                    'receive_in' => \Request::get('receive_in'),
-                                    'receive_until' => \Request::get('receive_until'),
-                                    'receive_status' => \Request::get('receive_status')
-                                ])
-                                ->links()
-                            !!}
-                            <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
-                        </div>
+                    @if ($receives->count() >= 500)
+                        {!!
+                            $receives->appends([
+                                'receive_in' => \Request::get('receive_in'),
+                                'receive_until' => \Request::get('receive_until'),
+                                'receive_status' => \Request::get('receive_status')
+                            ])
+                            ->links()
+                        !!}
                     @endif
 
                     <div class="container-fluid position-fixed py-4 bg-white" style="bottom: 0; border-top: 1px solid #DDD;">
