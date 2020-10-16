@@ -144,7 +144,7 @@ class ReceiveRepository extends Repository
                 ->paginate($perPage);
         }
 
-        if ($status == 2) {
+        if ($status) {
             return $query->where('notes.note_status', $status)
                 ->paginate($perPage);
         }
@@ -410,7 +410,20 @@ class ReceiveRepository extends Repository
         $query = $this->demandRepo->leftJoin('notes', 'demands.id', '=', 'notes.note_demand_id')
             ->select(DB::raw('SUM(demand_other_value) as other_value_total'));
 
-        if ($between[0] && $between[1] && $status && !$client) {
+        if ($between[0] && $between[1] && !$status && !$client) {
+            return $query->orWhere(function ($query) use ($between) {
+                $query->whereBetween('note_due_date', $between);
+            })
+            ->orWhere(function ($query) use ($between) {
+                $query->whereBetween('notes.note_created_at', $between);
+            })
+            ->orWhere(function ($query) use ($between) {
+                $query->whereBetween('note_receipt_date', $between);
+            })
+            ->first();
+        }
+
+        if ($between[0] && $between[1] && $status != 2 && !$client) {
             return $query->orWhere(function ($query) use ($between, $status) {
                 $query->whereBetween('note_due_date', $between)
                     ->where('notes.note_status', $status);
@@ -423,6 +436,12 @@ class ReceiveRepository extends Repository
                     $query->whereBetween('note_receipt_date', $between)
                         ->where('notes.note_status', $status);
                 })
+                ->first();
+        }
+
+        if ($between[0] && $between[1] && $status == 2 && !$client) {
+            return $query->whereBetween('note_receipt_date', $between)
+                ->where('notes.note_status', $status)
                 ->first();
         }
 
@@ -442,6 +461,13 @@ class ReceiveRepository extends Repository
                         ->where('notes.note_status', $status)
                         ->where('demands.demand_client_name', $client);
                 })
+                ->first();
+        }
+
+        if ($between[0] && $between[1] && $status == 2 && $client) {
+            return $query->whereBetween('note_receipt_date', $between)
+                ->where('notes.note_status', $status)
+                ->where('demands.demand_client_name', $client)
                 ->first();
         }
 

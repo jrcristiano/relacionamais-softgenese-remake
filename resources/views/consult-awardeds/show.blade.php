@@ -48,7 +48,7 @@
                             <th class="text-uppercase">{{ $acessoCard->demand_id }}</td>
                             <th class="text-uppercase">{{ $acessoCard->award_id }}</td>
                             <td class="text-uppercase">
-                                {{ $acessoCard->demand_client_name }} | PREMIAÇÃO {{ $acessoCard->award_id }}
+                                {{ $acessoCard->demand_client_name }}
                             </td>
                             <td class="text-uppercase">{{ $acessoCard->base_acesso_card_number }}</td>
                             <td>{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
