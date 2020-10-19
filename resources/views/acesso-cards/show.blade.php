@@ -51,8 +51,11 @@
                             <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->acesso_card_number : 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>
+                                @php
+                                    // dd($acessoCard->acesso_card_chargeback)
+                                @endphp
                                 @if (!$acessoCard->acesso_card_chargeback)
-                                    <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_award_id]) }}" method="post">
+                                    <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_id]) }}" method="post">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="acesso_card_chargeback" value="1" />

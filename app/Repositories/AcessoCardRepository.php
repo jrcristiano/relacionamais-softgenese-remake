@@ -113,6 +113,7 @@ class AcessoCardRepository extends Repository
         return $this->repository->select([
             'awards.awarded_status',
             'acesso_cards.*',
+            'acesso_cards.id as acesso_card_id',
             'base_acesso_cards_completo.*',
             'shipments_api.shipment_generated',
         ])

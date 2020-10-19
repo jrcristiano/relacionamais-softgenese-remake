@@ -148,8 +148,10 @@ class AcessoCardControllerApi extends Controller
 
         $awardId = $request->award_id;
 
-        $data['acesso_card_chargeback'] = 1;
-        $this->acessoCardService->save($data, $id);
+        \App\AcessoCard::where('id', $id)
+            ->update([
+                'acesso_card_chargeback' => 1
+            ]);
 
         $findAward = $this->awardRepo->find($awardId);
         $this->awardRepo->save([
