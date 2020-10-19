@@ -19,7 +19,8 @@ class Bill extends Model
         'bill_bank_id',
         'bill_payment_status',
         'bill_provider_id',
-        'bill_note'
+        'bill_note',
+        'bill_description'
     ];
 
     public function setBillValueAttribute($billValue)

@@ -51,6 +51,7 @@
                             <th scope="col">Data de venc.</th>
                             <th class="sgi-show-or-not" scope="col">Conta de débito</th>
                             <th class="sgi-show-or-not" scope="col">Status</th>
+                            <th scope="col">Descrição</th>
                             <th scope="col">Ações</th>
                         </tr>
                     </thead>
@@ -63,6 +64,7 @@
                                 <td>{{ $bill->bill_due_date_formatted }}</td>
                                 <td class="text-uppercase sgi-show-or-not">{{ $bill->bill_bank_name_agency_account_formatted }}</td>
                                 <td class="sgi-show-or-not text-uppercase">{{ $bill->bill_payment_status == 1 ? 'Pago' : 'Pendente' }}</td>
+                                <td class="text-uppercase">{{ $bill->bill_description }}</td>
                                 <td>
                                     <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.financial.bills.show', ['id' => $bill->id]) }}">
                                         <i class="far fa-eye"></i>

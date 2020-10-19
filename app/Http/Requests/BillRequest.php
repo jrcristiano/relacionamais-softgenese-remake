@@ -21,7 +21,8 @@ class BillRequest extends FormRequest
             'bill_provider_id' => 'required|string',
             'bill_payment_status' => $status,
             'bill_bank_id' => 'required|min:1',
-            'bill_note' => 'nullable'
+            'bill_note' => 'nullable',
+            'bill_description' => 'nullable',
         ];
     }
 }

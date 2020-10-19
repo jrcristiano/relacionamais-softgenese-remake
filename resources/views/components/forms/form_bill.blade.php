@@ -92,6 +92,14 @@
 </div>
 
 <div class="form-group">
+    <label class="font-weight-bold" for="bill_description">
+        Descrição
+        <span class="sgi-forced">*</span>
+    </label>
+    <input required="required" class="form-control text-uppercase sgi-border-2" value="{{ old('bill_description', $bill->bill_description ?? null) }}" type="text" id="bill_description" name="bill_description" placeholder="Descrição" />
+</div>
+
+<div class="form-group">
     <label class="font-weight-bold" for="exampleFormControlTextarea1">Observações</label>
     <textarea name="bill_note" class="form-control text-uppercase sgi-border-2" placeholder="Observações da conta" id="exampleFormControlTextarea1" rows="4">{{ old('bill_note', $bill->bill_note ?? null) }}</textarea>
 </div>

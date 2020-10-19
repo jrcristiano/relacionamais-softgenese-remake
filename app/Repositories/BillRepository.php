@@ -27,6 +27,7 @@ class BillRepository extends Repository
             'bill_value',
             'bill_payment_status',
             'bills.created_at as created_at',
+            'bills.bill_description',
             'banks.bank_name',
             'banks.bank_account',
             'banks.bank_agency',
