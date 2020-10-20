@@ -142,6 +142,12 @@
 
                                         <td>
 
+                                            @if ($award->awarded_type == 1 && $award->awarded_status == 4)
+                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+
                                             <!-- Cartão acesso card (pendente) -->
                                             @if ($award->awarded_type == 1 && $award->awarded_status == 3)
                                                 <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">

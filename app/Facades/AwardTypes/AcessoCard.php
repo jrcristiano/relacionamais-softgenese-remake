@@ -148,6 +148,12 @@ class AcessoCard extends Award
 
         $data['awarded_value'] = array_sum($values);
 
+        if ($data['awarded_status'] == 4) {
+            $this->service->saveByParam([
+                'acesso_card_chargeback' => 1
+            ], 'acesso_card_award_id', $id);
+        }
+
         $this->awardRepo->save($data, $id);
 
         if ($data['awarded_status'] == 2) {

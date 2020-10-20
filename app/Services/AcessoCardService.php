@@ -53,11 +53,6 @@ class AcessoCardService extends Service
         return $this->service->saveByParam($data, $param, $value);
     }
 
-    public function saveByParamWhereCardActive(array $data, $param, $value)
-    {
-        return $this->service->saveByParamWhereCardActive($data, $param, $value);
-    }
-
     public function delete($id)
     {
         return $this->service->delete($id);

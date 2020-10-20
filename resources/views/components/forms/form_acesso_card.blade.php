@@ -33,6 +33,10 @@
             <option {{ $awardedStatus == 1 ? 'selected' : '' }} value="1">ENVIAR PARA REMESSA</option>
         @endif
 
+        @if ($id && $awardedStatus == 2)
+            <option {{ $awardedStatus == 1 ? 'selected' : '' }} value="4">CANCELAR PREMIAÇÃO</option>
+        @endif
+
         @if ($id && $awardedStatus == 3)
             <option {{ $awardedStatus == 2 ? 'selected' : '' }} value="2">AGUARDANDO PAGAMENTO</option>
         @endif

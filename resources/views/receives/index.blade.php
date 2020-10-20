@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('title', 'Contas a receber')
 @section('content')
+@php
+    // dd($receives)
+@endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
 

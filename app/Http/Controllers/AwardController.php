@@ -21,15 +21,13 @@ class AwardController extends Controller
     private $spreadsheetService;
     private $bankRepo;
     private $cashFlowRepo;
-    private $acessoCardService;
 
     public function __construct(AwardRepo $awardRepo,
         SpreadsheetRepo $spreadsheetRepo,
         SpreadsheetService $service,
         BankRepo $bankRepo,
         CashFlowRepo $cashFlowRepo,
-        NoteRepository $noteRepo,
-        AcessoCardService $acessoCardService
+        NoteRepository $noteRepo
     )
     {
         $this->awardRepo = $awardRepo;
@@ -38,7 +36,6 @@ class AwardController extends Controller
         $this->bankRepo = $bankRepo;
         $this->cashFlowRepo = $cashFlowRepo;
         $this->noteRepo = $noteRepo;
-        $this->acessoCardService = $acessoCardService;
     }
 
     /**
@@ -144,6 +141,7 @@ class AwardController extends Controller
                 $this->cashFlowRepo->save($cashData);
             }
         }
+
         return redirect()->route('admin.show', [ 'id' => $demandId, 'premiacao' => 1 ])
             ->with('message', 'Premiação atualizada com sucesso!');
     }

@@ -88,7 +88,7 @@ class ReceiveRepository extends Repository
         if ($between[0] && $between[1] && $status == 2 && !$client) {
             return $query->whereBetween('note_receipt_date', $between)
                 ->where('notes.note_status', $status)
-                ->first();
+                ->paginate();
         }
 
         if ($between[0] && $between[1] && $status != 2 && $client) {
@@ -114,7 +114,7 @@ class ReceiveRepository extends Repository
             return $query->whereBetween('note_receipt_date', $between)
                 ->where('notes.note_status', $status)
                 ->where('demands.demand_client_name', $client)
-                ->first();
+                ->paginate();
         }
 
         if ($between[0] && $between[1] && !$status && $client) {
