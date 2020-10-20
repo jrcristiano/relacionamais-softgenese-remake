@@ -153,6 +153,7 @@ class AcessoCardRepository extends Repository
             'acesso_cards.acesso_card_name',
             'acesso_cards.acesso_card_proxy',
             'acesso_cards.acesso_card_value',
+            'acesso_cards.acesso_card_chargeback',
             'acesso_cards.acesso_card_document',
             'base_acesso_cards_completo.base_acesso_card_number',
             'base_acesso_cards_completo.base_acesso_card_proxy',

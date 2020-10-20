@@ -50,6 +50,11 @@ class Bill extends Model
         return "BANCO {$bankName} | AG {$bankAgency} | Conta {$bankAccount}";
     }
 
+    public function getBillDescriptionFormattedAttribute()
+    {
+        return Str::limit($this->attributes['bill_description'], 40, '...');
+    }
+
     public function getBillPaydayFormattedAttribute()
     {
         return Carbon::parse($this->attributes['bill_payday'])->format('d/m/Y');

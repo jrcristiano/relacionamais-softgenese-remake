@@ -53,12 +53,34 @@
                             <td class="text-uppercase">{{ $acessoCard->base_acesso_card_number }}</td>
                             <td>{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
                             <td>{{ $acessoCard->acesso_card_value_formatted }}</td>
-                            <td class="text-uppercase">
-                                @php
-                                    // dd($acessoCard->awarded_status)
-                                @endphp
-                               {{ $acessoCard->awarded_status == 3 ? 'PENDENTE' : ($acessoCard->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($acessoCard->awarded_status == 1 && $acessoCard->shipment_generated == null ? 'ENVIADO PARA REMESSA' : ($acessoCard->awarded_status == 1 && $acessoCard->shipment_generated == 1 ? 'REMESSA GERADA' : ''))) }}
-                            </td>
+                            @php
+                            // dd($acessoCard->awarded_status)
+                        @endphp
+
+                            @php
+                                $status = '';
+
+                                if ($acessoCard->awarded_status == 3) {
+                                    $status = 'PENDENTE';
+                                }
+
+                                if ($acessoCard->awarded_status == 2) {
+                                    $status = 'AGUARDANDO PAGAMENTO';
+                                }
+
+                                if ($acessoCard->awarded_status == 1 && $acessoCard->shipment_generated == null) {
+                                    $status = 'ENVIADO PARA REMESSA';
+                                }
+
+                                if ($acessoCard->awarded_status == 1 && $acessoCard->shipment_generated == 1) {
+                                    $status = 'REMESSA GERADA';
+                                }
+
+                                if ($acessoCard->awarded_status == 1 && $acessoCard->acesso_card_chargeback == 1) {
+                                    $status = 'CANCELADO';
+                                }
+                            @endphp
+                            <td class="text-uppercase">{{ $status }}</td>
                             <td>{{ $acessoCard->created_at_formatted }}</td>
                         </tr>
                     @empty

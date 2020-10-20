@@ -54,7 +54,7 @@
                                 @php
                                     // dd($acessoCard->acesso_card_chargeback)
                                 @endphp
-                                @if (!$acessoCard->acesso_card_chargeback)
+                                @if (!$acessoCard->acesso_card_chargeback && $acessoCard->awarded_status == 1)
                                     <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_id]) }}" method="post">
                                         @csrf
                                         @method('PUT')
@@ -65,8 +65,8 @@
                                         </button>
                                     </form>
                                 @endif
-                                @if ($acessoCard->acesso_card_status == 3)
-                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->acesso_card_award_id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
+                                @if ($acessoCard->awarded_status == 3)
+                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->acesso_card_id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
                                         @csrf
                                         <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
                                             <i class="fas fa-times"></i>

@@ -46,6 +46,14 @@
     </select>
 </div>
 
+<div class="form-group">
+    <label class="font-weight-bold" for="bill_description">
+        Descrição
+        <span class="sgi-forced">*</span>
+    </label>
+    <input required="required" class="form-control text-uppercase sgi-border-2" value="{{ old('bill_description', $bill->bill_description ?? null) }}" type="text" id="bill_description" name="bill_description" placeholder="Descrição" />
+</div>
+
 <div class="form-group mt-4 py-1">
     <label class="font-weight-bold" for="bill_bank_id">
         Conta de débito
@@ -89,14 +97,6 @@
         <option class="text-uppercase" {{ $billPaymentStatus == 1 ? 'selected' : '' }} value="1">PAGO</option>
         <option class="text-uppercase" {{ $billPaymentStatus == 2 ? 'selected' : '' }} value="2">PENDENTE</option>
     </select>
-</div>
-
-<div class="form-group">
-    <label class="font-weight-bold" for="bill_description">
-        Descrição
-        <span class="sgi-forced">*</span>
-    </label>
-    <input required="required" class="form-control text-uppercase sgi-border-2" value="{{ old('bill_description', $bill->bill_description ?? null) }}" type="text" id="bill_description" name="bill_description" placeholder="Descrição" />
 </div>
 
 <div class="form-group">

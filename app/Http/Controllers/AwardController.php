@@ -12,6 +12,7 @@ use App\Repositories\{AwardRepository as AwardRepo,
 };
 use App\Services\SpreadsheetService;
 use App\Repositories\BankRepository as BankRepo;
+use App\Services\AcessoCardService;
 
 class AwardController extends Controller
 {
@@ -20,13 +21,15 @@ class AwardController extends Controller
     private $spreadsheetService;
     private $bankRepo;
     private $cashFlowRepo;
+    private $acessoCardService;
 
     public function __construct(AwardRepo $awardRepo,
         SpreadsheetRepo $spreadsheetRepo,
         SpreadsheetService $service,
         BankRepo $bankRepo,
         CashFlowRepo $cashFlowRepo,
-        NoteRepository $noteRepo
+        NoteRepository $noteRepo,
+        AcessoCardService $acessoCardService
     )
     {
         $this->awardRepo = $awardRepo;
@@ -35,6 +38,7 @@ class AwardController extends Controller
         $this->bankRepo = $bankRepo;
         $this->cashFlowRepo = $cashFlowRepo;
         $this->noteRepo = $noteRepo;
+        $this->acessoCardService = $acessoCardService;
     }
 
     /**
@@ -153,6 +157,7 @@ class AwardController extends Controller
     public function destroy($id)
     {
         $this->awardRepo->removeAwardAndSpreadsheetAndAwardsInCashFlows($id);
+        $this->acessoCardService->delete($id);
         return redirect()->back()
             ->with('message', 'Premiação removida com sucesso!');
     }
