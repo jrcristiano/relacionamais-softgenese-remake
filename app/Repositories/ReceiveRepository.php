@@ -88,7 +88,7 @@ class ReceiveRepository extends Repository
         if ($between[0] && $between[1] && $status == 2 && !$client) {
             return $query->whereBetween('note_receipt_date', $between)
                 ->where('notes.note_status', $status)
-                ->paginate();
+                ->paginate($perPage);
         }
 
         if ($between[0] && $between[1] && $status != 2 && $client) {
@@ -114,7 +114,7 @@ class ReceiveRepository extends Repository
             return $query->whereBetween('note_receipt_date', $between)
                 ->where('notes.note_status', $status)
                 ->where('demands.demand_client_name', $client)
-                ->paginate();
+                ->paginate($perPage);
         }
 
         if ($between[0] && $between[1] && !$status && $client) {
@@ -204,7 +204,7 @@ class ReceiveRepository extends Repository
         }
 
         if ($between[0] && $between[1] && $status == 2 && !$client) {
-            return $query->orWhere(function ($query) use ($between, $status) {
+            return $query->where(function ($query) use ($between, $status) {
                 $query->whereBetween('note_receipt_date', $between)
                     ->where('notes.note_status', $status);
             })
@@ -231,7 +231,7 @@ class ReceiveRepository extends Repository
         }
 
         if ($between[0] && $between[1] && $status == 2 && $client) {
-            return $query->orWhere(function ($query) use ($between, $status, $client) {
+            return $query->where(function ($query) use ($between, $status, $client) {
                 $query->whereBetween('note_receipt_date', $between)
                     ->where('notes.note_status', $status)
                     ->where('demands.demand_client_name', $client);
