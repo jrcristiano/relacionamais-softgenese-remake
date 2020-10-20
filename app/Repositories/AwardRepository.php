@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\AcessoCard;
 use App\Award;
 use App\CashFlow;
 use App\Spreadsheet;
@@ -12,12 +13,14 @@ class AwardRepository extends Repository
     protected $repository;
     private $cashFlowRepo;
     private $spreadsheetRepo;
+    private $acessoCardRepo;
 
-    public function __construct(Award $award, CashFlow $cashFlow, Spreadsheet $spreadsheet)
+    public function __construct(Award $award, CashFlow $cashFlow, Spreadsheet $spreadsheet, AcessoCard $acessoCard)
     {
         $this->repository = $award;
         $this->cashFlowRepo = $cashFlow;
         $this->spreadsheetRepo = $spreadsheet;
+        $this->acessoCardRepo = $acessoCard;
     }
 
     public function getAwardsWithColumnShipmentGenerated($id, $perPage = 200)
@@ -117,8 +120,17 @@ class AwardRepository extends Repository
         $this->cashFlowRepo->where('flow_award_id', $id)
             ->delete();
 
-        $this->spreadsheetRepo->where('spreadsheet_award_id', $id)
-            ->delete();
+        $awardDepositAccount = $this->spreadsheetRepo->where('spreadsheet_award_id', $id)->first();
+        if ($awardDepositAccount) {
+            $this->spreadsheetRepo->where('spreadsheet_award_id', $id)
+                ->delete();
+        }
+
+        $awardAcessoCard = $this->acessoCardRepo->where('acesso_card_award_id', $id)->first();
+        if ($awardAcessoCard) {
+            $this->acessoCardRepo->where('acesso_card_award_id', $id)
+                ->delete();
+        }
 
         return $this->repository->find($id)
             ->delete();

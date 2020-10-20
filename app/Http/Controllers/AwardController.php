@@ -157,7 +157,6 @@ class AwardController extends Controller
     public function destroy($id)
     {
         $this->awardRepo->removeAwardAndSpreadsheetAndAwardsInCashFlows($id);
-        $this->acessoCardService->delete($id);
         return redirect()->back()
             ->with('message', 'Premiação removida com sucesso!');
     }
