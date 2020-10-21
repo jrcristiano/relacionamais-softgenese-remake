@@ -101,18 +101,22 @@
                             @endforelse
                         </tbody>
                     </table>
-                    @if ($receives->count() >= 500)
-                        {!!
-                            $receives->appends([
-                                'receive_in' => \Request::get('receive_in'),
-                                'receive_until' => \Request::get('receive_until'),
-                                'receive_status' => \Request::get('receive_status')
-                            ])
-                            ->links()
-                        !!}
-                    @endif
 
-                    <div class="container-fluid position-fixed py-4 bg-white" style="bottom: 0; border-top: 1px solid #DDD;">
+                    <div class="container-fluid position-fixed py-4 mt-5 bg-white" style="bottom: 0; border-top: 1px solid #DDD;">
+                        <div class="row">
+                            <div class="col-lg-10">
+                                @if ($receives->count() >= 500)
+                                    {!!
+                                        $receives->appends([
+                                            'receive_in' => \Request::get('receive_in'),
+                                            'receive_until' => \Request::get('receive_until'),
+                                            'receive_status' => \Request::get('receive_status')
+                                        ])
+                                        ->links()
+                                    !!}
+                                @endif
+                            </div>
+                        </div>
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-3 mt-3">
                                 <h5 class="sgi-content-title">
