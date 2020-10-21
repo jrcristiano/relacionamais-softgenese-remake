@@ -76,7 +76,7 @@
                                     $status = 'REMESSA GERADA';
                                 }
 
-                                if (($acessoCard->awarded_type == 1 || $acessoCard->awarded_status == 4) && $acessoCard->acesso_card_chargeback == 1) {
+                                if (($acessoCard->awarded_status == 1 || $acessoCard->awarded_status == 4) && $acessoCard->acesso_card_chargeback == 1) {
                                     $status = 'CANCELADO';
                                 }
                             @endphp
