@@ -122,13 +122,12 @@
                 </tbody>
             </table>
             @if ($demands->count() >= 500)
-                <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
+                <div class="col-lg-4 d-flex justify-content-center p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
                     @if (\Request::get('has_sale') && \Request::get('has_sale') == 1)
                         {!! $demands->appends(['has_sale' => 1])->links() !!}
                         <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
                     @else
                     {!! $demands->links() !!}
-                    <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
                     @endif
                 </div>
             @endif
