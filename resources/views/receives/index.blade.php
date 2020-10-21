@@ -104,7 +104,7 @@
 
                     <div class="container-fluid position-fixed py-4 mt-5 bg-white" style="bottom: 0; border-top: 1px solid #DDD;">
                         <div class="row">
-                            <div class="col-lg-10">
+                            <div class="col-lg-10 d-flex justify-content-center">
                                 @if ($receives->count() >= 500)
                                     {!!
                                         $receives->appends([
