@@ -55,9 +55,9 @@ class ConsultAcessoCardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($document)
+    public function show($proxy)
     {
-        $acessoCards = $this->acessoCardService->findInfoAcessoCard($document);
+        $acessoCards = $this->acessoCardService->findInfoAcessoCard($proxy);
         return view('consult-awardeds.show', compact('acessoCards'));
     }
 

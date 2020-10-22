@@ -83,6 +83,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->where('base_acesso_card_status', 1)
             ->orWhereNull('base_acesso_card_status')
             ->orWhereNull('base_acesso_card_status')
+            ->orderBy('id', 'desc')
             ->first();
     }
 

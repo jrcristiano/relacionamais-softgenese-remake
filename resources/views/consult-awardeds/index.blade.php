@@ -56,7 +56,7 @@
                                 {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : '') }}
                             </td>
                             <td>
-                                <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.consult-acesso-cards.show', ['document' => $awarded->acesso_card_document]) }}">
+                                <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.consult-acesso-cards.show', ['proxy' => $awarded->base_acesso_card_proxy]) }}">
                                     <i class="far fa-eye"></i>
                                 </a>
                             </td>

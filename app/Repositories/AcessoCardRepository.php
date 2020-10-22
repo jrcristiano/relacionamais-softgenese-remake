@@ -132,10 +132,10 @@ class AcessoCardRepository extends Repository
             'acesso_cards.*',
             'acesso_cards.id as acesso_card_id',
         ])
-        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_cards_completo.base_acesso_card_proxy')
         ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
-        ->groupBy('acesso_cards.acesso_card_document')
-        ->orderBy('acesso_cards.id', 'desc');
+        ->orderBy('acesso_cards.id', 'desc')
+        ->groupBy('base_acesso_cards_completo.base_acesso_card_proxy');
 
         if ($request->search) {
             $query->orWhere('acesso_cards.acesso_card_name', 'like', "%{$request->search}%")
@@ -147,7 +147,7 @@ class AcessoCardRepository extends Repository
         return $query->paginate($perPage);
     }
 
-    public function findInfoAcessoCard($document)
+    public function findInfoAcessoCard($proxy, $perPage = 250)
     {
         return $this->repository->select([
             'acesso_cards.acesso_card_name',
@@ -167,9 +167,9 @@ class AcessoCardRepository extends Repository
         ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
         ->leftJoin('demands', 'awards.awarded_demand_id', '=', 'demands.id')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
-        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
-        ->where('acesso_cards.acesso_card_document', $document)
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_cards_completo.base_acesso_card_proxy')
+        ->where('acesso_cards.acesso_card_proxy', $proxy)
         ->orderBy('acesso_cards.created_at', 'desc')
-        ->get();
+        ->paginate($perPage);
     }
 }

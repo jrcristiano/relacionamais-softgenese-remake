@@ -51,7 +51,7 @@
                                 {{ $acessoCard->demand_client_name }}
                             </td>
                             <td class="text-uppercase">{{ $acessoCard->base_acesso_card_number }}</td>
-                            <td>{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
+                            <td>{{ $acessoCard->base_acesso_card_proxy }}</td>
                             <td>{{ $acessoCard->acesso_card_value_formatted }}</td>
                             @php
                             // dd($acessoCard->awarded_status)
