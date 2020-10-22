@@ -173,7 +173,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/central-de-atendimento', 'CallCenterController@index')->name('call-center');
 
             Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardController@index')->name('consult-acesso-cards');
-            Route::get('/consulta-de-acesso-card/{proxy}', 'ConsultAcessoCardController@show')->name('consult-acesso-cards.show');
+            Route::get('/consulta-de-acesso-card/{card}', 'ConsultAcessoCardController@show')->name('consult-acesso-cards.show');
         });
     });
 });

@@ -147,7 +147,7 @@ class AcessoCardRepository extends Repository
         return $query->paginate($perPage);
     }
 
-    public function findInfoAcessoCard($proxy, $perPage = 250)
+    public function findInfoAcessoCard($card, $perPage = 250)
     {
         return $this->repository->select([
             'acesso_cards.acesso_card_name',
@@ -168,7 +168,7 @@ class AcessoCardRepository extends Repository
         ->leftJoin('demands', 'awards.awarded_demand_id', '=', 'demands.id')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
         ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_cards_completo.base_acesso_card_proxy')
-        ->where('acesso_cards.acesso_card_proxy', $proxy)
+        ->where('acesso_cards.acesso_card_number', $card)
         ->orderBy('acesso_cards.created_at', 'desc')
         ->paginate($perPage);
     }
