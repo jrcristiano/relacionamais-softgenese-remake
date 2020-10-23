@@ -139,10 +139,13 @@ class AcessoCardRepository extends Repository
         ->whereNotNull('acesso_cards.acesso_card_number');
 
         if ($request->search) {
-            $query->orWhere('acesso_cards.acesso_card_name', 'like', "%{$request->search}%")
+            $query->where(function ($query) use ($request) {
+                $query->orWhere('acesso_cards.acesso_card_name', 'like', "%{$request->search}%")
                 ->orWhere('acesso_cards.acesso_card_number', 'like', "%{$request->search}%")
                 ->orWhere('acesso_cards.acesso_card_document', 'like', "%{$request->search}%")
                 ->orWhere('acesso_cards.acesso_card_proxy', 'like', "%{$request->search}%");
+            })
+            ->whereNotNull('acesso_cards.acesso_card_number');
         }
 
         return $query->paginate($perPage);
