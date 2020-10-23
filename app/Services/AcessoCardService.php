@@ -23,9 +23,9 @@ class AcessoCardService extends Service
         return $this->service->storeCard($fileName, $demandId, $awardDemandId, $params);
     }
 
-    public function findInfoAcessoCard($card)
+    public function findInfoAcessoCard($proxy)
     {
-        return $this->service->findInfoAcessoCard($card);
+        return $this->service->findInfoAcessoCard($proxy);
     }
 
     public function updateByDocument(array $data, $document)
