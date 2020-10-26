@@ -21,7 +21,8 @@ class Award extends Model
         'awarded_shipment_cancelled',
         'awarded_demand_id',
         'awarded_bank_id',
-        'awarded_date_payment_manual'
+        'awarded_date_payment_manual',
+        'award_already_parted',
     ];
 
     public function spreadsheets()
@@ -57,7 +58,7 @@ class Award extends Model
             $this->attributes['awarded_value'] = toReal($value);
         }
 
-        if (\Request::get('awarded_type') == 1 || \Request::get('awarded_type') == 2) {
+        if (\Request::get('awarded_type') == 1 || \Request::get('awarded_type') == 2 || !\Request::get('awarded_type')) {
             $this->attributes['awarded_value'] = (float) $value;
         }
     }

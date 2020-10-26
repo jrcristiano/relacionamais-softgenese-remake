@@ -14,9 +14,11 @@ class AwardRequest extends FormRequest
     public function rules()
     {
         return [
+            'awarded_value' => 'nullable',
             'awarded_type' => 'required|min:1',
             'awarded_status' => 'required|min:1|in:1,2,3,4',
             'awarded_upload_table' => !$this->id ? 'required' : 'nullable',
+            'award_already_parted' => 'required|boolean',
         ];
     }
 }

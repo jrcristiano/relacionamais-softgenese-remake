@@ -29,7 +29,7 @@
         @if ($id && $awardedStatus == 1)
             <option {{ $awardedStatus == 2 ? 'selected' : '' }} value="2">AGUARDANDO PAGAMENTO</option>
         @endif
-        @if ($id && $awardedStatus == 2)
+        @if ($id && $awardedStatus == 2 && $award->awarded_value > 0)
             <option {{ $awardedStatus == 1 ? 'selected' : '' }} value="1">ENVIAR PARA REMESSA</option>
         @endif
 

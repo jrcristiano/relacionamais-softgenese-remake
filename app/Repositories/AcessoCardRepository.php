@@ -112,6 +112,7 @@ class AcessoCardRepository extends Repository
     {
         return $this->repository->select([
             'awards.awarded_status',
+            'awards.award_already_parted',
             'acesso_cards.*',
             'acesso_cards.id as acesso_card_id',
             'base_acesso_cards_completo.*',
@@ -121,6 +122,7 @@ class AcessoCardRepository extends Repository
         ->leftJoin('shipments_api', 'acesso_cards.acesso_card_award_id', '=', 'shipments_api.shipment_award_id')
         ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_cards_completo.base_acesso_card_proxy')
         ->where('acesso_cards.acesso_card_award_id', $id)
+        ->whereNull('acesso_card_chargeback')
         ->paginate($perPage);
     }
 
@@ -173,5 +175,36 @@ class AcessoCardRepository extends Repository
         ->where('acesso_cards.acesso_card_document', $document)
         ->orderBy('acesso_cards.created_at', 'desc')
         ->paginate($perPage);
+    }
+
+    public function chargebackAllNewsAcessoCard($id)
+    {
+        return $this->repository->where('acesso_card_award_id', $id)
+            ->whereNull('acesso_card_already_exists')
+            ->update([
+                'acesso_card_chargeback' => 1
+            ]);
+    }
+
+    public function getAllPartedAcessoCards($id)
+    {
+        return $this->repository->where('acesso_card_award_id', $id)
+            ->whereNull('acesso_card_already_exists')
+            ->get();
+    }
+
+    public function updateAcessoCardsAlreadyExists(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->whereNull('acesso_card_already_exists')
+            ->update($data);
+    }
+
+    public function getAllNewsAcessoCardsWhereAcessoCardAwardedId($id)
+    {
+        return $this->repository->select('*')
+            ->where('acesso_card_award_id', $id)
+            ->whereNull('acesso_card_already_exists')
+            ->get();
     }
 }

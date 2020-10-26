@@ -144,9 +144,8 @@ class AcessoCard extends Award
 
         $documents = $this->service->getData($fullFileName, 0);
         $names = $this->service->getData($fullFileName, 1);
-        $values = $this->service->getData($fullFileName, 2);
 
-        $data['awarded_value'] = array_sum($values);
+        $data['awarded_value'] = $this->awardRepo->find($id)->awarded_value;
 
         if ($data['awarded_status'] == 4) {
             $this->service->saveByParam([

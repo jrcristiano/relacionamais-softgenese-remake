@@ -92,6 +92,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::put('/cartao-acesso/{id}/atualizar', 'AcessoCardController@update')->name('acesso-cards.update');
             Route::post('/cartao-acesso/{id}/remover', 'AcessoCardController@destroy')->name('acesso-cards.destroy');
 
+            Route::post('/separar-cartao-acesso-card', 'PartAcessoCardController@store')->name('part-acesso-cards.store');
+
             Route::get('/deposito-manual', 'ManualDepositController@create')->name('manual-deposits.create');
             Route::post('/deposito-manual/salvar', 'ManualDepositController@store')->name('manual-deposits.store');
             Route::get('/deposito-manual/{id}/editar', 'ManualDepositController@edit')->name('manual-deposits.edit');

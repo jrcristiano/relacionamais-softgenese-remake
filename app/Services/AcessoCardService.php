@@ -156,4 +156,24 @@ class AcessoCardService extends Service
     {
         return $this->service->getAwardedsAwaitingPaymentNotGenerated($id);
     }
+
+    public function chargebackAllNewsAcessoCard($id)
+    {
+        return $this->service->chargebackAllNewsAcessoCard($id);
+    }
+
+    public function getAllPartedAcessoCards($id)
+    {
+        return $this->service->getAllPartedAcessoCards($id);
+    }
+
+    public function updateAcessoCardsAlreadyExists(array $data, $param, $value)
+    {
+        return $this->service->updateAcessoCardsAlreadyExists($data, $param, $value);
+    }
+
+    public function getAllNewsAcessoCardsWhereAcessoCardAwardedId($id)
+    {
+        return $this->service->getAllNewsAcessoCardsWhereAcessoCardAwardedId($id);
+    }
 }

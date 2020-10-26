@@ -134,6 +134,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
         ->whereNull('base_acesso_card_generated')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_name')
         ->whereNotNull('base_acesso_cards_completo.base_acesso_card_cpf')
+        ->whereNull('acesso_card_chargeback')
         ->where('acesso_cards.acesso_card_award_id', $id)
         ->where('base_acesso_cards_completo.base_acesso_card_status', 1)
         ->get();

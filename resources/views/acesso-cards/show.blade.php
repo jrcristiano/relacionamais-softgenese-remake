@@ -19,6 +19,16 @@
                 <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.show', [ 'id' => \Request::get('pedido_id'), 'premiacao' => 1 ]) }}">
                     <i class="fas fa-undo"></i> Voltar
                 </a>
+                @php
+                    $acessoCardsParted = $acessoCards[0]->award_already_parted ?? 1;
+                @endphp
+                @if ($acessoCardsParted == 0)
+                    <form method="POST" class="mt-2 ml-1" action="{{ route('admin.register.part-acesso-cards.store', ['pedido_id' => \Request::get('pedido_id'), 'premiacao_id' => $id]) }}">
+                        @csrf
+                        <input name="acesso_card_id" type="hidden" value="{{ $id }}" />
+                        <button class="btn btn-danger font-weight-bold" type="submit">Criar premiação com novos cartões</button>
+                    </form>
+                @endif
             </header>
 
             @include('components.message')
