@@ -21,12 +21,18 @@
                 </a>
                 @php
                     $acessoCardsParted = $acessoCards[0]->award_already_parted ?? 1;
+
+                    $arrCards = [];
+                    foreach ($acessoCards as $acessoCard) {
+                        $arrCards[] = $acessoCard->acesso_card_already_exists;
+                    }
+                    // dd($arrCards);
                 @endphp
-                @if ($acessoCardsParted == 0)
+                @if ($acessoCardsParted == 0 && in_array(null, $arrCards))
                     <form method="POST" class="mt-2 ml-1" action="{{ route('admin.register.part-acesso-cards.store', ['pedido_id' => \Request::get('pedido_id'), 'premiacao_id' => $id]) }}">
                         @csrf
                         <input name="acesso_card_id" type="hidden" value="{{ $id }}" />
-                        <button class="btn btn-danger font-weight-bold" type="submit">Criar premiação com novos cartões</button>
+                        <button class="btn btn-danger font-weight-bold" type="submit">Separar novos cartões</button>
                     </form>
                 @endif
             </header>
