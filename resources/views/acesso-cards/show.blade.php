@@ -24,7 +24,11 @@
 
                     $arrCards = [];
                     foreach ($acessoCards as $acessoCard) {
-                        $arrCards[] = $acessoCard->acesso_card_already_exists;
+                        if ($acessoCard->base_acesso_card_status == 1) {
+                            $arrCards[] = $acessoCard->acesso_card_already_exists;
+                        } else {
+                            $arrCards[] = null;
+                        }
                     }
                     // dd($arrCards);
                 @endphp

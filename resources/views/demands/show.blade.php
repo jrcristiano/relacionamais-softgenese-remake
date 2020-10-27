@@ -112,6 +112,7 @@
                         </thead>
                             <tbody>
                                 @forelse ($awards as $award)
+                                @if ($award->awarded_value > 0)
                                     <tr>
                                         <th class="text-uppercase">{{ $award->id }}</th>
                                         <td>R$ {{ $award->awarded_value_formatted }}</td>
@@ -228,6 +229,7 @@
 
                                         </td>
                                     </tr>
+                                @endif
                                 @empty
                                     <td class="text-center" colspan="6"><i class="fas fa-frown"></i> Nenhuma premiação ainda registrada...</td>
                                 @endforelse
