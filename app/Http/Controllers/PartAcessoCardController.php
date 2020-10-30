@@ -103,7 +103,6 @@ class PartAcessoCardController extends Controller
                 'base_acesso_card_cpf' => $acessoCards[$key]->acesso_card_document,
                 'base_acesso_card_status' => 1
             ], 'base_acesso_card_proxy', $unlikedCard->base_acesso_card_proxy);
-
         }
 
         return redirect()->back();
