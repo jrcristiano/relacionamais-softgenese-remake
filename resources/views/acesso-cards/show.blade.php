@@ -30,7 +30,6 @@
                             $arrCards[] = null;
                         }
                     }
-                    // dd($arrCards);
                 @endphp
                 @if ($acessoCardsParted == 0 && in_array(null, $arrCards))
                     <form method="POST" class="mt-2 ml-1" action="{{ route('admin.register.part-acesso-cards.store', ['pedido_id' => \Request::get('pedido_id'), 'premiacao_id' => $id]) }}">

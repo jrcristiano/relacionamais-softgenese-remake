@@ -19,6 +19,13 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function findActiveCardByDocument($document)
+    {
+        return $this->repository->where('base_acesso_card_cpf', $document)
+            ->where('base_acesso_card_status', 1)
+            ->first();
+    }
+
     public function firstBaseAcessoCardNumberByDocument($document)
     {
         return $this->repository->select(['id', 'base_acesso_card_number'])
@@ -36,12 +43,31 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function getCollectionUnlikedBaseCardCompleto($quantity)
+    {
+        return $this->repository->whereNull('base_acesso_card_cpf')
+            ->where('base_acesso_card_status', 1)
+            ->orWhereNull('base_acesso_card_status')
+            ->whereNull('base_acesso_card_status')
+            ->take($quantity)
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
     public function findByDocumentWhereCardActive($document)
     {
         return $this->repository->where('base_acesso_card_status', 1)
             ->where('base_acesso_card_cpf', $document)
             ->orderBy('id', 'desc')
             ->first();
+    }
+
+    public function getByDocumentWhereCardActive($document)
+    {
+        return $this->repository->where('base_acesso_card_status', 1)
+            ->where('base_acesso_card_cpf', $document)
+            ->orderBy('id', 'desc')
+            ->get();
     }
 
     public function getUnlikedBaseCardCompleto()
@@ -101,7 +127,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->update($data);
     }
 
-    public function updateByParamWhereStatusNull(array $data, $param, $value)
+    public function updateByParamWhereStatusNull(array $data, $param = 'base_acesso_card_status', $value = null)
     {
         return $this->repository->whereNull('base_acesso_card_status')
             ->where($param, $value)

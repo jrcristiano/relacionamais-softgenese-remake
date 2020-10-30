@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Services\AcessoCardService;
 use App\Services\AwardService;
-use App\Services\PartAcessoCardService;
+use App\Services\BaseAcessoCardsCompletoService;
 use Illuminate\Http\Request;
 
 class PartAcessoCardController extends Controller
 {
     private $acessoCardService;
+    private $baseAcessoCardService;
     private $awardService;
 
-    public function __construct(AcessoCardService $acessoCardService, AwardService $awardService)
+    public function __construct(AcessoCardService $acessoCardService, AwardService $awardService, BaseAcessoCardsCompletoService $baseAcessoCardService)
     {
         $this->acessoCardService = $acessoCardService;
+        $this->baseAcessoCardService = $baseAcessoCardService;
         $this->awardService = $awardService;
     }
 
@@ -62,29 +64,47 @@ class PartAcessoCardController extends Controller
         ]);
 
         $acessoCards = $this->acessoCardService->getAllNewsAcessoCardsWhereAcessoCardAwardedId($data['acesso_card_id']);
+        // dd($acessoCards);
+        // dd($acessoCards);
 
         $acessoCardValue = 0;
         foreach ($acessoCards as $acessoCard) {
             $acessoCardValue += $acessoCard->acesso_card_value;
         }
 
-        $acessoCards->each(function ($acessoCard) use ($award, $acessoCardAward, $acessoCardValue) {
+        $acessoCards->each(function ($acessoCard) use ($award, $acessoCardAward, $acessoCardValue, $acessoCards) {
             $awardedValue = (float) $award->awarded_value - $acessoCardValue;
 
             $this->awardService->update([
-                'awarded_value' => $award->awarded_value - $acessoCardValue,
+                'awarded_value' => $awardedValue,
                 'award_already_parted' => 1,
             ], 'id', $acessoCardAward->id);
-
-            $this->acessoCardService->updateAcessoCardsAlreadyExists([
-                'acesso_card_award_id' => $award->id
-            ], 'id', $acessoCard->id);
         });
+
+        foreach ($acessoCards as $acessoCard) {
+            $this->acessoCardService->updateAcessoCardsAlreadyExists([
+                'acesso_card_number' => null,
+                'acesso_card_proxy' => null,
+                'acesso_card_award_id' => $award->id
+            ], 'acesso_card_award_id', $acessoCard->acesso_card_award_id);
+        }
 
         $this->awardService->update([
             'awarded_value' => $acessoCardValue,
             'award_already_parted' => 1,
         ], 'id', $award->id);
+
+        $quantity = $acessoCards->count();
+        $unlikedCards = $this->baseAcessoCardService->getCollectionUnlikedBaseCardCompleto($quantity);
+
+        foreach ($unlikedCards as $key => $unlikedCard) {
+            $this->baseAcessoCardService->updateByParamWhereStatusNull([
+                'base_acesso_card_name' => $acessoCards[$key]->acesso_card_name,
+                'base_acesso_card_cpf' => $acessoCards[$key]->acesso_card_document,
+                'base_acesso_card_status' => 1
+            ], 'base_acesso_card_proxy', $unlikedCard->base_acesso_card_proxy);
+
+        }
 
         return redirect()->back();
     }

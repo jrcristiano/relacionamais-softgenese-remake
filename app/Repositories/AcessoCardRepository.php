@@ -66,6 +66,14 @@ class AcessoCardRepository extends Repository
             ->get();
     }
 
+    public function findCardCancelledByAwardId($id)
+    {
+        return $this->repository->where('acesso_card_award_id', $id)
+            ->whereNull('acesso_card_number')
+            ->whereNull('acesso_card_proxy')
+            ->get();
+    }
+
     public function findByCard($card)
     {
         return $this->repository->where('acesso_card_number', $card)
@@ -196,7 +204,7 @@ class AcessoCardRepository extends Repository
     public function updateAcessoCardsAlreadyExists(array $data, $param, $value)
     {
         return $this->repository->where($param, $value)
-            ->whereNull('acesso_card_already_exists')
+            ->whereNull('acesso_card_proxy')
             ->update($data);
     }
 
@@ -204,7 +212,13 @@ class AcessoCardRepository extends Repository
     {
         return $this->repository->select('*')
             ->where('acesso_card_award_id', $id)
-            ->whereNull('acesso_card_already_exists')
+            ->whereNull('acesso_card_proxy')
+            ->get();
+    }
+
+    public function findAcessoCardsWithoutCards($id)
+    {
+        return $this->repository->whereNull('acesso_card_proxy')
             ->get();
     }
 }

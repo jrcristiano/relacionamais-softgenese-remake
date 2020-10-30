@@ -176,6 +176,7 @@ class AcessoCard extends Award
                     $unlikedProxy = $unlikedProxy->base_acesso_card_proxy;
 
                     if (!$findBase) {
+                        // dd('aqui 1');
                         $baseAcessoCardService->update([
                             'base_acesso_card_name' => $names[$key],
                             'base_acesso_card_cpf' => $formattedDocument,
@@ -191,33 +192,53 @@ class AcessoCard extends Award
                     $statusActive = $baseAcessoCardService->findWhereStatusByDocument(1, $formattedDocument);
                     $statusCancelled = $baseAcessoCardService->findWhereStatusByDocument(2, $formattedDocument);
 
-                    if ($findAcesso && $statusCancelled && !$statusActive) {
-                        $this->service->saveByParam([
-                            'acesso_card_number' => $unlikedCard,
-                            'acesso_card_proxy' => $unlikedProxy,
-                        ], 'acesso_card_award_id', $id);
+                    $acessoCards = $this->service->findByAwardId($id);
+                    if ($findAcesso && !$statusCancelled && $statusActive) {
+                        // dd('aqui 2');  // quando trocamos o status da segunda antes do primeiro (teste novamente)
+                        foreach ($acessoCards as $acessoCard) {
+                            if (!$acessoCard->acesso_card_proxy) {
+                                $this->service->saveByParam([
+                                    'acesso_card_number' => $unlikedCard,
+                                    'acesso_card_proxy' => $unlikedProxy,
+                                ], 'acesso_card_award_id', $id);
+                            }
+                        }
                     }
 
                     if ($findAcesso && $statusCancelled && !$statusActive) {
-                        $baseAcessoCardService->update([
-                            'base_acesso_card_name' => $names[$key],
-                            'base_acesso_card_cpf' => $formattedDocument,
-                            'base_acesso_card_status' => 1,
-                        ], 'base_acesso_card_proxy', $baseAcessoCardProxy);
+                        // dd('aqui 3');
 
-                        $this->service->saveByParam([
-                            'acesso_card_number' => $unlikedCard,
-                            'acesso_card_proxy' => $unlikedProxy,
-                        ], 'acesso_card_award_id', $id);
+                        $docs = [];
+                        foreach ($acessoCards as $acessoCard) {
+                            if (!$acessoCard->acesso_card_proxy) {
+                                $docs[] = $acessoCard->acesso_card_document;
+                            }
+                        }
+
+                        foreach ($docs as $doc) {
+                            $this->service->saveByParam([
+                                'acesso_card_number' => $baseAcessoCardService->findActiveCardByDocument($doc)->base_acesso_card_number,
+                                'acesso_card_proxy' => $baseAcessoCardService->findActiveCardByDocument($doc)->base_acesso_card_proxy,
+                            ], 'acesso_card_document', $doc);
+                        }
                     }
-
-                    $activeCard = $baseAcessoCardService->findByDocumentWhereCardActive($formattedDocument);
 
                     if ($findAcesso && $statusCancelled && $statusActive) {
-                        $this->service->saveByParam([
-                            'acesso_card_number' => $activeCard->base_acesso_card_number,
-                            'acesso_card_proxy' => $activeCard->base_acesso_card_proxy,
-                        ], 'acesso_card_award_id', $id);
+                        // dd($statusActive);
+                        // dd($statusActive);
+                        $docs = [];
+                        foreach ($acessoCards as $acessoCard) {
+                            if (!$acessoCard->acesso_card_proxy) {
+                                $docs[] = $acessoCard->acesso_card_document;
+                            }
+                        }
+
+                        foreach ($docs as $doc) {
+                            $this->service->saveByParam([
+                                'acesso_card_number' => $baseAcessoCardService->findActiveCardByDocument($doc)->base_acesso_card_number,
+                                'acesso_card_proxy' => $baseAcessoCardService->findActiveCardByDocument($doc)->base_acesso_card_proxy,
+                            ], 'acesso_card_document', $doc);
+                        }
                     }
 
                     $findAcessoCards = $this->service->getHistoriesByDocument($formattedDocument);

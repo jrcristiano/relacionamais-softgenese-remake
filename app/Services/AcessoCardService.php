@@ -48,6 +48,11 @@ class AcessoCardService extends Service
         return $this->service->findByAwardId($id);
     }
 
+    public function findCardCancelledByAwardId($id)
+    {
+        return $this->service->findCardCancelledByAwardId($id);
+    }
+
     public function saveByParam(array $data, $param, $value)
     {
         return $this->service->saveByParam($data, $param, $value);
@@ -175,5 +180,10 @@ class AcessoCardService extends Service
     public function getAllNewsAcessoCardsWhereAcessoCardAwardedId($id)
     {
         return $this->service->getAllNewsAcessoCardsWhereAcessoCardAwardedId($id);
+    }
+
+    public function findAcessoCardsWithoutCards($id)
+    {
+        return $this->service->findAcessoCardsWithoutCards($id);
     }
 }

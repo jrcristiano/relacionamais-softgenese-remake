@@ -13,6 +13,11 @@ class BaseAcessoCardsCompletoService extends Service
         $this->service = $repository;
     }
 
+    public function findActiveCardByDocument($document)
+    {
+        return $this->service->findActiveCardByDocument($document);
+    }
+
     public function firstBaseAcessoCardNumberByDocument($document)
     {
         return $this->service->firstBaseAcessoCardNumberByDocument($document);
@@ -23,9 +28,19 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->firstUnlikedBaseCardCompleto();
     }
 
+    public function getCollectionUnlikedBaseCardCompleto($quantity)
+    {
+        return $this->service->getCollectionUnlikedBaseCardCompleto($quantity);
+    }
+
     public function findByDocumentWhereCardActive($document)
     {
         return $this->service->findByDocumentWhereCardActive($document);
+    }
+
+    public function getByDocumentWhereCardActive($document)
+    {
+        return $this->service->getByDocumentWhereCardActive($document);
     }
 
     public function getUnlikedBaseCardCompleto()
@@ -73,7 +88,7 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->findWhereStatusByDocument($status, $document);
     }
 
-    public function updateByParamWhereStatusNull(array $data, $param, $value)
+    public function updateByParamWhereStatusNull(array $data, $param = 'base_acesso_card_status', $value = null)
     {
         return $this->service->updateByParamWhereStatusNull($data, $param, $value);
     }
