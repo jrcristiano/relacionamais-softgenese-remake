@@ -79,7 +79,7 @@ class AcessoCard extends Award
 
                 $status = $data['awarded_status'];
 
-                if ($findAcesso) {
+                if ($baseAcessoCardService->findBaseAcessoCardActiveByDocument($formattedDocument)) {
                     $params['acesso_card_already_exists'] = 1;
                 }
 
@@ -233,7 +233,7 @@ class AcessoCard extends Award
                         }
 
                         foreach ($docs as $doc) {
-                            $this->service->saveByParam([
+                            $this->service->saveByParamWhereProxyNull([
                                 'acesso_card_number' => $baseAcessoCardService->findActiveCardByDocument($doc)->base_acesso_card_number ?? null,
                                 'acesso_card_proxy' => $baseAcessoCardService->findActiveCardByDocument($doc)->base_acesso_card_proxy ?? null,
                             ], 'acesso_card_document', $doc);

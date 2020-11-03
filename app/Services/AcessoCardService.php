@@ -58,6 +58,11 @@ class AcessoCardService extends Service
         return $this->service->saveByParam($data, $param, $value);
     }
 
+    public function saveByParamWhereProxyNull(array $data, $param, $value)
+    {
+        return $this->service->saveByParamWhereProxyNull($data, $param, $value);
+    }
+
     public function delete($id)
     {
         return $this->service->delete($id);

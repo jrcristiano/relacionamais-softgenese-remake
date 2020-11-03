@@ -92,6 +92,13 @@ class AcessoCardRepository extends Repository
             ->update($data);
     }
 
+    public function saveByParamWhereProxyNull(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->whereNull('acesso_card_proxy')
+            ->update($data);
+    }
+
     public function storeCard($fileName, $demandId, $awardDemandId, array $params = [])
     {
         $excel = Helper::newSpreadsheet($fileName)->getRows();
