@@ -52,7 +52,10 @@ class PartAcessoCardController extends Controller
             'acesso_card_id' => 'required|min:1'
         ]);
 
+        // dd($data);
+
         $acessoCardAward = $this->awardService->find($data['acesso_card_id']);
+
         $award = $this->awardService->save([
             'awarded_value' => $acessoCardAward->awarded_value,
             'awarded_type' => $acessoCardAward->awarded_type,
@@ -65,14 +68,13 @@ class PartAcessoCardController extends Controller
 
         $acessoCards = $this->acessoCardService->getAllNewsAcessoCardsWhereAcessoCardAwardedId($data['acesso_card_id']);
         // dd($acessoCards);
-        // dd($acessoCards);
 
         $acessoCardValue = 0;
         foreach ($acessoCards as $acessoCard) {
             $acessoCardValue += $acessoCard->acesso_card_value;
         }
 
-        $acessoCards->each(function ($acessoCard) use ($award, $acessoCardAward, $acessoCardValue, $acessoCards) {
+        $acessoCards->each(function () use ($award, $acessoCardAward, $acessoCardValue) {
             $awardedValue = (float) $award->awarded_value - $acessoCardValue;
 
             $this->awardService->update([
@@ -82,9 +84,8 @@ class PartAcessoCardController extends Controller
         });
 
         foreach ($acessoCards as $acessoCard) {
-            $this->acessoCardService->updateAcessoCardsAlreadyExists([
-                'acesso_card_number' => null,
-                'acesso_card_proxy' => null,
+            $this->acessoCardService->updateAcessoCardsNotExists([
+                'acesso_card_already_exists' => 1,
                 'acesso_card_award_id' => $award->id
             ], 'acesso_card_award_id', $acessoCard->acesso_card_award_id);
         }
@@ -93,17 +94,6 @@ class PartAcessoCardController extends Controller
             'awarded_value' => $acessoCardValue,
             'award_already_parted' => 1,
         ], 'id', $award->id);
-
-        $quantity = $acessoCards->count();
-        $unlikedCards = $this->baseAcessoCardService->getCollectionUnlikedBaseCardCompleto($quantity);
-
-        foreach ($unlikedCards as $key => $unlikedCard) {
-            $this->baseAcessoCardService->updateByParamWhereStatusNull([
-                'base_acesso_card_name' => $acessoCards[$key]->acesso_card_name,
-                'base_acesso_card_cpf' => $acessoCards[$key]->acesso_card_document,
-                'base_acesso_card_status' => 1
-            ], 'base_acesso_card_proxy', $unlikedCard->base_acesso_card_proxy);
-        }
 
         return redirect()->back();
     }

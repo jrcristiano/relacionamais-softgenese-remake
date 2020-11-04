@@ -215,11 +215,17 @@ class AcessoCardRepository extends Repository
             ->update($data);
     }
 
+    public function updateAcessoCardsNotExists(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->whereNull('acesso_card_already_exists')
+            ->update($data);
+    }
+
     public function getAllNewsAcessoCardsWhereAcessoCardAwardedId($id)
     {
-        return $this->repository->select('*')
-            ->where('acesso_card_award_id', $id)
-            ->whereNull('acesso_card_proxy')
+        return $this->repository->where('acesso_card_award_id', $id)
+            ->whereNull('acesso_card_already_exists')
             ->get();
     }
 

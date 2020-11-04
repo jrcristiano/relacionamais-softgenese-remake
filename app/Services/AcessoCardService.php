@@ -182,6 +182,11 @@ class AcessoCardService extends Service
         return $this->service->updateAcessoCardsAlreadyExists($data, $param, $value);
     }
 
+    public function updateAcessoCardsNotExists(array $data, $param, $value)
+    {
+        return $this->service->updateAcessoCardsNotExists($data, $param, $value);
+    }
+
     public function getAllNewsAcessoCardsWhereAcessoCardAwardedId($id)
     {
         return $this->service->getAllNewsAcessoCardsWhereAcessoCardAwardedId($id);
