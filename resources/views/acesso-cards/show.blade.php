@@ -31,7 +31,7 @@
                         }
                     }
                 @endphp
-                @if ($acessoCardsParted == 0 && in_array(null, $arrCards))
+                @if ($acessoCardsParted == 0 && in_array(null, $arrCards) && $acessoCards[0]->awarded_status != 1)
                     <form method="POST" class="mt-2 ml-1" action="{{ route('admin.register.part-acesso-cards.store', ['pedido_id' => \Request::get('pedido_id'), 'premiacao_id' => $id]) }}">
                         @csrf
                         <input name="acesso_card_id" type="hidden" value="{{ $id }}" />
