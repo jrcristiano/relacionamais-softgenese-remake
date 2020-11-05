@@ -9,12 +9,12 @@ abstract class Repository
         return $this->repository->all();
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         return $this->repository->find($id);
     }
 
-    public function save($data, $id = null)
+    public function save(array $data, $id = null)
     {
         if (!$id) {
             return $this->repository->create($data);
@@ -31,7 +31,7 @@ abstract class Repository
             ->update($data);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         return $this->repository->find($id)
             ->delete();
