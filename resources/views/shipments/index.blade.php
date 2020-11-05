@@ -20,7 +20,7 @@
             ])
 
             @if (\Request::get('tipo_premiacao') == 1)
-                @if (count(getAcessoCardCompletoNotGeneratedView()) > 0)
+                @if (count(getAcessoCardCompletoNotGeneratedView()) > 0 && $alert)
                     <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
                         <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
