@@ -143,7 +143,7 @@ use Illuminate\Support\Facades\DB;
         return $pathFileName;
     }
 
-    function getAcessoCardCompletoNotGeneratedView() {
+    function getAcessoCardCompletoNotGeneratedView($id) {
         $baseAcessoCardsCompletoService = new BaseAcessoCardsCompletoService(new BaseAcessoCardsCompletoRepository(new BaseAcessoCardsCompleto));
-        return $baseAcessoCardsCompletoService->getAcessoCardCompletoNotGeneratedView();
+        return $baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
     }
