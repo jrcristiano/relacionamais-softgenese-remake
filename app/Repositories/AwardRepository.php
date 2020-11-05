@@ -67,12 +67,13 @@ class AwardRepository extends Repository
             'shipments_api.shipment_file_vinc_generated',
         ])
         ->where('awarded_status', '=', 1)
-        ->whereNotNull('awarded_upload_table')
         ->orderBy('id', 'desc')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
         ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id')
+        ->whereNotNull('shipment_file_vinc')
+        ->whereNull('shipment_file_vinc_generated')
         ->groupBy('shipment_file_vinc')
-        ->get();
+        ->first();
     }
 
     public function getFirstPathByAwardedUploadSpreadsheet($id)
