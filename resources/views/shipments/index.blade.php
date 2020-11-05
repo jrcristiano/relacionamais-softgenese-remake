@@ -105,7 +105,7 @@
                                                     @php
                                                         // dd($alert->shipment_file_vinc)
                                                     @endphp
-                                                        <input {{ count(getAcessoCardCompletoNotGeneratedView()) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <input {{ count(getAcessoCardCompletoNotGeneratedView()) > 0 && $alert ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
                                                         <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
                                                     @elseif($award->awarded_shipment_cancelled)
                                                         <i aria-hidden="true" class="fas fa-close text-danger"></i>
