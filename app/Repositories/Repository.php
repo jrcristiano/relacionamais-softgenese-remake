@@ -9,7 +9,7 @@ abstract class Repository
         return $this->repository->all();
     }
 
-    public function find(int $id)
+    public function find($id)
     {
         return $this->repository->find($id);
     }
@@ -31,7 +31,7 @@ abstract class Repository
             ->update($data);
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
         return $this->repository->find($id)
             ->delete();
