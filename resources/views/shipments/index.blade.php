@@ -24,7 +24,7 @@
                     <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
                         <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
-                        <button class="btn btn-danger" id="generate-vincs" data-file="{{ $alert->shipment_file_vinc }}" data-id="{{ $alert->id }}" class="alert-link">
+                        <button class="btn btn-danger" id="generate-vincs" data-file="{{ $alert->shipment_file_vinc ?? null }}" data-id="{{ $alert->id ?? null }}" class="alert-link">
                             <i class="fas fa-download"></i> CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO
                         </button>
 
