@@ -25,8 +25,7 @@ class ShipmentController extends Controller
     {
         $awardType = $request->tipo_premiacao;
         $awards = $this->awardRepo->getShipmentsbyPaginate(500, $awardType);
-        $alert = $this->awardRepo->getAlerts();
-        $hasNotGenerateds = $this->baseAcessoCardsCompletoService->getLikedAndUngenerateCards();
-        return view('shipments.index', compact('awards', 'alert', 'hasNotGenerateds'));
+        $likedFile = $this->awardRepo->firstlikedFile();
+        return view('shipments.index', compact('awards', 'likedFile'));
     }
 }

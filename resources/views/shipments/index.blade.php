@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    // dd($awards)
+    // dd($likedFile)
 @endphp
 
 <div class="container-fluid">
@@ -20,21 +20,19 @@
             ])
 
             @if (\Request::get('tipo_premiacao') == 1)
-                @foreach ($awards as $award)
-                    @if (count(getAcessoCardCompletoNotGeneratedView($award->id)) > 0 && $alert)
-                        <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
-                            <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
+                @if ($likedFile)
+                    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                        <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
-                            <button class="btn btn-danger" id="generate-vincs" data-file="{{ $alert->shipment_file_vinc ?? null }}" data-id="{{ $alert->id ?? null }}" class="alert-link">
-                                <i class="fas fa-download"></i> CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO
-                            </button>
+                        <button class="btn btn-danger" id="generate-vincs" data-file="{{ $likedFile->shipment_file_vinc ?? null }}" data-id="{{ $likedFile->id ?? null }}" class="alert-link">
+                            <i class="fas fa-download"></i> CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO
+                        </button>
 
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                @endforeach
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
             @endif
 
             @include('components.message')
@@ -107,7 +105,7 @@
                                                     @php
                                                         // dd($alert->shipment_file_vinc)
                                                     @endphp
-                                                        <input {{ count(getAcessoCardCompletoNotGeneratedView($award->id)) > 0 && $alert  ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <input {{ $likedFile != null ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
                                                         <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
                                                     @elseif($award->awarded_shipment_cancelled)
                                                         <i aria-hidden="true" class="fas fa-close text-danger"></i>

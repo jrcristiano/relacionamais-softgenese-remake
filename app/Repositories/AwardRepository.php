@@ -39,6 +39,7 @@ class AwardRepository extends Repository
     {
         $query = $this->repository->select([
             'awards.*',
+            'awards.id as award_id',
             'notes.note_number',
             'shipments_api.shipment_generated',
             'shipments_api.shipment_file_vinc',
@@ -55,6 +56,26 @@ class AwardRepository extends Repository
         }
 
         return $query->paginate($perPage);
+    }
+
+    public function firstlikedFile()
+    {
+        return $this->repository->select([
+            'awards.*',
+            'notes.note_number',
+            'shipments_api.shipment_generated',
+            'shipments_api.shipment_file_vinc',
+            'shipments_api.shipment_file_vinc_generated',
+        ])
+        ->where('awarded_status', '=', 1)
+        ->whereNotNull('awarded_upload_table')
+        ->whereNotNull('shipment_file_vinc')
+        ->whereNull('shipments_api.shipment_file_vinc_generated')
+        ->orderBy('id', 'desc')
+        ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
+        ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id')
+        ->groupBy('shipment_file_vinc')
+        ->first();
     }
 
     public function getAlerts()
