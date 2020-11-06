@@ -63,6 +63,7 @@ class AwardRepository extends Repository
         return $this->repository->select([
             'awards.*',
             'notes.note_number',
+            'shipments_api.shipment_award_id',
             'shipments_api.shipment_generated',
             'shipments_api.shipment_file_vinc',
             'shipments_api.shipment_file_vinc_generated',
@@ -70,7 +71,7 @@ class AwardRepository extends Repository
         ->where('awarded_status', '=', 1)
         ->whereNotNull('awarded_upload_table')
         ->whereNotNull('shipment_file_vinc')
-        ->whereNull('shipments_api.shipment_file_vinc_generated')
+        ->whereNull('shipment_file_vinc_generated')
         ->orderBy('id', 'desc')
         ->leftJoin('shipments_api', 'awards.id', '=', 'shipments_api.shipment_award_id')
         ->leftJoin('notes', 'awards.awarded_demand_id', '=', 'notes.note_demand_id')

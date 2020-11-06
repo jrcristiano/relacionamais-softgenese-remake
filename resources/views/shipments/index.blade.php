@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    // dd($likedFile)
+
 @endphp
 
 <div class="container-fluid">
@@ -20,7 +20,7 @@
             ])
 
             @if (\Request::get('tipo_premiacao') == 1)
-                @if ($likedFile)
+                @if ($likedFile && count(getAcessoCardCompletoNotGeneratedView($likedFile->shipment_award_id)) > 0)
                     <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
                         <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
@@ -105,7 +105,7 @@
                                                     @php
                                                         // dd($alert->shipment_file_vinc)
                                                     @endphp
-                                                        <input {{ $likedFile != null ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <input {{ $likedFile && count(getAcessoCardCompletoNotGeneratedView($likedFile->shipment_award_id)) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
                                                         <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
                                                     @elseif($award->awarded_shipment_cancelled)
                                                         <i aria-hidden="true" class="fas fa-close text-danger"></i>
