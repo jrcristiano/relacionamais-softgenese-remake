@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\CashFlow;
 use App\Repositories\TransferRepository as TransferRepo;
 use App\Repositories\BankRepository as BankRepo;
 use App\Repositories\CashFlowRepository as CashFlowRepo;
@@ -103,7 +102,7 @@ class TransferController extends Controller
             'flow_transfer_credit_or_debit' => 1,
         ];
 
-        $this->cashFlowRepo->saveByParam($params, 'flow_award_id', $id);
+        $this->cashFlowRepo->saveByParam($params, 'flow_transfer_id', $id);
 
         $params = [
             'flow_movement_date' => $data['transfer_date'],
@@ -112,7 +111,7 @@ class TransferController extends Controller
             'flow_transfer_credit_or_debit' => 2
         ];
 
-        $this->cashFlowRepo->saveByParam($params, 'flow_award_id', $id);
+        $this->cashFlowRepo->saveByParam($params, 'flow_transfer_id', $id);
         return redirect()->route('admin.financial.transfers');
     }
 

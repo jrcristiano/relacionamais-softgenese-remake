@@ -55,7 +55,7 @@
     @php
         $transferValue = $transfer->transfer_value ?? null;
     @endphp
-    <input class="form-control sgi-border-2 text-uppercase" type="date" class="form-control sgi-border-2" value="{{ date('Y-m-d') }}" id="transfer_date" name="transfer_date" />
+    <input class="form-control sgi-border-2 text-uppercase" type="date" class="form-control sgi-border-2" value="{{ $transfer->created_at_formatted ?? date('Y-m-d') }}" id="transfer_date" name="transfer_date" />
 </div>
 
 <div class="form-group">
