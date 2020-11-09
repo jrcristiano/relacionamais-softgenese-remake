@@ -459,4 +459,18 @@ class CashFlowRepository extends Repository
         return $this->repository->where('flow_bill_id', $id)
             ->delete();
     }
+
+    public function saveCreditTransferByParam(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->where('flow_transfer_credit_or_debit', 1)
+            ->update($data);
+    }
+
+    public function saveDebitTransferByParam(array $data, $param, $value)
+    {
+        return $this->repository->where($param, $value)
+            ->where('flow_transfer_credit_or_debit', 2)
+            ->update($data);
+    }
 }
