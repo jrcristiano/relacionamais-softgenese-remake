@@ -17,7 +17,7 @@ class DemandRepository extends Repository
 
     public function getDemandsByPaginate($perPage)
     {
-        return $this->repository->select([
+        $query = $this->repository->select([
             'demands.*',
             'demands.demand_prize_amount as prize_amount',
             'notes.note_number',
@@ -27,8 +27,13 @@ class DemandRepository extends Repository
         ->leftJoin('notes', 'demands.id', '=', 'notes.note_demand_id')
         ->leftJoin('note_receipts', 'demands.id', '=', 'note_receipts.note_receipt_demand_id')
         ->orderBy('demands.id', 'desc')
-        ->groupBy('demands.id')
-        ->paginate($perPage);
+        ->groupBy('demands.id');
+
+        if (\Request::get('has_sale') == 1) {
+            return $query->get();
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function getSale()
