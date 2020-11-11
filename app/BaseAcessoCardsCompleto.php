@@ -18,4 +18,9 @@ class BaseAcessoCardsCompleto extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_CANCELLED = 2;
     const STATUS_RESERVED = 3;
+
+    public function getBaseAcessoCardNameFormattedAttribute()
+    {
+        return strtoupper($this->attributes['base_acesso_card_name']);
+    }
 }

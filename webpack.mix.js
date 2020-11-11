@@ -97,4 +97,8 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
         'resources/js/manual-deposits/create.js',
         'resources/js/save-button.js'
     ], 'public/js/manual-deposits/create-edit-manual.js')
+    .scripts([
+        'resources/js/call-center/create.js',
+        'resources/js/save-button.js'
+    ], 'public/js/call-center/create-edit-call-center.js')
    .extract(['vue', 'jquery']);

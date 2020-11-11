@@ -112,4 +112,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->updateWhereStatusNotCancelledAndStatusNotReserved($data, $param, $value);
     }
+
+    public function getAllActiveCards()
+    {
+        return $this->service->getAllActiveCards();
+    }
 }

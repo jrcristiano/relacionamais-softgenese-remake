@@ -225,4 +225,10 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->where($param, $value)
             ->update($data);
     }
+
+    public function getAllActiveCards()
+    {
+        return $this->repository->where('base_acesso_card_status', 1)
+            ->get();
+    }
 }

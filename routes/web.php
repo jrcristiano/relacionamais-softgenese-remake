@@ -173,6 +173,11 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::group(['prefix' => 'operacional', 'as' => 'operational.'], function () {
             Route::get('/central-de-atendimento', 'CallCenterController@index')->name('call-center');
+            Route::get('/central-de-atendimento/{id}', 'CallCenterController@show')->name('call-center.show');
+            Route::get('/central-de-atendimento/novo/chamado', 'CallCenterController@create')->name('call-center.create');
+            Route::post('/central-de-atendimento/salvar', 'CallCenterController@store')->name('call-center.store');
+            Route::get('/central-de-atendimento/{id}/editar', 'CallCenterController@edit')->name('call-center.edit');
+            Route::put('/central-de-atendimento/{id}/atualizar', 'CallCenterController@update')->name('call-center.update');
 
             Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardController@index')->name('consult-acesso-cards');
             Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardController@show')->name('consult-acesso-cards.show');

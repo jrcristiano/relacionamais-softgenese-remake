@@ -25,5 +25,6 @@
     "/js/awards/show-spreadsheets.js": "/js/awards/show-spreadsheets.js",
     "/js/notes/create-edit-notes.js": "/js/notes/create-edit-notes.js",
     "/js/transfer/create-edit-transfer.js": "/js/transfer/create-edit-transfer.js",
-    "/js/manual-deposits/create-edit-manual.js": "/js/manual-deposits/create-edit-manual.js"
+    "/js/manual-deposits/create-edit-manual.js": "/js/manual-deposits/create-edit-manual.js",
+    "/js/call-center/create-edit-call-center.js": "/js/call-center/create-edit-call-center.js"
 }
