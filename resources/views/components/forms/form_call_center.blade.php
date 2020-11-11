@@ -72,10 +72,16 @@
         Status
         <span class="sgi-forced">*</span>
     </label>
+    @php
+        //dd($callCenter->call_center_status)
+    @endphp
     <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_status', $callCenter->call_center_status ?? null) }}" type="text" id="call_center_status" name="call_center_status">
         <option value="">SELECIONAR PREMIAÇÃO</option>
-        <option {{ $callCenter->call_center_status ?? null == 1 ? 'selected' : '' }} value="1">PENDENTE</option>
-        <option {{ $callCenter->call_center_status ?? null == 2 ? 'selected' : '' }} value="2">RESOLVIDO</option>
+        @php
+            $status = $callCenter->call_center_status ?? null;
+        @endphp
+        <option {{ $status == 1 ? 'selected' : '' }} value="1">PENDENTE</option>
+        <option {{ $status == 2 ? 'selected' : '' }} value="2">RESOLVIDO</option>
     </select>
 </div>
 
