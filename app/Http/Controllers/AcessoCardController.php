@@ -102,7 +102,9 @@ class AcessoCardController extends Controller
      */
     public function destroy($id)
     {
+        \App\HistoryAcessoCard::find($id)->delete();
         $this->acessoCardService->delete($id);
+
         return redirect()
             ->route('admin.register.acesso-cards.show', [
                 'id' => \Request::get('card_id'),
