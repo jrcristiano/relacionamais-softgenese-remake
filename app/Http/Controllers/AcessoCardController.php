@@ -102,7 +102,7 @@ class AcessoCardController extends Controller
      */
     public function destroy($id)
     {
-        \App\HistoryAcessoCard::destroy($id);
+        \App\HistoryAcessoCard::where('history_acesso_card_id', $id)->delete();
         $this->acessoCardService->delete($id);
 
         return redirect()
