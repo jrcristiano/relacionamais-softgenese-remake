@@ -473,4 +473,10 @@ class CashFlowRepository extends Repository
             ->where('flow_transfer_credit_or_debit', 2)
             ->update($data);
     }
+
+    public function saveWhereBillId(array $data, $id)
+    {
+        return $this->repository->where('flow_bill_id', $id)
+            ->update($data);
+    }
 }

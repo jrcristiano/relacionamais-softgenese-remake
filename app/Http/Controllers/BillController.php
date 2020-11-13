@@ -126,7 +126,7 @@ class BillController extends Controller
             $flowData['flow_bank_id'] = $data['bill_bank_id'];
             $flowData['flow_bill_id'] = $id;
 
-            $this->cashFlowRepo->save($flowData);
+            $this->cashFlowRepo->saveWhereBillId($flowData, $flowData['flow_bill_id']);
         }
 
         return redirect()->route('admin.financial.bills')
