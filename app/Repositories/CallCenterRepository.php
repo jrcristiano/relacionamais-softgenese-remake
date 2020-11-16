@@ -45,6 +45,8 @@ class CallCenterRepository extends Repository
             'call_centers.call_center_phone',
             'call_centers.call_center_email',
             'call_centers.call_center_status',
+            'call_centers.call_center_comments',
+            'base_acesso_cards_completo.id as base_acesso_card_id',
             'base_acesso_cards_completo.base_acesso_card_name',
             'base_acesso_cards_completo.base_acesso_card_cpf',
         ])

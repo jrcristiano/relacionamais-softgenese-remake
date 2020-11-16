@@ -8,12 +8,23 @@
     <div class="row shadow bg-white rounded">
         @include('components.leftbar')
         <div class="col-lg-10 sgi-container shadow-sm rounded">
-            @include('components.header_content', [
-                'title' => 'Novo chamado',
-                'buttonTitle' => 'Voltar a home',
-                'route' => 'admin.home',
-                'icon' => 'fas fa-home'
-            ])
+            <header class="sgi-content-header d-flex align-items-center">
+                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="sgi-content-title">Novo chamado</h2>
+
+                @php
+                    $pedidoId = $id ?? null;
+                @endphp
+                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('documento')]) }}">
+                    <i class="fas fa-eye"></i> Consultar premiado
+                </a>
+                <a class="btn btn-primary sgi-btn-bold ml-1 mt-2" href="{{ route('admin.operational.call-center') }}">
+                    <i class="fas fa-undo"></i> Voltar
+                </a>
+            </header>
+
 
             <form class="mt-3 px-2" action="{{ route('admin.operational.call-center.store') }}" method="post">
 

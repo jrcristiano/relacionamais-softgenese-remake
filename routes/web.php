@@ -179,8 +179,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/central-de-atendimento/{id}/editar', 'CallCenterController@edit')->name('call-center.edit');
             Route::put('/central-de-atendimento/{id}/atualizar', 'CallCenterController@update')->name('call-center.update');
 
-            Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardController@index')->name('consult-acesso-cards');
-            Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardController@show')->name('consult-acesso-cards.show');
+            Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardCompletoController@index')->name('acesso-cards-completo');
+            Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardCompletoController@show')->name('acesso-cards-completo.show');
         });
     });
 });

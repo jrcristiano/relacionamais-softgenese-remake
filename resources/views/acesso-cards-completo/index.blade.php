@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Consulta de acesso cards')
+@section('title', 'Consulta de AcessoCards completo')
 @section('content')
 @php
     // dd($awardeds)
@@ -13,7 +13,7 @@
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="sgi-content-title">Cartões AcessoCard</h2>
+                <h2 class="sgi-content-title">Cartões AcessoCards Completo</h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
@@ -56,10 +56,19 @@
                                 {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : '') }}
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Novo chamado" href="{{ route('admin.operational.call-center.create', ['cartao_id' => $awarded->id]) }}">
+                                <a class="btn btn-primary btn-sm"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Novo chamado"
+                                    href="{{ route('admin.operational.call-center.create', [
+                                        'cartao_id' => $awarded->base_acesso_card_id,
+                                        'tipo_cartao' => 'completo',
+                                        'premiado' => $awarded->acesso_card_name,
+                                        'documento' => $awarded->acesso_card_document
+                                    ]) }}">
                                     <i class="fas fa-headset"></i>
                                 </a>
-                                <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.consult-acesso-cards.show', ['document' => $awarded->acesso_card_document]) }}">
+                                <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => $awarded->acesso_card_document]) }}">
                                     <i class="far fa-eye"></i>
                                 </a>
                             </td>

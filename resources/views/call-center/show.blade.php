@@ -11,7 +11,14 @@
             <header class="sgi-content-header d-flex align-items-center">
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0 "><i class="fas fa-bars"></i></button>
                 <h1 class="font-weight-bold text-uppercase sgi-content-title">CHAMADO</h1>
-                <a href="#" class="btn btn-primary mr-1 ml-auto">
+                <a class="btn btn-primary mr-1 ml-auto"
+                    href="{{ route('admin.operational.call-center.edit', [
+                        'cartao_id' => $callCenter->base_acesso_card_id,
+                        'tipo_cartao' => 'completo',
+                        'premiado' => $callCenter->acesso_card_name,
+                        'documento' => $callCenter->acesso_card_document,
+                        'id' => $callCenter->id
+                    ]) }}">
                     <i aria-hidden="true" class="fas fa-edit"></i> Editar
                 </a>
             </header>
@@ -70,6 +77,14 @@
                         {{ $callCenter->created_at }}
                     </div>
                 </div>
+                @if ($callCenter->call_center_comments)
+                    <div class="row p-2">
+                        <label class="font-weight-bold">Observações</label>
+                        <div class="col-md-12 text-uppercase sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
+                            {{ $callCenter->call_center_comments }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 

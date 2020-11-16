@@ -1,6 +1,3 @@
-@php
-    // dd($callCenter->call_center_base_acesso_card_completo_id)
-@endphp
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_award_type">
         Tipo de premiação
@@ -8,7 +5,10 @@
     </label>
     <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_award_type', $callCenter->call_center_award_type ?? null) }}" type="text" id="call_center_award_type" name="call_center_award_type">
         <option value="">SELECIONAR PREMIAÇÃO</option>
-        <option {{ $callCenter->call_center_award_type ?? null == 1 ? 'selected' : '' }} value="1">ACESSOCARD</option>
+        @php
+            $awardType = $callCenter->call_center_award_type ?? null;
+        @endphp
+        <option {{ $awardType == 1 || \Request::get('tipo_cartao') == 'completo' ? 'selected' : '' }} value="1">ACESSOCARD</option>
     </select>
 </div>
 
@@ -19,8 +19,11 @@
     </label>
     <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_subproduct', $callCenter->call_center_subproduct ?? null) }}" type="text" id="call_center_subproduct" name="call_center_subproduct">
         <option value="">SELECIONAR SUBPRODUTO</option>
-        <option {{ $callCenter->call_center_subproduct ?? null == 1 ? 'selected' : '' }} value="1">ACESSOCARD COMPLETO</option>
-        <option {{ $callCenter->call_center_subproduct ?? null == 2 ? 'selected' : '' }} value="2">ACESSOCARD COMPRAS</option>
+        @php
+            $subproduct = $callCenter->call_center_subproduct ?? null;
+        @endphp
+        <option  {{ $subproduct == 1 || \Request::get('tipo_cartao') == 'completo' ? 'selected' : '' }} value="1">ACESSOCARD COMPLETO</option>
+        <option {{ $subproduct == 2 ? 'selected' : '' }} value="2">ACESSOCARD COMPRAS</option>
     </select>
 </div>
 
@@ -32,7 +35,10 @@
     <select class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_base_acesso_card_completo_id', $callCenter->call_center_base_acesso_card_completo_id ?? null) }}" type="text" id="call_center_base_acesso_card_completo_id" name="call_center_base_acesso_card_completo_id">
         <option value="">SELECIONAR PREMIADO</option>
         @foreach ($baseAcessoCardsCompletos as $baseAcessoCardsCompleto)
-            <option {{ $callCenter->call_center_base_acesso_card_completo_id ?? null == $baseAcessoCardsCompleto->id ? 'selected' : '' }} value="{{ $baseAcessoCardsCompleto->id }}">{{ $baseAcessoCardsCompleto->base_acesso_card_cpf }} | {{ $baseAcessoCardsCompleto->base_acesso_card_proxy }} | {{ $baseAcessoCardsCompleto->base_acesso_card_name_formatted }}</option>
+        @php
+            $cardId = $callCenter->call_center_base_acesso_card_completo_id ?? null;
+        @endphp
+            <option {{ $cardId == $baseAcessoCardsCompleto->id || $baseAcessoCardsCompleto->base_acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $baseAcessoCardsCompleto->id }}">{{ $baseAcessoCardsCompleto->base_acesso_card_cpf }} | {{ $baseAcessoCardsCompleto->base_acesso_card_name_formatted }}</option>
         @endforeach
     </select>
 </div>
@@ -58,12 +64,15 @@
         Motivo
         <span class="sgi-forced">*</span>
     </label>
-    <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_reason', $callCenter->call_center_reason ?? null) }}" type="text" id="call_center_reason" name="call_center_reason">
+    <select class="form-control text-uppercase sgi-border-2" type="text" id="call_center_reason" name="call_center_reason">
         <option value="">SELECIONAR PREMIAÇÃO</option>
-        <option {{ $callCenter->call_center_reason ?? null == 1 ? 'selected' : '' }} value="1">ROUBO</option>
-        <option {{ $callCenter->call_center_reason ?? null == 2 ? 'selected' : '' }} value="2">FURTO</option>
-        <option {{ $callCenter->call_center_reason ?? null == 3 ? 'selected' : '' }} value="3">PERDA</option>
-        <option {{ $callCenter->call_center_reason ?? null == 4 ? 'selected' : '' }} value="4">EXTRAVIO</option>
+        @php
+            $reason = $callCenter->call_center_reason ?? null;
+        @endphp
+        <option {{ $reason == 1 ? 'selected' : '' }} value="1">ROUBO</option>
+        <option {{ $reason == 2 ? 'selected' : '' }} value="2">FURTO</option>
+        <option {{ $reason == 3 ? 'selected' : '' }} value="3">PERDA</option>
+        <option {{ $reason == 4 ? 'selected' : '' }} value="4">EXTRAVIO</option>
     </select>
 </div>
 

@@ -6,7 +6,7 @@ use App\Services\HistoryAcessoCardService;
 use App\Services\AcessoCardService;
 use Illuminate\Http\Request;
 
-class ConsultAcessoCardController extends Controller
+class ConsultAcessoCardCompletoController extends Controller
 {
     private $historyAcessoCardService;
     private $acessoCardService;
@@ -25,7 +25,7 @@ class ConsultAcessoCardController extends Controller
     {
         $awardeds = $this->acessoCardService->getAwardedsByAllAwards($request);
         $filters = $this->historyAcessoCardService->getDataForFilters();
-        return view('consult-awardeds.index', compact('awardeds', 'filters'));
+        return view('acesso-cards-completo.index', compact('awardeds', 'filters'));
     }
 
     /**
@@ -58,7 +58,7 @@ class ConsultAcessoCardController extends Controller
     public function show($document)
     {
         $acessoCards = $this->acessoCardService->findInfoAcessoCard($document);
-        return view('consult-awardeds.show', compact('acessoCards'));
+        return view('acesso-cards-completo.show', compact('acessoCards'));
     }
 
     /**
