@@ -19,6 +19,12 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function findByProxy($proxy)
+    {
+        return $this->repository->where('base_acesso_card_proxy', $proxy)
+            ->first();
+    }
+
     public function findActiveCardByDocument($document)
     {
         return $this->repository->where('base_acesso_card_cpf', $document)

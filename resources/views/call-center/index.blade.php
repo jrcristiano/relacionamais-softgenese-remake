@@ -40,7 +40,7 @@
                     @forelse ($callCenters as $callCenter)
                     <tr>
                         <td>{{ $callCenter->created_at_formatted }}</td>
-                        <td>{{ $callCenter->acesso_card_name }}</td>
+                        <td>{{ $callCenter->acesso_card_name_formatted }}</td>
                         <td>{{ $callCenter->acesso_card_document }}</td>
                         <td>{{ $callCenter->call_center_subproduct == 1 ? 'ACESSOCARD COMPLETO' : 'ACESSOCARD COMPRAS' }}</td>
                         <td>

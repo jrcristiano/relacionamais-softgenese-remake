@@ -23,6 +23,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->findBaseAcessoCardActiveByDocument($document);
     }
 
+    public function findByProxy($proxy)
+    {
+        return $this->service->findByProxy($proxy);
+    }
+
     public function firstBaseAcessoCardNumberByDocument($document)
     {
         return $this->service->firstBaseAcessoCardNumberByDocument($document);

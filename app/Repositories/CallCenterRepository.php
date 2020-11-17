@@ -44,10 +44,14 @@ class CallCenterRepository extends Repository
             'call_centers.call_center_phone',
             'call_centers.call_center_email',
             'call_centers.call_center_status',
+            'call_centers.call_center_comments',
             'acesso_cards.acesso_card_name',
             'acesso_cards.acesso_card_document',
+            'acesso_cards.acesso_card_proxy',
+            'base_acesso_cards_completo.base_acesso_card_status',
         ])
         ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id')
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_card_proxy')
         ->where('call_centers.id', $id)
         ->first();
     }

@@ -22,6 +22,11 @@ class AcessoCard extends Model
         'acesso_card_award_parted',
     ];
 
+    public function getAcessoCardNameFormattedAttribute()
+    {
+        return strtoupper($this->attributes['acesso_card_name']);
+    }
+
     public function getAcessoCardValueFormattedAttribute()
     {
         return number_format($this->attributes['acesso_card_value'], 2, ',', '.');

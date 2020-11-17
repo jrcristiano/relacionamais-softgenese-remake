@@ -17,7 +17,17 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
-                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}">
+
+                    <form class="ml-auto mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
+                        @if ($callCenter->base_acesso_card_status == 1 && $callCenter->call_center_reason != 5)
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-danger font-weight-bold" type="submit">
+                                <i class="far fa-credit-card"></i> Gerar 2º via
+                            </button>
+                        @endif
+                    </form>
+                <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}">
                     <i class="fas fa-eye"></i> Consultar premiado
                 </a>
                 <a class="btn btn-primary sgi-btn-bold ml-1 mt-2" href="{{ url()->previous() }}">

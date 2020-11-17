@@ -166,7 +166,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/recebimento/{id}/editar', 'NoteReceiptController@edit')->name('note-receipts.edit');
             Route::put('/recebimento/{id}/atualizar', 'NoteReceiptController@update')->name('note-receipts.update');
             Route::post('/recebimento/{id}/delete', 'NoteReceiptController@destroy')->name('note-receipts.delete');
-
         });
 
         Route::group(['prefix' => 'operacional', 'as' => 'operational.'], function () {
@@ -179,6 +178,8 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardCompletoController@index')->name('acesso-cards-completo');
             Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardCompletoController@show')->name('acesso-cards-completo.show');
+
+            Route::put('/gerar-segunda-via/{proxy}', 'BaseAcessoCardCompletoDuplicateController@update')->name('base-acesso-card-duplicate.update');
         });
     });
 });

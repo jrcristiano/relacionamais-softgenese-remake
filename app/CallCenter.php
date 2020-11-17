@@ -18,6 +18,11 @@ class CallCenter extends Model
         'call_center_comments',
     ];
 
+    public function getAcessoCardNameFormattedAttribute()
+    {
+        return strtoupper($this->attributes['acesso_card_name']);
+    }
+
     public function getCreatedAtFormattedAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');

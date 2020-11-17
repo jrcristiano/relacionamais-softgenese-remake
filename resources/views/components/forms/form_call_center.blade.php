@@ -41,7 +41,7 @@
         @php
             $document = $acessoCard->acesso_card_document ?? null;
         @endphp
-            <option {{ $document == \Request::get('document') || $acessoCard->acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $acessoCard->id }}">{{ $acessoCard->acesso_card_document }} | {{ $acessoCard->acesso_card_name }}</option>
+            <option {{ $document == \Request::get('document') || $acessoCard->acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $acessoCard->id }}">{{ $acessoCard->acesso_card_document }} | {{ $acessoCard->acesso_card_name_formatted }}</option>
         @endforeach
     </select>
 </div>
@@ -76,6 +76,7 @@
         <option {{ $reason == 2 ? 'selected' : '' }} value="2">FURTO</option>
         <option {{ $reason == 3 ? 'selected' : '' }} value="3">PERDA</option>
         <option {{ $reason == 4 ? 'selected' : '' }} value="4">EXTRAVIO</option>
+        <option {{ $reason == 5 ? 'selected' : '' }} value="5">INFORMAÇÃO</option>
     </select>
 </div>
 
