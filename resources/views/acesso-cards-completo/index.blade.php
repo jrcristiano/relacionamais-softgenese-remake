@@ -2,7 +2,7 @@
 @section('title', 'Consulta de AcessoCards completo')
 @section('content')
 @php
-    // dd($awardeds)
+    // dd($callCenters)
 @endphp
 
 <div class="container-fluid">
@@ -17,7 +17,7 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
-                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.home') }}">
+                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ url()->previous() }}">
                     <i class="fas fa-undo"></i> Voltar
                 </a>
             </header>
@@ -61,14 +61,20 @@
                                     data-placement="top"
                                     title="Novo chamado"
                                     href="{{ route('admin.operational.call-center.create', [
-                                        'cartao_id' => $awarded->base_acesso_card_id,
                                         'tipo_cartao' => 'completo',
                                         'premiado' => $awarded->acesso_card_name,
-                                        'documento' => $awarded->acesso_card_document
+                                        'document' => $awarded->acesso_card_document
                                     ]) }}">
                                     <i class="fas fa-headset"></i>
                                 </a>
-                                <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => $awarded->acesso_card_document]) }}">
+                                <a data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Visualizar"
+                                    class="btn btn-sm btn-primary" href="{{ route('admin.operational.acesso-cards-completo.show', [
+                                    'tipo_cartao' => 'completo',
+                                    'premiado' => $awarded->acesso_card_name,
+                                    'document' => $awarded->acesso_card_document
+                                ]) }}">
                                     <i class="far fa-eye"></i>
                                 </a>
                             </td>

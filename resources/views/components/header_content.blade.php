@@ -7,7 +7,7 @@
     @php
         $pedidoId = $id ?? null;
     @endphp
-    <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route($route) }}">
+    <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ url()->previous() == $route ? $route : route($route) }}">
         <i class="{{ $icon }}"></i> {{ $buttonTitle }}
     </a>
 </header>

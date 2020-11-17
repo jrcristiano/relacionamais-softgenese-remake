@@ -17,10 +17,15 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
-                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('documento')]) }}">
+                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', [
+                    'document' => \Request::get('document'),
+                    'tipo_cartao' => \Request::get('tipo_cartao'),
+                    'premiado' => \Request::get('premiado'),
+                    'cartao_id' => \Request::get('cartao_id')
+                ]) }}">
                     <i class="fas fa-eye"></i> Consultar premiado
                 </a>
-                <a class="btn btn-primary sgi-btn-bold ml-1 mt-2" href="{{ route('admin.operational.call-center') }}">
+                <a class="btn btn-primary sgi-btn-bold ml-1 mt-2" href="{{ url()->previous() }}">
                     <i class="fas fa-undo"></i> Voltar
                 </a>
             </header>

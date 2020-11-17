@@ -5,12 +5,19 @@
         <div class="row shadow bg-white rounded">
             @include('components.leftbar')
             <div class="col-lg-10 sgi-container shadow-sm rounded p-0">
-                @include('components.header_content', [
-                    'title' => 'Fornecedores',
-                    'buttonTitle' => 'Novo fornecedor',
-                    'route' => 'admin.register.providers.create',
-                    'icon' => 'fas fa-plus'
-                ])
+                <header class="sgi-content-header d-flex align-items-center">
+                    <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="sgi-content-title">Fornecedores</h2>
+
+                    @php
+                        $pedidoId = $id ?? null;
+                    @endphp
+                    <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.register.providers.create') }}">
+                        <i class="fas fa-plus"></i> Novo fornecedor
+                    </a>
+                </header>
 
                 @include('components.message')
 

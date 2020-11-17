@@ -10,7 +10,7 @@ class CallCenter extends Model
     protected $fillable = [
         'call_center_award_type',
         'call_center_subproduct',
-        'call_center_base_acesso_card_completo_id',
+        'call_center_acesso_card_id',
         'call_center_reason',
         'call_center_status',
         'call_center_phone',

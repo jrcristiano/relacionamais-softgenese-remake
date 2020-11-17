@@ -8,9 +8,9 @@
         <div class="col-lg-10 sgi-container shadow-sm rounded">
             @include('components.header_content', [
                 'title' => 'Editar transferência',
-                'buttonTitle' => 'Voltar a home',
-                'route' => 'admin.home',
-                'icon' => 'fas fa-home'
+                'buttonTitle' => 'Voltar',
+                'route' => url()->previous(),
+                'icon' => 'fas fa-undo'
             ])
 
             <form class="mt-3 px-2" action="{{ route('admin.financial.transfers.update', [ 'id' => $transfer->id ]) }}" method="post">

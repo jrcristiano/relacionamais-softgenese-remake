@@ -9,7 +9,7 @@
                 'title' => 'Novo recebimento',
                 'buttonTitle' => 'Voltar a home',
                 'route' => 'admin.home',
-                'icon' => 'fas fa-home'
+                'icon' => 'fas fa-undo'
             ])
 
         <form class="mt-3 px-3" action="{{ route('admin.financial.note-receipts.store', ['nota_id' => $noteId, 'pedido_id' => \Request::get('pedido_id')]) }}" method="post">

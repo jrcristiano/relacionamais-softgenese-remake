@@ -24,12 +24,11 @@ class CallCenterRepository extends Repository
             'call_centers.call_center_phone',
             'call_centers.call_center_email',
             'call_centers.call_center_status',
-            'base_acesso_cards_completo.base_acesso_card_name',
-            'base_acesso_cards_completo.base_acesso_card_cpf',
-            'base_acesso_cards_completo.base_acesso_card_status',
-            'call_centers.call_center_base_acesso_card_completo_id',
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_document',
+            'call_centers.call_center_acesso_card_id',
         ])
-        ->leftJoin('base_acesso_cards_completo', 'call_centers.call_center_base_acesso_card_completo_id', '=', 'base_acesso_cards_completo.id')
+        ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id')
         ->paginate($perPage);
     }
 
@@ -40,17 +39,15 @@ class CallCenterRepository extends Repository
             'call_centers.created_at',
             'call_centers.call_center_reason',
             'call_centers.call_center_subproduct',
-            'call_centers.call_center_base_acesso_card_completo_id',
+            'call_centers.call_center_acesso_card_id',
             'call_centers.call_center_award_type',
             'call_centers.call_center_phone',
             'call_centers.call_center_email',
             'call_centers.call_center_status',
-            'call_centers.call_center_comments',
-            'base_acesso_cards_completo.id as base_acesso_card_id',
-            'base_acesso_cards_completo.base_acesso_card_name',
-            'base_acesso_cards_completo.base_acesso_card_cpf',
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_document',
         ])
-        ->leftJoin('base_acesso_cards_completo', 'call_centers.call_center_base_acesso_card_completo_id', '=', 'base_acesso_cards_completo.id')
+        ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id')
         ->where('call_centers.id', $id)
         ->first();
     }

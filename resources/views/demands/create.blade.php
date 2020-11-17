@@ -9,9 +9,9 @@
 
             @include('components.header_content', [
                 'title' => 'Novo pedido',
-                'buttonTitle' => 'Voltar a home',
-                'route' => 'admin.home',
-                'icon' => 'fas fa-home'
+                'buttonTitle' => 'Voltar',
+                'route' => url()->previous(),
+                'icon' => 'fas fa-undo'
             ])
 
             @include('components.message', ['message_name' => 'message'])

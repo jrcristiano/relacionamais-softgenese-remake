@@ -20,8 +20,8 @@
                 <i class="fas fa-hand-holding-usd"></i> Novo recebimento
             </button>
 
-            <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ route('admin.home') }}">
-                <i class="fas fa-home"></i> Voltar a home
+            <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ url()->previous() }}">
+                <i class="fas fa-undo"></i> Voltar
             </a>
 
         </header>

@@ -126,8 +126,6 @@ Route::group(['prefix' => 'admin'], function () {
         });
 
         Route::group(['prefix' => 'financeiro', 'as' => 'financial.'], function () {
-            Route::get('/fornecedores', 'ClientController@index')->name('providers');
-
             Route::get('/contas-a-pagar', 'BillController@index')->name('bills');
             Route::get('/conta-a-pagar', 'BillController@create')->name('bills.create');
             Route::post('/conta-a-pagar/salvar', 'BillController@store')->name('bills.store');

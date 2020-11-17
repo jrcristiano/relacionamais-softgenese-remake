@@ -9,8 +9,8 @@
             <header class="sgi-content-header d-flex align-items-center">
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0 "><i class="fas fa-bars"></i></button>
                 <h1 class="font-weight-bold text-uppercase sgi-content-title">Cliente {{ $client->client_company }}</h1>
-                <a class="btn btn-primary ml-auto mt-2 mr-1" href="{{ route('admin.home') }}">
-                    <i class="fas fa-home"></i> Voltar a home
+                <a class="btn btn-primary ml-auto mt-2 mr-1" href="{{ url()->previous() }}">
+                    <i class="fas fa-undo"></i> Voltar
                 </a>
                 <a href="{{ route('admin.register.clients.edit', [ 'id' => $client->id ]) }}" class="btn btn-primary mt-2 mr-1">
                     <i aria-hidden="true" class="fas fa-edit"></i> Editar

@@ -40,8 +40,8 @@
                     @forelse ($callCenters as $callCenter)
                     <tr>
                         <td>{{ $callCenter->created_at_formatted }}</td>
-                        <td>{{ $callCenter->base_acesso_card_name }}</td>
-                        <td>{{ $callCenter->base_acesso_card_cpf }}</td>
+                        <td>{{ $callCenter->acesso_card_name }}</td>
+                        <td>{{ $callCenter->acesso_card_document }}</td>
                         <td>{{ $callCenter->call_center_subproduct == 1 ? 'ACESSOCARD COMPLETO' : 'ACESSOCARD COMPRAS' }}</td>
                         <td>
                             @php
@@ -68,16 +68,30 @@
                             {{ $callCenter->call_center_status == 1 ? 'PENDENTE' : 'RESOLVIDO' }}
                         </td>
                         <td>
-                            <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.call-center.show', ['id' => $callCenter->id]) }}">
-                                <i class="far fa-eye"></i>
+                            <a data-toggle="tooltip"
+                                data-placement="top"
+                                title="Visualizar"
+                                class="btn btn-sm btn-primary"
+                                href="{{ route('admin.operational.call-center.show', [
+                                    'cartao_id' => $callCenter->base_acesso_card_id,
+                                    'tipo_cartao' => 'completo',
+                                    'premiado' => $callCenter->acesso_card_name,
+                                    'document' => $callCenter->acesso_card_document,
+                                    'id' => $callCenter->id
+                                ]) }}">
+                                    <i class="far fa-eye"></i>
                             </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-sm btn-primary" href="{{ route('admin.operational.call-center.edit', [
-                                'cartao_id' => $callCenter->base_acesso_card_id,
-                                'tipo_cartao' => 'completo',
-                                'premiado' => $callCenter->acesso_card_name,
-                                'documento' => $callCenter->acesso_card_document,
-                                'id' => $callCenter->id
-                            ]) }}">
+                            <a data-toggle="tooltip"
+                                data-placement="top"
+                                title="Editar"
+                                class="btn btn-sm btn-primary"
+                                href="{{ route('admin.operational.call-center.edit', [
+                                    'cartao_id' => $callCenter->base_acesso_card_id,
+                                    'tipo_cartao' => 'completo',
+                                    'premiado' => $callCenter->acesso_card_name,
+                                    'document' => $callCenter->acesso_card_document,
+                                    'id' => $callCenter->id
+                                ]) }}">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>

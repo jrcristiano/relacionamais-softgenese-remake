@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Text;
-use App\Services\BaseAcessoCardsCompletoService;
 use App\Services\CallCenterService;
 use App\Http\Requests\CallCenterRequest as Request;
+use App\Services\AcessoCardService;
 
 class CallCenterController extends Controller
 {
     private $callCenterService;
-    private $baseAcessoCardsCompletoService;
+    private $acessoCardService;
 
-    public function __construct(CallCenterService $callCenterService, BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
+    public function __construct(CallCenterService $callCenterService, AcessoCardService $acessoCardService)
     {
         $this->callCenterService = $callCenterService;
-        $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
+        $this->acessoCardService = $acessoCardService;
     }
 
     public function index()
@@ -32,8 +32,8 @@ class CallCenterController extends Controller
 
     public function create()
     {
-        $baseAcessoCardsCompletos = $this->baseAcessoCardsCompletoService->getAllActiveCards();
-        return view('call-center.create', compact('baseAcessoCardsCompletos'));
+        $acessoCards = $this->acessoCardService->all();
+        return view('call-center.create', compact('acessoCards'));
     }
 
     public function store(Request $request)
@@ -48,8 +48,8 @@ class CallCenterController extends Controller
     public function edit($id)
     {
         $callCenter = $this->callCenterService->firstCallCenter($id);
-        $baseAcessoCardsCompletos = $this->baseAcessoCardsCompletoService->getAllActiveCards();
-        return view('call-center.edit', compact('callCenter', 'baseAcessoCardsCompletos'));
+        $acessoCards = $this->acessoCardService->all();
+        return view('call-center.edit', compact('callCenter', 'acessoCards'));
     }
 
     public function update(Request $request, $id)

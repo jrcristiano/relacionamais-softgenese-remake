@@ -14,9 +14,9 @@
         <div class="col-lg-10 sgi-container shadow-sm rounded p-0">
             @include('components.header_content', [
                 'title' => 'Remessas',
-                'buttonTitle' => 'Voltar a home',
-                'route' => 'admin.home',
-                'icon' => 'fas fa-home'
+                'buttonTitle' => 'Voltar',
+                'route' => url()->previous(),
+                'icon' => 'fas fa-undo'
             ])
 
             @if (\Request::get('tipo_premiacao') == 1)

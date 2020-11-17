@@ -16,7 +16,7 @@
                         'cartao_id' => $callCenter->base_acesso_card_id,
                         'tipo_cartao' => 'completo',
                         'premiado' => $callCenter->acesso_card_name,
-                        'documento' => $callCenter->acesso_card_document,
+                        'document' => $callCenter->acesso_card_document,
                         'id' => $callCenter->id
                     ]) }}">
                     <i aria-hidden="true" class="fas fa-edit"></i> Editar
@@ -26,13 +26,13 @@
                 <div class="row p-2">
                     <label class="font-weight-bold">Nome do premiado</label>
                     <div class="col-md-12 text-uppercase sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-                        {{ $callCenter->base_acesso_card_name }}
+                        {{ $callCenter->acesso_card_name }}
                     </div>
                 </div>
                 <div class="row p-2">
                     <label class="font-weight-bold">Documento</label>
                     <div  class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-                        {{ $callCenter->base_acesso_card_cpf }}
+                        {{ $callCenter->acesso_card_document }}
                     </div>
                 </div>
                 <div class="row p-2">
@@ -74,7 +74,7 @@
                 <div class="row p-2">
                     <label class="font-weight-bold">Data</label>
                     <div class="col-md-12 text-uppercase sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-                        {{ $callCenter->created_at }}
+                        {{ $callCenter->created_at_formatted }}
                     </div>
                 </div>
                 @if ($callCenter->call_center_comments)

@@ -1,3 +1,6 @@
+@php
+    // dd($callCenter);
+@endphp
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_award_type">
         Tipo de premiação
@@ -28,17 +31,17 @@
 </div>
 
 <div class="form-group">
-    <label class="font-weight-bold" for="call_center_base_acesso_card_completo_id">
+    <label class="font-weight-bold" for="call_center_acesso_card_id">
         Premiado
         <span class="sgi-forced">*</span>
     </label>
-    <select class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_base_acesso_card_completo_id', $callCenter->call_center_base_acesso_card_completo_id ?? null) }}" type="text" id="call_center_base_acesso_card_completo_id" name="call_center_base_acesso_card_completo_id">
+    <select class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
         <option value="">SELECIONAR PREMIADO</option>
-        @foreach ($baseAcessoCardsCompletos as $baseAcessoCardsCompleto)
+        @foreach ($acessoCards as $acessoCard)
         @php
-            $cardId = $callCenter->call_center_base_acesso_card_completo_id ?? null;
+            $document = $acessoCard->acesso_card_document ?? null;
         @endphp
-            <option {{ $cardId == $baseAcessoCardsCompleto->id || $baseAcessoCardsCompleto->base_acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $baseAcessoCardsCompleto->id }}">{{ $baseAcessoCardsCompleto->base_acesso_card_cpf }} | {{ $baseAcessoCardsCompleto->base_acesso_card_name_formatted }}</option>
+            <option {{ $document == \Request::get('document') || $acessoCard->acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $acessoCard->id }}">{{ $acessoCard->acesso_card_document }} | {{ $acessoCard->acesso_card_name }}</option>
         @endforeach
     </select>
 </div>
@@ -65,7 +68,7 @@
         <span class="sgi-forced">*</span>
     </label>
     <select class="form-control text-uppercase sgi-border-2" type="text" id="call_center_reason" name="call_center_reason">
-        <option value="">SELECIONAR PREMIAÇÃO</option>
+        <option value="">SELECIONAR MOTIVO</option>
         @php
             $reason = $callCenter->call_center_reason ?? null;
         @endphp
@@ -85,7 +88,7 @@
         //dd($callCenter->call_center_status)
     @endphp
     <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_status', $callCenter->call_center_status ?? null) }}" type="text" id="call_center_status" name="call_center_status">
-        <option value="">SELECIONAR PREMIAÇÃO</option>
+        <option value="">SELECIONAR STATUS</option>
         @php
             $status = $callCenter->call_center_status ?? null;
         @endphp

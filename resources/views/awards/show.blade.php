@@ -14,7 +14,7 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
-                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.show', [ 'id' => \Request::get('pedido_id'), 'premiacao' => 1 ]) }}">
+                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ url()->previous() }}">
                     <i class="fas fa-undo"></i> Voltar
                 </a>
             </header>

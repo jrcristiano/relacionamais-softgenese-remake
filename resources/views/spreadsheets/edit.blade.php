@@ -8,9 +8,9 @@
             <div class="col-lg-10 sgi-container shadow-sm rounded">
             @include('components.header_content', [
                 'title' => 'Editar planilha',
-                'buttonTitle' => 'Voltar a home',
-                'route' => 'admin.home',
-                'icon' => 'fas fa-home'
+                'buttonTitle' => 'Voltar',
+                'route' => url()->previous(),
+                'icon' => 'fas fa-undo'
             ])
 
             <form class="mt-3" action="{{ route('admin.register.spreadsheets.update', ['id' => $spreadsheet->id, 'premiado_id' => $awardId]) }}" method="post">

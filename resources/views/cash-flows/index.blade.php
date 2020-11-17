@@ -12,9 +12,9 @@
                 <div class="col-lg-10 sgi-container shadow-sm rounded p-0">
                     @include('components.header_content', [
                         'title' => 'Fluxo de caixa',
-                        'buttonTitle' => 'Voltar a home',
-                        'route' => 'admin.home',
-                        'icon' => 'fas fa-home'
+                        'buttonTitle' => 'Voltar',
+                        'route' => url()->previous(),
+                        'icon' => 'fas fa-undo'
                     ])
 
                     <div class="col-md-12 mt-2">

@@ -29,7 +29,7 @@
                     <header class="sgi-content-header d-flex align-items-center">
                         <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0 "><i class="fas fa-bars"></i></button>
                         <h1 class="font-weight-bold sgi-content-title">ID {{ $demand->id }} | {{ $demand->demand_client_name }}</h1>
-                        <a class="btn btn-primary ml-auto mt-2 mr-1" href="{{ route('admin.home') }}">
+                        <a class="btn btn-primary ml-auto mt-2 mr-1" href="{{ url()->previous() }}">
                             <i class="fas fa-undo"></i> Voltar
                         </a>
                         <a href="{{ route('admin.edit', [ 'id' => $demand->id ]) }}" class="btn btn-primary mt-2 mr-1">
