@@ -63,7 +63,8 @@
                                     href="{{ route('admin.operational.call-center.create', [
                                         'tipo_cartao' => 'completo',
                                         'premiado' => $awarded->acesso_card_name,
-                                        'document' => $awarded->acesso_card_document
+                                        'document' => $awarded->acesso_card_document,
+                                        'acesso_card_id' => $awarded->acesso_card_id
                                     ]) }}">
                                     <i class="fas fa-headset"></i>
                                 </a>
@@ -73,7 +74,8 @@
                                     class="btn btn-sm btn-primary" href="{{ route('admin.operational.acesso-cards-completo.show', [
                                     'tipo_cartao' => 'completo',
                                     'premiado' => $awarded->acesso_card_name,
-                                    'document' => $awarded->acesso_card_document
+                                    'document' => $awarded->acesso_card_document,
+                                    'acesso_card_id' => $awarded->acesso_card_id
                                 ]) }}">
                                     <i class="far fa-eye"></i>
                                 </a>

@@ -27,6 +27,16 @@
                             </button>
                         @endif
                     </form>
+                    <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
+                        @if ($callCenter->base_acesso_card_status == 1)
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-danger font-weight-bold" type="submit">
+                                <i class="fas fa-power-off"></i> Cancelar cartão
+                            </button>
+                        @endif
+                    </form>
+
                 <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}">
                     <i class="fas fa-eye"></i> Consultar premiado
                 </a>

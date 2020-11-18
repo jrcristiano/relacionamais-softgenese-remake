@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Services\HistoryAcessoCardService;
 use App\Services\AcessoCardService;
+use App\Services\BaseAcessoCardsCompletoService;
 use Illuminate\Http\Request;
 
 class ConsultAcessoCardCompletoController extends Controller
 {
     private $historyAcessoCardService;
+    private $baseAcessoCardsCompletoService;
     private $acessoCardService;
 
-    public function __construct(HistoryAcessoCardService $historyAcessoCardService, AcessoCardService $acessoCardService)
+    public function __construct(HistoryAcessoCardService $historyAcessoCardService, AcessoCardService $acessoCardService, BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
     {
         $this->historyAcessoCardService = $historyAcessoCardService;
         $this->acessoCardService = $acessoCardService;
+        $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
     }
     /**
      * Display a listing of the resource.
@@ -79,9 +82,13 @@ class ConsultAcessoCardCompletoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $proxy)
     {
-        //
+        $this->baseAcessoCardsCompletoService->saveByParam([
+            'base_acesso_card_status' => 2
+        ], 'base_acesso_card_proxy', $proxy);
+
+        return redirect()->back();
     }
 
     /**

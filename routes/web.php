@@ -180,6 +180,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardCompletoController@show')->name('acesso-cards-completo.show');
 
             Route::put('/gerar-segunda-via/{proxy}', 'BaseAcessoCardCompletoDuplicateController@update')->name('base-acesso-card-duplicate.update');
+
+            Route::put('/cancelar-base-acesso-card-completo/{proxy}', 'ConsultAcessoCardCompletoController@update')->name('base-acesso-card-completo.update');
         });
     });
 });

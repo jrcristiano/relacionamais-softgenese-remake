@@ -17,6 +17,7 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
+
                 <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', [
                     'document' => \Request::get('document'),
                     'tipo_cartao' => \Request::get('tipo_cartao'),
@@ -29,7 +30,6 @@
                     <i class="fas fa-undo"></i> Voltar
                 </a>
             </header>
-
 
             <form class="mt-3 px-2" action="{{ route('admin.operational.call-center.store') }}" method="post">
 

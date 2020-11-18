@@ -17,7 +17,8 @@
                         'tipo_cartao' => 'completo',
                         'premiado' => $callCenter->acesso_card_name,
                         'document' => $callCenter->acesso_card_document,
-                        'id' => $callCenter->id
+                        'id' => $callCenter->id,
+                        'acesso_card_id' => $callCenter->acesso_card_id
                     ]) }}">
                     <i aria-hidden="true" class="fas fa-edit"></i> Editar
                 </a>

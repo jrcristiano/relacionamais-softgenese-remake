@@ -1,9 +1,13 @@
+@include('components.forms.errors.error')
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_award_type">
         Tipo de premiação
         <span class="sgi-forced">*</span>
     </label>
-    <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_award_type', $callCenter->call_center_award_type ?? null) }}" type="text" id="call_center_award_type" name="call_center_award_type">
+    @php
+        $baseStatus = $callCenter->base_acesso_card_status ?? null;
+    @endphp
+    <select {{ $baseStatus == 1 ? '' : 'disabled' }} class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_award_type', $callCenter->call_center_award_type ?? null) }}" type="text" id="call_center_award_type" name="call_center_award_type">
         <option value="">SELECIONAR PREMIAÇÃO</option>
         @php
             $awardType = $callCenter->call_center_award_type ?? null;
@@ -12,12 +16,16 @@
     </select>
 </div>
 
+@if ($baseStatus != 1)
+    <input type="hidden" name="call_center_award_type" value="1" /> <!-- enquanto só tem 1 opção, depois deve ser programado -->
+@endif
+
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_subproduct">
         Subproduto
         <span class="sgi-forced">*</span>
     </label>
-    <select class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_subproduct', $callCenter->call_center_subproduct ?? null) }}" type="text" id="call_center_subproduct" name="call_center_subproduct">
+    <select {{ $baseStatus == 1 ? '' : 'disabled' }} class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_subproduct', $callCenter->call_center_subproduct ?? null) }}" type="text" id="call_center_subproduct" name="call_center_subproduct">
         <option value="">SELECIONAR SUBPRODUTO</option>
         @php
             $subproduct = $callCenter->call_center_subproduct ?? null;
@@ -27,12 +35,16 @@
     </select>
 </div>
 
+@if ($baseStatus != 1)
+    <input type="hidden" name="call_center_subproduct" value="{{ \Request::get('tipo_cartao') == 'completo' ? 1 : '' }}" />
+@endif
+
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_acesso_card_id">
         Premiado
         <span class="sgi-forced">*</span>
     </label>
-    <select {{ $id ?? null ? 'disabled' : '' }} id="select-awarded" class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
+    <select {{ $callCenter->base_acesso_card_status ?? null == 1 ? '' : 'disabled' }} id="select-awarded" class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
         <option value="">SELECIONAR PREMIADO</option>
         @foreach ($acessoCards as $acessoCard)
         @php
@@ -42,6 +54,11 @@
         @endforeach
     </select>
 </div>
+
+@if ($baseStatus != 1)
+    <input type="hidden" name="call_center_acesso_card_id" value="{{ \Request::get('acesso_card_id') }}" />
+@endif
+
 
 <div class="form-group mt-4">
     <label class="font-weight-bold" for="call_center_phone">
