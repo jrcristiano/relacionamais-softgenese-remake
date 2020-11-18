@@ -196,4 +196,9 @@ class AcessoCardService extends Service
     {
         return $this->service->findAcessoCardsWithoutCards($id);
     }
+
+    public function getAcessoCardsAndBaseAcessoCardStatus()
+    {
+        return $this->service->getAcessoCardsAndBaseAcessoCardStatus();
+    }
 }

@@ -1,6 +1,3 @@
-@php
-    // dd($callCenter);
-@endphp
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_award_type">
         Tipo de premiação
@@ -25,7 +22,7 @@
         @php
             $subproduct = $callCenter->call_center_subproduct ?? null;
         @endphp
-        <option  {{ $subproduct == 1 || \Request::get('tipo_cartao') == 'completo' ? 'selected' : '' }} value="1">ACESSOCARD COMPLETO</option>
+        <option {{ $subproduct == 1 || \Request::get('tipo_cartao') == 'completo' ? 'selected' : '' }} value="1">ACESSOCARD COMPLETO</option>
         <option {{ $subproduct == 2 ? 'selected' : '' }} value="2">ACESSOCARD COMPRAS</option>
     </select>
 </div>
@@ -35,13 +32,13 @@
         Premiado
         <span class="sgi-forced">*</span>
     </label>
-    <select class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
+    <select {{ $id ?? null ? 'disabled' : '' }} id="select-awarded" class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
         <option value="">SELECIONAR PREMIADO</option>
         @foreach ($acessoCards as $acessoCard)
         @php
             $document = $acessoCard->acesso_card_document ?? null;
         @endphp
-            <option {{ $document == \Request::get('document') || $acessoCard->acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $acessoCard->id }}">{{ $acessoCard->acesso_card_document }} | {{ $acessoCard->acesso_card_name_formatted }}</option>
+            <option data-status="{{ $acessoCard->base_acesso_card_status }}" {{ $document == \Request::get('document') || $acessoCard->acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $acessoCard->id }}">{{ $acessoCard->acesso_card_document }} | {{ $acessoCard->acesso_card_name_formatted }}</option>
         @endforeach
     </select>
 </div>
@@ -67,11 +64,11 @@
         Motivo
         <span class="sgi-forced">*</span>
     </label>
-    <select class="form-control text-uppercase sgi-border-2" type="text" id="call_center_reason" name="call_center_reason">
+    @php
+        $reason = $callCenter->call_center_reason ?? null;
+    @endphp
+    <select {{ $acessoCard->base_acesso_card_status ?? null == 2 ? 'disabled' : '' }} class="form-control text-uppercase sgi-border-2" type="text" id="call_center_reason" name="call_center_reason">
         <option value="">SELECIONAR MOTIVO</option>
-        @php
-            $reason = $callCenter->call_center_reason ?? null;
-        @endphp
         <option {{ $reason == 1 ? 'selected' : '' }} value="1">ROUBO</option>
         <option {{ $reason == 2 ? 'selected' : '' }} value="2">FURTO</option>
         <option {{ $reason == 3 ? 'selected' : '' }} value="3">PERDA</option>

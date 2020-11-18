@@ -49,7 +49,7 @@ class CallCenterController extends Controller
     {
         $callCenter = $this->callCenterService->firstCallCenter($id);
         $acessoCards = $this->acessoCardService->all();
-        return view('call-center.edit', compact('callCenter', 'acessoCards'));
+        return view('call-center.edit', compact('callCenter', 'acessoCards', 'id'));
     }
 
     public function update(Request $request, $id)

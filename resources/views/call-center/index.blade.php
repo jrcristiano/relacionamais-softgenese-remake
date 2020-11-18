@@ -61,6 +61,10 @@
                                 if ($callCenter->call_center_reason == 4) {
                                     $reason = 'EXTRAVIO';
                                 }
+
+                                if ($callCenter->call_center_reason == 5) {
+                                    $reason = 'INFORMAÇÃO';
+                                }
                             @endphp
                             {{ $reason }}
                         </td>

@@ -234,4 +234,15 @@ class AcessoCardRepository extends Repository
         return $this->repository->whereNull('acesso_card_proxy')
             ->get();
     }
+
+    public function getAcessoCardsAndBaseAcessoCardStatus()
+    {
+        return $this->repository->select([
+            'acesso_cards.acesso_card_name',
+            'acesso_cards.acesso_card_document',
+            'base_acesso_cards_completo.base_acesso_card_status'
+        ])
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_document', '=', 'base_acesso_cards_completo.base_acesso_card_cpf')
+        ->get();
+    }
 }

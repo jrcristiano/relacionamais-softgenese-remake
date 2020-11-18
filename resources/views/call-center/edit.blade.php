@@ -12,7 +12,7 @@
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="sgi-content-title">Novo chamado</h2>
+                <h2 class="sgi-content-title">Editar chamado</h2>
 
                 @php
                     $pedidoId = $id ?? null;
