@@ -21,6 +21,12 @@ class AcessoCardRepository extends Repository
             ->first();
     }
 
+    public function findByProxy($proxy)
+    {
+        return $this->repository->where('acesso_card_proxy', $proxy)
+            ->first();
+    }
+
     public function getHistoriesByDocument($document)
     {
         return $this->repository->where('acesso_card_document', $document)

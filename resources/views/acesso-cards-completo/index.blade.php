@@ -56,18 +56,6 @@
                                 {{ $awarded->base_acesso_card_status == 1 ? 'Ativo' : ($awarded->base_acesso_card_status == 2 ? 'Cancelado' : '') }}
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Novo chamado"
-                                    href="{{ route('admin.operational.call-center.create', [
-                                        'tipo_cartao' => 'completo',
-                                        'premiado' => $awarded->acesso_card_name,
-                                        'document' => $awarded->acesso_card_document,
-                                        'acesso_card_id' => $awarded->acesso_card_id
-                                    ]) }}">
-                                    <i class="fas fa-headset"></i>
-                                </a>
                                 <a data-toggle="tooltip"
                                     data-placement="top"
                                     title="Visualizar"

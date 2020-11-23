@@ -44,7 +44,7 @@
         Premiado
         <span class="sgi-forced">*</span>
     </label>
-    <select {{ $callCenter->base_acesso_card_status ?? null == 1 ? '' : 'disabled' }} id="select-awarded" class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
+    <select disabled="disabled" id="select-awarded" class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
         <option value="">SELECIONAR PREMIADO</option>
         @foreach ($acessoCards as $acessoCard)
         @php
@@ -55,10 +55,7 @@
     </select>
 </div>
 
-@if ($baseStatus != 1)
-    <input type="hidden" name="call_center_acesso_card_id" value="{{ \Request::get('acesso_card_id') }}" />
-@endif
-
+<input type="hidden" name="call_center_acesso_card_id" value="{{ \Request::get('acesso_card_id') }}" />
 
 <div class="form-group mt-4">
     <label class="font-weight-bold" for="call_center_phone">

@@ -18,7 +18,20 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
-                <a class="btn btn-primary sgi-btn-bold ml-auto mt-2" href="{{ url()->previous() }}">
+
+                <a class="btn btn-primary ml-auto mt-2 font-weight-bold mr-1"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Novo chamado"
+                href="{{ route('admin.operational.call-center.create', [
+                    'tipo_cartao' => 'completo',
+                    'premiado' => $acessoCards[0]->acesso_card_name,
+                    'document' => $acessoCards[0]->acesso_card_document,
+                    'acesso_card_id' => \Request::get('acesso_card_id')
+                ]) }}">
+                    <i class="fas fa-headset"></i> Novo chamado
+                </a>
+                <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ url()->previous() }}">
                     <i class="fas fa-undo"></i> Voltar
                 </a>
             </header>

@@ -32,6 +32,7 @@ class CallCenterRequest extends FormRequest
             'call_center_phone' => 'required|min:7|max:255',
             'call_center_email' => 'required|min:3|max:255',
             'call_center_comments' => 'nullable',
+            'call_center_prize_amount' => 'nullable'
         ];
     }
 }

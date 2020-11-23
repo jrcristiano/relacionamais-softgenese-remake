@@ -43,6 +43,11 @@ class AcessoCardService extends Service
         return $this->service->findByCard($card);
     }
 
+    public function findByProxy($proxy)
+    {
+        return $this->service->findByProxy($proxy);
+    }
+
     public function findByAwardId($id)
     {
         return $this->service->findByAwardId($id);
