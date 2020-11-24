@@ -47,6 +47,14 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function getBaseAcessoCardActiveByDocument($document)
+    {
+        return $this->repository->select('id')
+            ->where('base_acesso_card_cpf', $document)
+            ->where('base_acesso_card_status', 1)
+            ->get();
+    }
+
     public function firstUnlikedBaseCardCompleto()
     {
         return $this->repository->whereNull('base_acesso_card_cpf')

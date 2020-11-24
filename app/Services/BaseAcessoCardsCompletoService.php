@@ -122,4 +122,9 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->getAllActiveCards();
     }
+
+    public function getBaseAcessoCardActiveByDocument($document)
+    {
+        return $this->service->getBaseAcessoCardActiveByDocument($document);
+    }
 }

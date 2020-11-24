@@ -6,16 +6,19 @@ use App\Helpers\Text;
 use App\Services\CallCenterService;
 use App\Http\Requests\CallCenterRequest as Request;
 use App\Services\AcessoCardService;
+use App\Services\BaseAcessoCardsCompletoService;
 
 class CallCenterController extends Controller
 {
     private $callCenterService;
     private $acessoCardService;
+    private $baseAcessoCardsCompletoService;
 
-    public function __construct(CallCenterService $callCenterService, AcessoCardService $acessoCardService)
+    public function __construct(CallCenterService $callCenterService, AcessoCardService $acessoCardService, BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
     {
         $this->callCenterService = $callCenterService;
         $this->acessoCardService = $acessoCardService;
+        $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
     }
 
     public function index()
@@ -48,8 +51,12 @@ class CallCenterController extends Controller
     public function edit($id)
     {
         $callCenter = $this->callCenterService->firstCallCenter($id);
+        $document = request()->get('document');
+        $awardedHasCards = $this->baseAcessoCardsCompletoService->getBaseAcessoCardActiveByDocument($document);
+        // dd($awardedHasCards);
+
         $acessoCards = $this->acessoCardService->all();
-        return view('call-center.edit', compact('callCenter', 'acessoCards', 'id'));
+        return view('call-center.edit', compact('callCenter', 'acessoCards', 'awardedHasCards', 'id'));
     }
 
     public function update(Request $request, $id)

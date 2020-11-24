@@ -17,25 +17,26 @@
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
+                    <div class="ml-auto"></div>
 
-                    <form class="ml-auto mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
-                        @if ($callCenter->base_acesso_card_status == 1 && $callCenter->call_center_reason != 5)
-                            @csrf
-                            @method('PUT')
-                            <button class="btn btn-danger font-weight-bold" type="submit">
-                                <i class="far fa-credit-card"></i> Gerar 2º via
-                            </button>
-                        @endif
-                    </form>
-                    <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
-                        @if ($callCenter->base_acesso_card_status == 1)
-                            @csrf
-                            @method('PUT')
-                            <button class="btn btn-danger font-weight-bold" type="submit">
-                                <i class="fas fa-power-off"></i> Cancelar cartão
-                            </button>
-                        @endif
-                    </form>
+                    @if ($callCenter->base_acesso_card_status == 1 && $callCenter->call_center_reason != 5)
+                        <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-danger font-weight-bold" type="submit">
+                                    <i class="far fa-credit-card"></i> Gerar 2º via
+                                </button>
+                        </form>
+                        <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
+                            @if ($callCenter->base_acesso_card_status == 1)
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-danger font-weight-bold" type="submit">
+                                    <i class="fas fa-power-off"></i> Cancelar cartão
+                                </button>
+                            @endif
+                        </form>
+                    @endif
 
                 <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}">
                     <i class="fas fa-eye"></i> Consultar premiado
