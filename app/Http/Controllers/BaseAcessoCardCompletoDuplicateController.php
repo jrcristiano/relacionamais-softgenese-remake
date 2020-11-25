@@ -19,7 +19,14 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
 
     public function update(Request $request, $proxy)
     {
-        $data['call_center_prize_amount'] = toReal($request->get('call_center_prize_amount'));
+        $data['prize_amount'] = toReal($request->get('prize_amount'));
+
+        $callCenterId = $request->get('duplicate_call_center_id');
+
+        \App\CallCenter::where('id', $callCenterId)
+            ->update([
+                'call_center_status' => $request->get('duplicate_call_center_status')
+            ]);
 
         $baseAcessoCardCompleto = $this->baseAcessoCardCompletoService->findByProxy($proxy);
         $acessoCard = $this->acessoCardService->findByProxy($proxy);
@@ -28,7 +35,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
         \App\Demand::create([
             'demand_client_cnpj' => $demand->demand_client_cnpj,
             'demand_client_name' => $demand->demand_client_name,
-            'demand_prize_amount' => 0,
+            'demand_prize_amount' => $data['prize_amount'],
             'demand_taxable_amount' => 0,
             'demand_other_value' => 0
         ]);

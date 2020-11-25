@@ -2,7 +2,7 @@
 @section('title', 'Novo chamado')
 @section('content')
 @php
-    // dd($baseAcessoCardsCompletos);
+    // dd($callCenter);
 @endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
@@ -19,24 +19,60 @@
                 @endphp
                     <div class="ml-auto"></div>
 
-                    @if ($callCenter->base_acesso_card_status == 1 && $callCenter->call_center_reason != 5)
-                        <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
-                                @csrf
-                                @method('PUT')
-                                <button class="btn btn-danger font-weight-bold" type="submit">
-                                    <i class="far fa-credit-card"></i> Gerar 2º via
-                                </button>
-                        </form>
+                    @if ($awardedHasCards->count() > 0 && $callCenter->call_center_status == 1 && $callCenter->call_center_reason != 5)
+                        <button type="button" class="btn btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#exampleModal">
+                            <i class="far fa-credit-card"></i> Gerar 2º via
+                        </button>
                         <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
                             @if ($callCenter->base_acesso_card_status == 1)
                                 @csrf
                                 @method('PUT')
+                                <input type="hidden" value="2" name="cancel_call_center_status" />
+                                <input type="hidden" value="{{ $callCenter->id ?? null }}" name="cancel_call_center_id" />
                                 <button class="btn btn-danger font-weight-bold" type="submit">
                                     <i class="fas fa-power-off"></i> Cancelar cartão
                                 </button>
                             @endif
                         </form>
+
                     @endif
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header border-bottom-0">
+                              <h5 class="modal-title" id="exampleModalLabel">
+                                  Um novo pedido será criado, por favor insira o valor de premiação.
+                                </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                <label class="font-weight-bold" for="prize_amount">
+                                    Valor de Premiação
+                                    <span class="sgi-forced">*</span>
+                                </label>
+                                <input type="text" required="required" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," class="form-control" id="prize_amount">
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                              <form action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" id="prize_amount_hidden" name="prize_amount" />
+                                <input type="hidden" value="2" name="duplicate_call_center_status" />
+                                <input type="hidden" value="{{ $callCenter->id ?? null }}" name="duplicate_call_center_id" />
+                                <button class="btn btn-primary font-weight-bold" type="submit">
+                                    Ok
+                                </button>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                 <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}">
                     <i class="fas fa-eye"></i> Consultar premiado

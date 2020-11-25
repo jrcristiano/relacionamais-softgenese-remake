@@ -84,6 +84,13 @@ class ConsultAcessoCardCompletoController extends Controller
      */
     public function update(Request $request, $proxy)
     {
+        $callCenterId = $request->get('cancel_call_center_id');
+
+        \App\CallCenter::where('id', $callCenterId)
+            ->update([
+                'call_center_status' => $request->get('cancel_call_center_status')
+            ]);
+
         $this->baseAcessoCardsCompletoService->saveByParam([
             'base_acesso_card_status' => 2
         ], 'base_acesso_card_proxy', $proxy);

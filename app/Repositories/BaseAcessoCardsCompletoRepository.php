@@ -49,8 +49,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
 
     public function getBaseAcessoCardActiveByDocument($document)
     {
-        return $this->repository->select('id')
-            ->where('base_acesso_card_cpf', $document)
+        return $this->repository->where('base_acesso_card_cpf', $document)
             ->where('base_acesso_card_status', 1)
             ->get();
     }
