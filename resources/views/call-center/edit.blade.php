@@ -24,15 +24,14 @@
                             <i class="far fa-credit-card"></i> Gerar 2º via
                         </button>
                         <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['proxy' => $callCenter->acesso_card_proxy ]) }}" method="post">
-                            @if ($callCenter->base_acesso_card_status == 1)
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" value="2" name="cancel_call_center_status" />
-                                <input type="hidden" value="{{ $callCenter->id ?? null }}" name="cancel_call_center_id" />
-                                <button class="btn btn-danger font-weight-bold" type="submit">
-                                    <i class="fas fa-power-off"></i> Cancelar cartão
-                                </button>
-                            @endif
+
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" value="2" name="cancel_call_center_status" />
+                            <input type="hidden" value="{{ $callCenter->id ?? null }}" name="cancel_call_center_id" />
+                            <button class="btn btn-danger font-weight-bold" type="submit">
+                                <i class="fas fa-power-off"></i> Cancelar cartão
+                            </button>
                         </form>
 
                     @endif

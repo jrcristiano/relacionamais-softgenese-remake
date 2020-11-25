@@ -22,6 +22,17 @@
             @include('components.message')
 
             <div class="col-lg-12 mt-4 d-flex flex-nowrap mb-2">
+                <form method="get" class="col-md-12 d-flex p-0">
+                    <input value="{{ \Request::get('search') ?? null }}" type="text" name="search" id="search" placeholder="NOME E DOCUMENTO..." class="form-control w-25">
+                    <select class="form-control w-25 ml-2" name="status" id="status">
+                        <option value="">SELECIONAR STATUS</option>
+                        <option {{ \Request::get('status') == 1 ? 'selected' : '' }} value="1">PENDENTE</option>
+                        <option {{ \Request::get('status') == 2 ? 'selected' : '' }} value="2">RESOLVIDO</option>
+                    </select>
+                    <button id="btn-date" type="submit" class="btn btn-primary mr-2 ml-2">
+                        <i aria-hidden="true" class="fas fa-search"></i>
+                    </button>
+                </form>
             </div>
 
             <table id="client_table" class="table table-sm table-striped table-hover">

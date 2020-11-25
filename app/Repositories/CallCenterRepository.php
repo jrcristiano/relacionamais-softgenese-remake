@@ -15,7 +15,7 @@ class CallCenterRepository extends Repository
 
     public function getCallCentersByPaginate($perPage = 500)
     {
-        return $this->repository->select([
+        $query = $this->repository->select([
             'call_centers.id',
             'call_centers.created_at',
             'call_centers.call_center_reason',
@@ -29,8 +29,23 @@ class CallCenterRepository extends Repository
             'acesso_cards.acesso_card_document',
             'call_centers.call_center_acesso_card_id',
         ])
-        ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id')
-        ->paginate($perPage);
+        ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id');
+
+        $search = request()->get('search');
+        $status = request()->get('status');
+
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('acesso_cards.acesso_card_name', 'like', "%{$search}%")
+                    ->orWhere('acesso_cards.acesso_card_document', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status) {
+            $query->where('call_centers.call_center_status', $status);
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function firstCallCenter($id)
