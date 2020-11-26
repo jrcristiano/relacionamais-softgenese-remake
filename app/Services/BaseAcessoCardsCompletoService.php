@@ -103,6 +103,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->updateByParamWhereStatusNull($data, $param, $value);
     }
 
+    public function updateByParamWhereStatusAndNameNull(array $data, $param = 'base_acesso_card_status', $value = null)
+    {
+        return $this->service->updateByParamWhereStatusAndNameNull($data, $param, $value);
+    }
+
     public function getBaseAcessoCardProxy($unlikedCard)
     {
         return $this->service->getBaseAcessoCardProxy($unlikedCard);

@@ -57,10 +57,8 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function firstUnlikedBaseCardCompleto()
     {
         return $this->repository->whereNull('base_acesso_card_cpf')
-            ->where('base_acesso_card_status', 1)
-            ->orWhereNull('base_acesso_card_status')
+            ->where('base_acesso_card_status', null)
             ->whereNull('base_acesso_card_status')
-            ->orderBy('id', 'desc')
             ->first();
     }
 
@@ -71,7 +69,6 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->orWhereNull('base_acesso_card_status')
             ->whereNull('base_acesso_card_status')
             ->take($quantity)
-            ->orderBy('id', 'desc')
             ->get();
     }
 
@@ -79,7 +76,6 @@ class BaseAcessoCardsCompletoRepository extends Repository
     {
         return $this->repository->where('base_acesso_card_status', 1)
             ->where('base_acesso_card_cpf', $document)
-            ->orderBy('id', 'desc')
             ->first();
     }
 
@@ -87,7 +83,6 @@ class BaseAcessoCardsCompletoRepository extends Repository
     {
         return $this->repository->where('base_acesso_card_status', 1)
             ->where('base_acesso_card_cpf', $document)
-            ->orderBy('id', 'desc')
             ->get();
     }
 
@@ -130,7 +125,6 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->where('base_acesso_card_status', 1)
             ->orWhereNull('base_acesso_card_status')
             ->orWhereNull('base_acesso_card_status')
-            ->orderBy('id', 'desc')
             ->first();
     }
 
@@ -151,6 +145,14 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function updateByParamWhereStatusNull(array $data, $param = 'base_acesso_card_status', $value = null)
     {
         return $this->repository->whereNull('base_acesso_card_status')
+            ->where($param, $value)
+            ->update($data);
+    }
+
+    public function updateByParamWhereStatusAndNameNull(array $data, $param = 'base_acesso_card_status', $value = null)
+    {
+        return $this->repository->whereNull('base_acesso_card_status')
+            ->whereNull('base_acesso_card_name')
             ->where($param, $value)
             ->update($data);
     }

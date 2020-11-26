@@ -1,4 +1,7 @@
 @include('components.forms.errors.error')
+@php
+    $id = $id ?? null;
+@endphp
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_award_type">
         Tipo de premiação
@@ -104,8 +107,11 @@
         @php
             $status = $callCenter->call_center_status ?? null;
         @endphp
-        <option {{ $status == 1 ? 'selected' : '' }} value="1">PENDENTE</option>
-        <option {{ $status == 2 ? 'selected' : '' }} value="2">RESOLVIDO</option>
+        <option {{ $status == 1 || !$id ? 'selected' : '' }} value="1">PENDENTE</option>
+        @if ($id)
+            <option {{ $status == 2 ? 'selected' : '' }} value="2">RESOLVIDO</option>
+        @endif
+
     </select>
 </div>
 
@@ -116,4 +122,10 @@
     <textarea name="call_center_comments" placeholder="Observações" id="exampleFormControlTextarea1" rows="4" class="form-control text-uppercase sgi-border-2">
         {{ old('call_center_comments', $callCenter->call_center_comments ?? null) }}
     </textarea>
+</div>
+
+<div class="row px-3 mb-3">
+    <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
+        {{ $baseStatus == null ? 'NOVO CARTÃO' : ($baseStatus == 2 ? 'CARTÃO CANCELADO' : '') }}
+    </div>
 </div>
