@@ -73,7 +73,7 @@
                                 @php
                                     // dd($acessoCard->acesso_card_chargeback)
                                 @endphp
-                                @if (!$acessoCard->acesso_card_chargeback && $acessoCard->awarded_status == 1)
+                                @if ($acessoCard->shipment_generated == 1 && $acessoCard->awarded_status == 1)
                                     <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_id]) }}" method="post">
                                         @csrf
                                         @method('PUT')

@@ -52,7 +52,7 @@
                             <td>{{ $spreadsheet->spreadsheet_account_type_formatted }}</td>
                             <td>{{ $spreadsheet->created_at_formatted }}</td>
                             <td>
-                                @if (!$spreadsheet->spreadsheet_chargeback || $spreadsheet->shipment_generated)
+                                @if ($spreadsheet->shipment_generated == 1 && $spreadsheet->awarded_status == 1)
                                     <form class="d-inline" action="{{ route('admin.api.spreadsheet-api.update', ['id' => $spreadsheet->id]) }}" method="post">
                                         @csrf
                                         @method('PUT')
@@ -62,17 +62,13 @@
                                             <i class="fas fa-undo-alt"></i>
                                         </button>
                                     </form>
-                                @elseif(!$spreadsheet->awarded_shipment_generated)
-                                <div class="d-none">
-                                </div>
-                                @else
-                                    <div class="d-none">
-                                    </div>
                                 @endif
-                                <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-sm btn-primary" href="{{ route('admin.register.spreadsheets.edit', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}">
-                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                </a>
-                                @if (!$spreadsheet->shipment_generated)
+                                @if ($spreadsheet->awarded_status == 3)
+                                    <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-sm btn-primary" href="{{ route('admin.register.spreadsheets.edit', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}">
+                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                    </a>
+                                @endif
+                                @if ($spreadsheet->awarded_status == 3)
                                     <form class="d-inline sgi_form_delete" action="{{ route('admin.register.spreadsheets.delete', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
                                         @csrf
                                         <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">

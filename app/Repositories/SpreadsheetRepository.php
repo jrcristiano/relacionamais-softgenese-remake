@@ -19,9 +19,11 @@ class SpreadsheetRepository extends Repository
         return $this->repository->select([
             'spreadsheets.*',
             'shipments_api.shipment_generated',
-            'spreadsheets.spreadsheet_chargeback'
+            'spreadsheets.spreadsheet_chargeback',
+            'awards.awarded_status',
             ])
             ->leftJoin('shipments_api', 'spreadsheets.spreadsheet_award_id', '=', 'shipments_api.shipment_award_id')
+            ->leftJoin('awards', 'spreadsheets.spreadsheet_award_id', '=', 'awards.id')
             ->where('spreadsheets.spreadsheet_award_id', $id)
             ->paginate($perPage);
     }
