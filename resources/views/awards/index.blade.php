@@ -40,6 +40,7 @@
                                 <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.awardeds.show', ['id' => $award->id]) }}">
                                     <i class="far fa-eye"></i>
                                 </a>
+
                                 <form class="d-inline sgi_form_delete" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id ]) }}" method="post">
                                     @csrf
                                     <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">

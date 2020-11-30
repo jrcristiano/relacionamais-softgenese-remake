@@ -52,7 +52,7 @@
                             <td>{{ $spreadsheet->spreadsheet_account_type_formatted }}</td>
                             <td>{{ $spreadsheet->created_at_formatted }}</td>
                             <td>
-                                @if (!$spreadsheet->spreadsheet_chargeback && $spreadsheet->shipment_generated)
+                                @if (!$spreadsheet->spreadsheet_chargeback || $spreadsheet->shipment_generated)
                                     <form class="d-inline" action="{{ route('admin.api.spreadsheet-api.update', ['id' => $spreadsheet->id]) }}" method="post">
                                         @csrf
                                         @method('PUT')
@@ -72,12 +72,14 @@
                                 <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-sm btn-primary" href="{{ route('admin.register.spreadsheets.edit', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}">
                                     <i aria-hidden="true" class="fas fa-edit"></i>
                                 </a>
-                                <form class="d-inline sgi_form_delete" action="{{ route('admin.register.spreadsheets.delete', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
-                                    @csrf
-                                    <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </form>
+                                @if (!$spreadsheet->shipment_generated)
+                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.spreadsheets.delete', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
+                                        @csrf
+                                        <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty
