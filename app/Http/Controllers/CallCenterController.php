@@ -30,7 +30,7 @@ class CallCenterController extends Controller
     public function show($id)
     {
         $callCenter = $this->callCenterService->firstCallCenter($id);
-        return view('call-center.show', compact('callCenter'));
+        return view('call-center.show', compact('callCenter', 'id'));
     }
 
     public function create()
@@ -54,10 +54,11 @@ class CallCenterController extends Controller
         $callCenter = $this->callCenterService->firstCallCenter($id);
         $document = request()->get('document');
         $awardedHasCards = $this->baseAcessoCardsCompletoService->getBaseAcessoCardActiveByDocument($document);
-        // dd($awardedHasCards);
+        $currencyCard = $this->baseAcessoCardsCompletoService->getCurrencyCardById($awardedHasCards[0]->id ?? null);
+        $previousCard = $this->baseAcessoCardsCompletoService->getPreviousCardById($callCenter->id);
 
         $acessoCards = $this->acessoCardService->all();
-        return view('call-center.edit', compact('callCenter', 'acessoCards', 'awardedHasCards', 'id'));
+        return view('call-center.edit', compact('callCenter', 'acessoCards', 'awardedHasCards', 'id', 'currencyCard', 'previousCard'));
     }
 
     public function update(Request $request, $id)

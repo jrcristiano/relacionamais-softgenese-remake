@@ -132,4 +132,14 @@ class BaseAcessoCardsCompletoService extends Service
     {
         return $this->service->getBaseAcessoCardActiveByDocument($document);
     }
+
+    public function getCurrencyCardById($id)
+    {
+        return $this->service->getCurrencyCardById($id);
+    }
+
+    public function getPreviousCardById($id)
+    {
+        return $this->service->getPreviousCardById($id);
+    }
 }

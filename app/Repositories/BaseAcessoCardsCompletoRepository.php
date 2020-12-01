@@ -240,4 +240,22 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->where($param, $value)
             ->update($data);
     }
+
+    public function getCurrencyCardById($id)
+    {
+        return $this->repository->select('base_acesso_cards_completo.base_acesso_card_proxy')
+            ->join('base_acesso_cards_completo_orders', 'base_acesso_cards_completo.id', '=', 'base_acesso_cards_completo_orders.currency_card_id')
+            ->orderBy('base_acesso_cards_completo.id', 'desc')
+            ->where('base_acesso_cards_completo_orders.currency_card_id', $id)
+            ->first();
+    }
+
+    public function getPreviousCardById($id)
+    {
+        return $this->repository->select('base_acesso_cards_completo.base_acesso_card_proxy')
+            ->join('base_acesso_cards_completo_orders', 'base_acesso_cards_completo.id', '=', 'base_acesso_cards_completo_orders.previous_card_id')
+            ->orderBy('base_acesso_cards_completo.id', 'desc')
+            ->where('base_acesso_cards_completo_orders.previous_card_id', $id)
+            ->first();
+    }
 }

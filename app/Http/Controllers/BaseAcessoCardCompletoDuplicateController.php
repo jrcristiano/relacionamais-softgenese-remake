@@ -29,6 +29,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
             ]);
 
         $baseAcessoCardCompleto = $this->baseAcessoCardCompletoService->findByProxy($proxy);
+
         $acessoCard = $this->acessoCardService->findByProxy($proxy);
         $demand = \App\Demand::find($acessoCard->acesso_card_demand_id);
 
@@ -45,6 +46,11 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
         ], $baseAcessoCardCompleto->id);
 
         $firstUnlikedCard = $this->baseAcessoCardCompletoService->firstUnlikedBaseCardCompleto();
+
+        \App\BaseAcessoCardCompletoOrder::create([
+            'previous_card_id' => $baseAcessoCardCompleto->id,
+            'currency_card_id' => $firstUnlikedCard->id,
+        ]);
 
         $this->baseAcessoCardCompletoService->save([
             'base_acesso_card_name' => $baseAcessoCardCompleto->base_acesso_card_name,

@@ -66,6 +66,7 @@ class CallCenterRepository extends Repository
             'acesso_cards.acesso_card_document',
             'acesso_cards.acesso_card_proxy',
             'base_acesso_cards_completo.base_acesso_card_status',
+            'base_acesso_cards_completo.id',
         ])
         ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id')
         ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_card_proxy')

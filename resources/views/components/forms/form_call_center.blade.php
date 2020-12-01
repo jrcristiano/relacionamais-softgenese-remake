@@ -1,5 +1,8 @@
 @include('components.forms.errors.error')
 @php
+    // dd($callCenter);
+@endphp
+@php
     $id = $id ?? null;
 @endphp
 <div class="form-group">
@@ -124,8 +127,32 @@
     </textarea>
 </div>
 
-<div class="row px-3 mb-3">
-    <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-        {{ $baseStatus == null ? 'NOVO CARTÃO' : ($baseStatus == 2 ? 'CARTÃO CANCELADO' : '') }}
+@php
+    $previousCard = $previousCard->base_acesso_card_proxy ?? null;
+@endphp
+
+@if ($previousCard)
+    <div class="row px-3 mb-3">
+        <label class="font-weight-bold">
+            Proxy cancelado
+        </label>
+        <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
+            {{ $previousCard }}
+        </div>
     </div>
-</div>
+@endif
+
+@php
+    $currencyCard = $currencyCard->base_acesso_card_proxy ?? null;
+@endphp
+
+@if ($currencyCard)
+    <div class="row px-3 mb-3">
+        <label class="font-weight-bold">
+            Proxy ativo
+        </label>
+        <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
+            {{ $currencyCard }}
+        </div>
+    </div>
+@endif
