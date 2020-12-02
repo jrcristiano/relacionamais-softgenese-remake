@@ -78,6 +78,11 @@ class AcessoCardService extends Service
         return $this->service->getAcessoCardsWhereAwarded($id);
     }
 
+    public function getAcessoCardsWhereAwardedWithChargeback($id, $perPage = 200)
+    {
+        return $this->service->getAcessoCardsWhereAwardedWithChargeback($id);
+    }
+
     public function getAwardedsByAllAwards(Request $request)
     {
         return $this->service->getAwardedsByAllAwards($request);

@@ -52,7 +52,7 @@
                             <td>{{ $spreadsheet->spreadsheet_account_type_formatted }}</td>
                             <td>{{ $spreadsheet->created_at_formatted }}</td>
                             <td>
-                                @if ($spreadsheet->shipment_generated == 1 && $spreadsheet->awarded_status == 1)
+                                @if ($spreadsheet->shipment_generated == 1 && $spreadsheet->awarded_status == 1 && !$spreadsheet->spreadsheet_chargeback)
                                     <form class="d-inline" action="{{ route('admin.api.spreadsheet-api.update', ['id' => $spreadsheet->id]) }}" method="post">
                                         @csrf
                                         @method('PUT')

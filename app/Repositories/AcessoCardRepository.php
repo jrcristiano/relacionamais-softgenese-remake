@@ -147,6 +147,23 @@ class AcessoCardRepository extends Repository
         ->paginate($perPage);
     }
 
+    public function getAcessoCardsWhereAwardedWithChargeback($id, $perPage = 200)
+    {
+        return $this->repository->select([
+            'awards.awarded_status',
+            'awards.award_already_parted',
+            'acesso_cards.*',
+            'acesso_cards.id as acesso_card_id',
+            'base_acesso_cards_completo.*',
+            'shipments_api.shipment_generated',
+        ])
+        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id')
+        ->leftJoin('shipments_api', 'acesso_cards.acesso_card_award_id', '=', 'shipments_api.shipment_award_id')
+        ->leftJoin('base_acesso_cards_completo', 'acesso_cards.acesso_card_proxy', '=', 'base_acesso_cards_completo.base_acesso_card_proxy')
+        ->where('acesso_cards.acesso_card_award_id', $id)
+        ->paginate($perPage);
+    }
+
     public function getAwardedsByAllAwards(Request $request, $perPage = 500)
     {
         $query = $this->repository->select([

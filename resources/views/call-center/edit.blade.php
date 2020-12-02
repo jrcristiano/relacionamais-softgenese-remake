@@ -28,7 +28,7 @@
                             @csrf
                             @method('PUT')
                             <input type="hidden" value="2" name="cancel_call_center_status" />
-                            <input type="hidden" value="{{ $callCenter->id ?? null }}" name="cancel_call_center_id" />
+                            <input type="hidden" value="{{ $id ?? null }}" name="cancel_call_center_id" />
                             <button class="btn btn-danger font-weight-bold" type="submit">
                                 <i class="fas fa-power-off"></i> Cancelar cartão
                             </button>
@@ -63,7 +63,7 @@
                                 @method('PUT')
                                 <input type="hidden" id="prize_amount_hidden" name="prize_amount" />
                                 <input type="hidden" value="2" name="duplicate_call_center_status" />
-                                <input type="hidden" value="{{ $callCenter->id ?? null }}" name="duplicate_call_center_id" />
+                                <input type="hidden" value="{{ $id ?? null }}" name="duplicate_call_center_id" />
                                 <button class="btn btn-primary font-weight-bold" type="submit">
                                     Ok
                                 </button>
@@ -87,7 +87,7 @@
                 'tipo_cartao' => 'completo',
                 'premiado' => \Request::get('premiado'),
                 'document' => \Request::get('document'),
-                'id' => $callCenter->id
+                'id' => $id
             ]) }}" method="post">
 
                 <div class="form-group">

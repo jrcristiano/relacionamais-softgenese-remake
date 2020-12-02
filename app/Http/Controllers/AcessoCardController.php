@@ -65,7 +65,7 @@ class AcessoCardController extends Controller
      */
     public function show($id)
     {
-        $acessoCards = $this->acessoCardService->getAcessoCardsWhereAwarded($id);
+        $acessoCards = $this->acessoCardService->getAcessoCardsWhereAwardedWithChargeback($id);
         return view('acesso-cards.show', compact('acessoCards', 'id'));
     }
 

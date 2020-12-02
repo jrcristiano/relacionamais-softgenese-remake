@@ -66,7 +66,7 @@ class CallCenterController extends Controller
         $data = $request->only(array_keys($request->rules()));
         $data['call_center_phone'] = Text::cleanDocument($data['call_center_phone']);
 
-        $this->callCenterService->save($data, $id);
+        $this->callCenterService->update($data, 'id', $id);
         return redirect()->route('admin.operational.call-center');
     }
 }
