@@ -157,6 +157,11 @@ class ShipmentControllerApi extends Controller
             'awarded_shipment_cancelled' => 'required|boolean'
         ]);
 
+        \App\Spreadsheet::where('spreadsheet_award_id', $id)
+            ->update([
+                'spreadsheet_chargeback' => 1,
+            ]);
+
         $this->awardRepo->save($data, $id);
         $this->acessoCardService->saveByParam([
             'acesso_card_chargeback' => $data['awarded_shipment_cancelled'],

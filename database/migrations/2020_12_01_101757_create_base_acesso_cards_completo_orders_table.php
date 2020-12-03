@@ -23,6 +23,10 @@ class CreateBaseAcessoCardsCompletoOrdersTable extends Migration
             $table->foreign('currency_card_id')->references('id')
                 ->on('base_acesso_cards_completo');
 
+            $table->unsignedBigInteger('call_center_id')->nullable();
+            $table->foreign('call_center_id')->references('id')
+                    ->on('call_centers');
+
             $table->timestamps();
         });
     }

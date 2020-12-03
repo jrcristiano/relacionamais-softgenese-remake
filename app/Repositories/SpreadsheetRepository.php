@@ -21,6 +21,7 @@ class SpreadsheetRepository extends Repository
             'shipments_api.shipment_generated',
             'spreadsheets.spreadsheet_chargeback',
             'awards.awarded_status',
+            'awards.awarded_shipment_cancelled'
             ])
             ->leftJoin('shipments_api', 'spreadsheets.spreadsheet_award_id', '=', 'shipments_api.shipment_award_id')
             ->leftJoin('awards', 'spreadsheets.spreadsheet_award_id', '=', 'awards.id')

@@ -129,6 +129,7 @@
 
 @php
     $previousCard = $previousCard->base_acesso_card_proxy ?? null;
+    // dd($previousCard);
 @endphp
 
 @if ($previousCard)

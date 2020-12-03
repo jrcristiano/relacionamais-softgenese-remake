@@ -47,10 +47,29 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->first();
     }
 
+    public function findBaseAcessoCardActiveByProxy($proxy)
+    {
+        return $this->repository->select('id')
+            ->where('base_acesso_card_proxy', $proxy)
+            ->where('base_acesso_card_status', 1)
+            ->first();
+    }
+
     public function getBaseAcessoCardActiveByDocument($document)
     {
-        return $this->repository->where('base_acesso_card_cpf', $document)
+        return $this->repository
+            ->where('base_acesso_card_cpf', $document)
             ->where('base_acesso_card_status', 1)
+            ->orderBy('base_acesso_cards_completo.updated_at', 'desc')
+            ->get();
+    }
+
+    public function getBaseAcessoCardInativeByDocument($document)
+    {
+        return $this->repository
+            ->where('base_acesso_card_cpf', $document)
+            ->where('base_acesso_card_status', 2)
+            ->orderBy('base_acesso_cards_completo.updated_at', 'desc')
             ->get();
     }
 
@@ -241,21 +260,23 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->update($data);
     }
 
-    public function getCurrencyCardById($id)
+    public function getCurrencyCardById($id, $callCenterId)
     {
         return $this->repository->select('base_acesso_cards_completo.base_acesso_card_proxy')
             ->join('base_acesso_cards_completo_orders', 'base_acesso_cards_completo.id', '=', 'base_acesso_cards_completo_orders.currency_card_id')
             ->orderBy('base_acesso_cards_completo.id', 'desc')
-            ->where('base_acesso_cards_completo_orders.currency_card_id', $id)
+            ->where('base_acesso_cards_completo_orders.previous_card_id', $id)
+            ->where('base_acesso_cards_completo_orders.call_center_id', $callCenterId)
             ->first();
     }
 
-    public function getPreviousCardById($id)
+    public function getPreviousCardById($id, $callCenterId)
     {
         return $this->repository->select('base_acesso_cards_completo.base_acesso_card_proxy')
             ->join('base_acesso_cards_completo_orders', 'base_acesso_cards_completo.id', '=', 'base_acesso_cards_completo_orders.previous_card_id')
             ->orderBy('base_acesso_cards_completo.id', 'desc')
             ->where('base_acesso_cards_completo_orders.previous_card_id', $id)
+            ->where('base_acesso_cards_completo_orders.call_center_id', $callCenterId)
             ->first();
     }
 }

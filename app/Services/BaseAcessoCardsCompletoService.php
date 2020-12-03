@@ -23,6 +23,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->findBaseAcessoCardActiveByDocument($document);
     }
 
+    public function findBaseAcessoCardActiveByProxy($proxy)
+    {
+        return $this->service->findBaseAcessoCardActiveByProxy($proxy);
+    }
+
     public function findByProxy($proxy)
     {
         return $this->service->findByProxy($proxy);
@@ -133,13 +138,18 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->getBaseAcessoCardActiveByDocument($document);
     }
 
-    public function getCurrencyCardById($id)
+    public function getBaseAcessoCardInativeByDocument($document)
     {
-        return $this->service->getCurrencyCardById($id);
+        return $this->service->getBaseAcessoCardInativeByDocument($document);
     }
 
-    public function getPreviousCardById($id)
+    public function getCurrencyCardById($id, $callCenterId)
     {
-        return $this->service->getPreviousCardById($id);
+        return $this->service->getCurrencyCardById($id, $callCenterId);
+    }
+
+    public function getPreviousCardById($id, $callCenterId)
+    {
+        return $this->service->getPreviousCardById($id, $callCenterId);
     }
 }

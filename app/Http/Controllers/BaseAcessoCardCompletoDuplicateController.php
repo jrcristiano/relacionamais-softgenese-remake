@@ -28,7 +28,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
                 'call_center_status' => $request->get('duplicate_call_center_status')
             ]);
 
-        $baseAcessoCardCompleto = $this->baseAcessoCardCompletoService->findByProxy($proxy);
+        $baseAcessoCardCompleto = $this->baseAcessoCardCompletoService->findActiveCardByDocument(request('document'));
 
         $acessoCard = $this->acessoCardService->findByProxy($proxy);
         $demand = \App\Demand::find($acessoCard->acesso_card_demand_id);
@@ -50,6 +50,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
         \App\BaseAcessoCardCompletoOrder::create([
             'previous_card_id' => $baseAcessoCardCompleto->id,
             'currency_card_id' => $firstUnlikedCard->id,
+            'call_center_id' => $request->duplicate_call_center_id
         ]);
 
         $this->baseAcessoCardCompletoService->save([

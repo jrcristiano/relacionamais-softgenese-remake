@@ -63,6 +63,18 @@
                                         </button>
                                     </form>
                                 @endif
+
+                                @if ($spreadsheet->spreadsheet_chargeback && !$spreadsheet->awarded_shipment_cancelled)
+                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
+                                        ESTORNADO
+                                    </button>
+                                @endif
+
+                                @if ($spreadsheet->spreadsheet_chargeback && $spreadsheet->awarded_shipment_cancelled)
+                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
+                                        CANCELADO
+                                    </button>
+                                @endif
                                 @if ($spreadsheet->awarded_status == 3)
                                     <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-sm btn-primary" href="{{ route('admin.register.spreadsheets.edit', ['id' => $spreadsheet->id, 'premiado_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}">
                                         <i aria-hidden="true" class="fas fa-edit"></i>

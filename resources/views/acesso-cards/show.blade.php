@@ -84,6 +84,19 @@
                                         </button>
                                     </form>
                                 @endif
+
+                                @if ($acessoCard->acesso_card_chargeback && !$acessoCard->awarded_shipment_cancelled)
+                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
+                                        ESTORNADO
+                                    </button>
+                                @endif
+
+                                @if ($acessoCard->awarded_shipment_cancelled)
+                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
+                                        CANCELADO
+                                    </button>
+                                @endif
+
                                 @if ($acessoCard->awarded_status == 3)
                                     <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->acesso_card_id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
                                         @csrf
