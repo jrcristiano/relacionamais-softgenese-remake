@@ -131,13 +131,13 @@ class AcessoCardControllerApi extends Controller
                 ->where('id', $id)
                 ->whereNull('acesso_card_chargeback')
                 ->first()
-                ->acesso_card_value;
+                ->acesso_card_value ?? 0;
 
         $acessoCardTotal = (float) \App\AcessoCard::select(DB::raw('sum(acesso_card_value) as total'))
                 ->where('acesso_card_award_id', $request->award_id)
                 ->whereNull('acesso_card_chargeback')
                 ->first()
-                ->total;
+                ->total ?? 0;
 
         $total = (float) $acessoCardTotal - $lessAcessoCardValue;
 
