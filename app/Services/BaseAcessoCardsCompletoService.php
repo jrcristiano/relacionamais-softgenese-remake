@@ -138,6 +138,16 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->getBaseAcessoCardActiveByDocument($document);
     }
 
+    public function firstBaseAcessoCardActiveByDocument($document, $id)
+    {
+        return $this->service->firstBaseAcessoCardActiveByDocument($document, $id);
+    }
+
+    public function firstBaseAcessoCardInativeByDocument($document, $id)
+    {
+        return $this->service->firstBaseAcessoCardInativeByDocument($document, $id);
+    }
+
     public function getBaseAcessoCardInativeByDocument($document)
     {
         return $this->service->getBaseAcessoCardInativeByDocument($document);

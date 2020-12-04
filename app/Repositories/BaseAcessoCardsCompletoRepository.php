@@ -64,6 +64,28 @@ class BaseAcessoCardsCompletoRepository extends Repository
             ->get();
     }
 
+    public function firstBaseAcessoCardActiveByDocument($document, $id)
+    {
+        return $this->repository
+            ->leftJoin('base_acesso_cards_completo_orders', 'base_acesso_cards_completo.id', '=', 'base_acesso_cards_completo_orders.currency_card_id')
+            ->leftJoin('call_centers', 'base_acesso_cards_completo_orders.call_center_id', '=', 'call_centers.id')
+            ->where('base_acesso_card_cpf', $document)
+            ->orderBy('base_acesso_cards_completo.updated_at', 'desc')
+            ->where('base_acesso_cards_completo_orders.call_center_id', $id)
+            ->first();
+    }
+
+    public function firstBaseAcessoCardInativeByDocument($document, $id)
+    {
+        return $this->repository
+            ->leftJoin('base_acesso_cards_completo_orders', 'base_acesso_cards_completo.id', '=', 'base_acesso_cards_completo_orders.previous_card_id')
+            ->leftJoin('call_centers', 'base_acesso_cards_completo_orders.call_center_id', '=', 'call_centers.id')
+            ->where('base_acesso_card_cpf', $document)
+            ->orderBy('base_acesso_cards_completo.updated_at', 'desc')
+            ->where('base_acesso_cards_completo_orders.call_center_id', $id)
+            ->first();
+    }
+
     public function getBaseAcessoCardInativeByDocument($document)
     {
         return $this->repository

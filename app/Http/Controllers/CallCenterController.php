@@ -55,8 +55,8 @@ class CallCenterController extends Controller
         $document = request()->get('document');
         $awardedHasCards = $this->baseAcessoCardsCompletoService->getBaseAcessoCardActiveByDocument($document);
 
-        $previousCard = $this->baseAcessoCardsCompletoService->getBaseAcessoCardInativeByDocument($document)[0] ?? null;
-        $currencyCard = $awardedHasCards[0] ?? null;
+        $previousCard = $this->baseAcessoCardsCompletoService->firstBaseAcessoCardInativeByDocument($document, $id) ?? null;
+        $currencyCard = $this->baseAcessoCardsCompletoService->firstBaseAcessoCardActiveByDocument($document, $id) ?? null;
 
         $acessoCards = $this->acessoCardService->all();
         return view('call-center.edit', compact('callCenter', 'acessoCards', 'awardedHasCards', 'id', 'currencyCard', 'previousCard'));
