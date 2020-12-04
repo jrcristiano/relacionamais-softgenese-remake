@@ -85,7 +85,8 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
       'resources/js/save-button.js'
    ], 'public/js/awards/create-edit-award.js')
    .scripts([
-       'resources/js/awards/show.js'
+        'resources/js/myApp.js',
+        'resources/js/awards/show.js'
    ], 'public/js/awards/show-spreadsheets.js')
    .scripts([
        'resources/js/notes/create.js',
