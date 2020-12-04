@@ -134,7 +134,7 @@
                                         @endif
 
                                         @if (!$award->awarded_shipment_cancelled)
-                                            <form class="d-inline" action="{{ route('admin.api.shipment-api.update', ['id' => $award->id]) }}" method="post">
+                                            <form class="d-inline sgi_form_cancel" action="{{ route('admin.api.shipment-api.update', ['id' => $award->id]) }}" method="post">
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="awarded_shipment_cancelled" value="1" />

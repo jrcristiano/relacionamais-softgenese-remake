@@ -20,7 +20,25 @@ $(document).ready(function () {
     $('.sgi_form_delete').click(function (e) {
         e.preventDefault();
 
-        if(confirm('Deseja mesmo remover esses dados?')){
+        if(confirm('Deseja mesmo REMOVER esse dado?')){
+            $(this).submit();
+        }
+
+    });
+
+    $('.sgi_form_cancel').click(function (e) {
+        e.preventDefault();
+
+        if(confirm('Deseja mesmo CANCELAR esse dado?')){
+            $(this).submit();
+        }
+
+    });
+
+    $('.sgi_form_chargeback').click(function (e) {
+        e.preventDefault();
+
+        if(confirm('Deseja mesmo ESTORNAR esse dado?')){
             $(this).submit();
         }
 

@@ -74,7 +74,7 @@
                                     // dd($acessoCard->acesso_card_chargeback)
                                 @endphp
                                 @if ($acessoCard->shipment_generated == 1 && $acessoCard->awarded_status == 1 && !$acessoCard->acesso_card_chargeback)
-                                    <form class="d-inline" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_id, 'premiado_id' => request('id')]) }}" method="post">
+                                    <form class="d-inline sgi_form_chargeback" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_id, 'premiado_id' => request('id')]) }}" method="post">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="acesso_card_chargeback" value="1" />
