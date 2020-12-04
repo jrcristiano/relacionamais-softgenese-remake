@@ -90,6 +90,37 @@
                         </div>
                     </div>
                 @endif
+
+                @php
+                    $previousCard = $previousCard->base_acesso_card_proxy ?? null;
+                    // dd($previousCard);
+                @endphp
+
+                @if ($previousCard)
+                    <div class="row p-2 mb-3">
+                        <label class="font-weight-bold">
+                            Proxy cancelado
+                        </label>
+                        <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
+                            {{ $previousCard }}
+                        </div>
+                    </div>
+                @endif
+
+                @php
+                    $currencyCard = $currencyCard->base_acesso_card_proxy ?? null;
+                @endphp
+
+                @if ($currencyCard)
+                    <div class="row p-2 mb-3">
+                        <label class="font-weight-bold">
+                            Proxy ativo
+                        </label>
+                        <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
+                            {{ $currencyCard }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 

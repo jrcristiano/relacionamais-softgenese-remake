@@ -30,7 +30,12 @@ class CallCenterController extends Controller
     public function show($id)
     {
         $callCenter = $this->callCenterService->firstCallCenter($id);
-        return view('call-center.show', compact('callCenter', 'id'));
+        $document = request()->get('document');
+
+        $previousCard = $this->baseAcessoCardsCompletoService->firstBaseAcessoCardInativeByDocument($document, $id) ?? null;
+        $currencyCard = $this->baseAcessoCardsCompletoService->firstBaseAcessoCardActiveByDocument($document, $id) ?? null;
+
+        return view('call-center.show', compact('callCenter', 'previousCard', 'currencyCard', 'id'));
     }
 
     public function create()

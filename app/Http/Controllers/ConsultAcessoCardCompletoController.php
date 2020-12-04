@@ -94,6 +94,7 @@ class ConsultAcessoCardCompletoController extends Controller
 
         \App\BaseAcessoCardCompletoOrder::create([
             'previous_card_id' => $baseAcessoCard->id,
+            'call_center_id' => $callCenterId
         ]);
 
         $this->baseAcessoCardsCompletoService->saveByParam([
