@@ -82,10 +82,10 @@ class ConsultAcessoCardCompletoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $proxy)
+    public function update(Request $request)
     {
         $callCenterId = $request->get('cancel_call_center_id');
-        $baseAcessoCard = $this->baseAcessoCardsCompletoService->findByProxy($proxy);
+        $baseAcessoCard = $this->baseAcessoCardsCompletoService->findActiveCardByDocument(request('document'));
 
         \App\CallCenter::where('id', $callCenterId)
             ->update([
@@ -97,9 +97,9 @@ class ConsultAcessoCardCompletoController extends Controller
             'call_center_id' => $callCenterId
         ]);
 
-        $this->baseAcessoCardsCompletoService->saveByParam([
+        $this->baseAcessoCardsCompletoService->saveByDocumentActive([
             'base_acesso_card_status' => 2
-        ], 'base_acesso_card_proxy', $proxy);
+        ], request('document'));
 
         return redirect()->back();
     }

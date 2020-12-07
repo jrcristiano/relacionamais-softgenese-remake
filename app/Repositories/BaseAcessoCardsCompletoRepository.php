@@ -49,8 +49,7 @@ class BaseAcessoCardsCompletoRepository extends Repository
 
     public function findBaseAcessoCardActiveByProxy($proxy)
     {
-        return $this->repository->select('id')
-            ->where('base_acesso_card_proxy', $proxy)
+        return $this->repository->where('base_acesso_card_proxy', $proxy)
             ->where('base_acesso_card_status', 1)
             ->first();
     }
@@ -180,6 +179,13 @@ class BaseAcessoCardsCompletoRepository extends Repository
     public function saveByDocument($data, $document)
     {
         return $this->repository->where('base_acesso_card_cpf', $document)
+            ->update($data);
+    }
+
+    public function saveByDocumentActive($data, $document)
+    {
+        return $this->repository->where('base_acesso_card_cpf', $document)
+            ->where('base_acesso_card_status', 1)
             ->update($data);
     }
 

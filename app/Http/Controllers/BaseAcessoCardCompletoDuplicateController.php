@@ -17,7 +17,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
         $this->acessoCardService = $acessoCardService;
     }
 
-    public function update(Request $request, $proxy)
+    public function update(Request $request)
     {
         $data['prize_amount'] = toReal($request->get('prize_amount'));
 
@@ -30,7 +30,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
 
         $baseAcessoCardCompleto = $this->baseAcessoCardCompletoService->findActiveCardByDocument(request('document'));
 
-        $acessoCard = $this->acessoCardService->findByProxy($proxy);
+        $acessoCard = $this->acessoCardService->findByDocument(request('document'));
         $demand = \App\Demand::find($acessoCard->acesso_card_demand_id);
 
         \App\Demand::create([

@@ -41,7 +41,8 @@ class CallCenterController extends Controller
     public function create()
     {
         $acessoCards = $this->acessoCardService->all();
-        return view('call-center.create', compact('acessoCards'));
+        $awardedHasCards = $this->baseAcessoCardsCompletoService->getBaseAcessoCardActiveByDocument(request('document'));
+        return view('call-center.create', compact('acessoCards', 'awardedHasCards'));
     }
 
     public function store(Request $request)

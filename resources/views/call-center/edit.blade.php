@@ -23,7 +23,7 @@
                         <button type="button" class="btn btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#exampleModal">
                             <i class="far fa-credit-card"></i> Gerar 2º via
                         </button>
-                        <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['proxy' => $callCenter->acesso_card_proxy, 'document' => request('document') ]) }}" method="post">
+                        <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['document' => request('document') ]) }}" method="post">
 
                             @csrf
                             @method('PUT')
@@ -58,7 +58,7 @@
                             </div>
                             <div class="modal-footer border-0">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                              <form action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['proxy' => $callCenter->acesso_card_proxy, 'document' => request('document') ]) }}" method="post">
+                              <form action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['document' => request('document') ]) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" id="prize_amount_hidden" name="prize_amount" />

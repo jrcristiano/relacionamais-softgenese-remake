@@ -78,6 +78,11 @@ class BaseAcessoCardsCompletoService extends Service
         return $this->service->saveByDocument($data, $document);
     }
 
+    public function saveByDocumentActive(array $data, $document)
+    {
+        return $this->service->saveByDocumentActive($data, $document);
+    }
+
     public function saveByParam(array $data, $param, $value)
     {
         return $this->service->saveByParam($data, $param, $value);
