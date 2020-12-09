@@ -29,6 +29,20 @@
                 </form>
             @endif
 
+            @if ($award->awarded_type == 4)
+                <form class="mt-3 px-2" action="{{ route('admin.register.acesso-cards-shopping.update', ['id' => $award->id, 'pedido_id' => \Request::get('pedido_id')]) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    @include('components.forms.form_acesso_card_compras', ['id' => $award->id])
+
+                    <div class="form-group">
+                        <button id="btn-award-send" class="btn btn-success save-button" type="submit">
+                            <i class="fas fa-arrow-right"></i> Salvar
+                        </button>
+                    </div>
+                </form>
+            @endif
+
             @if ($award->awarded_type == 2)
                 <form class="mt-3 px-2" action="{{ route('admin.register.awardeds.update', ['id' => $award->id, 'pedido_id' => \Request::get('pedido_id')]) }}" method="post" enctype="multipart/form-data">
                     @csrf

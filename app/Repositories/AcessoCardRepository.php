@@ -151,6 +151,7 @@ class AcessoCardRepository extends Repository
     {
         return $this->repository->select([
             'awards.awarded_status',
+            'awards.awarded_type_card',
             'awards.award_already_parted',
             'awards.awarded_shipment_cancelled',
             'acesso_cards.*',

@@ -61,10 +61,10 @@
                             @php
                                 $alreadyExists = $acessoCard->acesso_card_already_exists == null && $acessoCard->awarded_status != 3;
                             @endphp
-                            <td class="text-uppercase {{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_name }}</td>
-                            <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_document }}</td>
-                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_proxy ? $acessoCard->acesso_card_proxy : $acessoCard->base_acesso_card_proxy }}</td>
-                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_number ? $acessoCard->acesso_card_number : 'EMITIR CARTÃO' }}</td>
+                            <td class="text-uppercase {{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_shopping_name }}</td>
+                            <td class="spreadsheet_document" >{{ $acessoCard->acesso_card_shopping_document }}</td>
+                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_shopping_proxy ? $acessoCard->acesso_card_shopping_proxy : $acessoCard->base_acesso_card_proxy }}</td>
+                            <td class="{{ $alreadyExists ? 'font-weight-bold' : '' }}">{{ $acessoCard->acesso_card_shopping_number ? $acessoCard->acesso_card_shopping_number : 'EMITIR CARTÃO' }}</td>
                             <td>R$ {{ $acessoCard->acesso_card_value_formatted }}</td>
                             <td>
                                 @php
@@ -95,7 +95,7 @@
                                 @endif
 
                                 @if ($acessoCard->awarded_status == 3)
-                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards.destroy', ['id' => $acessoCard->acesso_card_id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
+                                    <form class="d-inline sgi_form_delete" action="{{ route('admin.register.acesso-cards-shopping.destroy', ['id' => $acessoCard->acesso_card_id, 'card_id' => $id, 'pedido_id' => \Request::get('pedido_id') ]) }}" method="post">
                                         @csrf
                                         <button data-toggle="tooltip" data-placement="top" title="Remover" class="btn btn-sm btn-danger">
                                             <i class="fas fa-times"></i>

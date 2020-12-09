@@ -44,6 +44,7 @@
                         <select name="tipo_premiacao" class="form-control">
                             <option value="">SELECIONAR TIPO DE PREMIAÇÃO</option>
                             <option {{ \Request::get('tipo_premiacao') == 1 ? 'selected' : '' }} value="1">REMESSA ACESSOCARD COMPLETO</option>
+                            <option {{ \Request::get('tipo_premiacao') == 4 ? 'selected' : '' }} value="4">REMESSA ACESSOCARD COMPRAS</option>
                             <option {{ \Request::get('tipo_premiacao') == 2 ? 'selected' : '' }} value="2">REMESSA DEP. EM CONTA ITAÚ</option>
                         </select>
                         <button id="btn-date" type="submit" class="btn btn-primary mr-2 ml-2">
@@ -72,6 +73,10 @@
                             @forelse ($awards as $award)
                                 @php
                                     if ($award->awarded_type == 1 || $award->awarded_type == 2) {
+                                        $status = $award->awarded_status == 1 ? 'EM REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'Cancelado' : '')));
+                                    }
+
+                                    if ($award->awarded_type == 4 || $award->awarded_type == 2) {
                                         $status = $award->awarded_status == 1 ? 'EM REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'Cancelado' : '')));
                                     }
 
@@ -193,5 +198,11 @@
 @if(\Request::get('tipo_premiacao') == 2)
     @push('scripts')
         <script src="{{ asset('/js/shipments/deposit-account.js') }}"></script>
+    @endpush
+@endif
+
+@if(\Request::get('tipo_premiacao') == 4)
+    @push('scripts')
+        <script src="{{ asset('/js/shipments/acesso-card-shopping.js') }}"></script>
     @endpush
 @endif

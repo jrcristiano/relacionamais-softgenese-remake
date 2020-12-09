@@ -58,7 +58,7 @@ class Award extends Model
             $this->attributes['awarded_value'] = toReal($value);
         }
 
-        if (\Request::get('awarded_type') == 1 || \Request::get('awarded_type') == 2 || !\Request::get('awarded_type')) {
+        if (request('awarded_type') == 1 || request('awarded_type') == 2 || !request('awarded_type') || request('awarded_type') == 4) {
             $this->attributes['awarded_value'] = (float) $value;
         }
     }

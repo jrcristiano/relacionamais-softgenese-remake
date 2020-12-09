@@ -88,8 +88,11 @@
                                       Pagamento manual
                                   </a>
                                   <a class="dropdown-item" href="{{ route('admin.register.acesso-cards.create', ['pedido_id' => $id]) }}">
-                                      Acesso card completo
+                                      Acessocard completo
                                   </a>
+                                  <a class="dropdown-item" href="{{ route('admin.register.acesso-cards-shopping.create', ['pedido_id' => $id]) }}">
+                                    Acessocard compras
+                                </a>
                                 </div>
                               </div>
                     </header>
@@ -115,7 +118,7 @@
                                     <tr>
                                         <th class="text-uppercase">{{ $award->id }}</th>
                                         <td>R$ {{ $award->awarded_value_formatted }}</td>
-                                        <td class="text-uppercase">{{ $award->awarded_type == 3 ? 'PAGAMENTO MANUAL' : ($award->awarded_type == 2 ? 'DEPÓSITO EM CONTA' : ($award->awarded_type == 1 ? 'CARTÃO ACESSO' : '')) }}</td>
+                                        <td class="text-uppercase">{{ $award->awarded_type == 3 ? 'PAGAMENTO MANUAL' : ($award->awarded_type == 2 ? 'DEPÓSITO EM CONTA' : ($award->awarded_type == 1 ? 'CARTÃO ACESSOCARD COMPLETO' : ($award->awarded_type == 4 ? 'CARTÃO ACESSOCARD COMPRAS' : ''))) }}</td>
                                         @php
                                             if ($award->awarded_type == 1) {
                                                 $status = $award->awarded_status == 1 ? 'ENVIADO PARA REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : '')));
@@ -129,6 +132,10 @@
                                                 $status = $award->awarded_status == 1 || $award->awarded_status == null ? 'PAGO' : ($award->awarded_status == 3 ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : ''));
                                             }
 
+                                            if ($award->awarded_type == 4) {
+                                                $status = $award->awarded_status == 1 ? 'ENVIADO PARA REMESSA' : ($award->awarded_status == 2 ? 'AGUARDANDO PAGAMENTO' : ($award->awarded_status == 3 || $award->awarded_status == null ? 'PENDENTE' : ($award->awarded_status == 4 ? 'CANCELADO' : '')));
+                                            }
+
                                             if ($award->shipment_generated) {
                                                 $status = 'REMESSA GERADA';
                                             }
@@ -137,96 +144,188 @@
                                                 $status = 'REMESSA CANCELADA';
                                             }
                                         @endphp
-                                        <td class="text-uppercase">{{ $status }}</td>
+                                        <td class="text-uppercase">{{ $status ?? null }}</td>
                                         <td>{{ $award->created_at_formatted }}</td>
 
-                                        <td>
+                                        @if ($award->awarded_type_card == null && $award->awarded_type == 1)
+                                            <td>
+                                                @if ($award->awarded_type == 1 && $award->awarded_status == 4)
+                                                    <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
 
-                                            @if ($award->awarded_type == 1 && $award->awarded_status == 4)
-                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
+                                                <!-- Cartão acesso card (pendente) -->
+                                                @if ($award->awarded_type == 1 && $award->awarded_status == 3)
+                                                    <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
+                                                        @csrf
+                                                        <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
 
-                                            <!-- Cartão acesso card (pendente) -->
-                                            @if ($award->awarded_type == 1 && $award->awarded_status == 3)
-                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                                </a>
-                                                <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
-                                                    @csrf
-                                                    <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-                                                </form>
-                                            @endif
+                                                <!-- Acesso card (enviado para remessa) -->
+                                                @if ($award->awarded_type == 1 && $award->awarded_status == 1)
+                                                    <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
 
-                                            <!-- Acesso card (enviado para remessa) -->
-                                            @if ($award->awarded_type == 1 && $award->awarded_status == 1)
-                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
+                                                <!-- Dep. em conta (enviado para remessa) -->
+                                                @if ($award->awarded_type == 2 && $award->awarded_status == 1)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
 
-                                            <!-- Dep. em conta (enviado para remessa) -->
-                                            @if ($award->awarded_type == 2 && $award->awarded_status == 1)
-                                                <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
+                                                <!-- Pagamento manual (cancelado) -->
+                                                @if ($award->awarded_type == 3 && $award->awarded_status == 4 || $award->awarded_type == 3 && $award->awarded_status == 1)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
 
-                                            <!-- Pagamento manual (cancelado) -->
-                                            @if ($award->awarded_type == 3 && $award->awarded_status == 4 || $award->awarded_type == 3 && $award->awarded_status == 1)
-                                                <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
+                                                @if ($award->awarded_type == 2 && $award->awarded_status == 2)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
 
-                                            @if ($award->awarded_type == 2 && $award->awarded_status == 2)
-                                                <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
 
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
+                                                <!-- Dep. em conta (pendente) -->
+                                                @if ($award->awarded_type == 2 && $award->awarded_status == 3)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
+                                                        @csrf
+                                                        <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
 
-                                            <!-- Dep. em conta (pendente) -->
-                                            @if ($award->awarded_type == 2 && $award->awarded_status == 3)
-                                                <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                                </a>
-                                                <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
-                                                    @csrf
-                                                    <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-                                                </form>
-                                            @endif
+                                                @if($award->awarded_type == 1 && $award->awarded_status == 2)
+                                                    <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
 
-                                            @if($award->awarded_type == 1 && $award->awarded_status == 2)
-                                                <a href="{{ route('admin.register.acesso-cards.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
+                                            </td>
+                                        @endif
 
-                                        </td>
+
+
+                                        @if ($award->awarded_type_card == 2 && $award->awarded_type == 4)
+                                            <td>
+                                                @if ($award->awarded_type == 4 && $award->awarded_status == 4)
+                                                    <a href="{{ route('admin.register.acesso-cards-shopping.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+
+                                                <!-- Cartão acesso card (pendente) -->
+                                                @if ($award->awarded_type == 4 && $award->awarded_status == 3)
+                                                    <a href="{{ route('admin.register.acesso-cards-shopping.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
+                                                        @csrf
+                                                        <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+
+                                                <!-- Acesso card (enviado para remessa) -->
+                                                @if ($award->awarded_type == 4 && $award->awarded_status == 1)
+                                                    <a href="{{ route('admin.register.acesso-cards-shopping.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+
+                                                <!-- Dep. em conta (enviado para remessa) -->
+                                                @if ($award->awarded_type == 2 && $award->awarded_status == 1)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
+
+                                                <!-- Pagamento manual (cancelado) -->
+                                                @if ($award->awarded_type == 3 && $award->awarded_status == 4 || $award->awarded_type == 3 && $award->awarded_status == 1)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
+
+                                                @if ($award->awarded_type == 2 && $award->awarded_status == 2)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
+
+                                                <!-- Dep. em conta (pendente) -->
+                                                @if ($award->awarded_type == 2 && $award->awarded_status == 3)
+                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
+                                                        @csrf
+                                                        <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+
+                                                @if($award->awarded_type == 4 && $award->awarded_status == 2)
+                                                    <a href="{{ route('admin.register.acesso-cards-shopping.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                        <i aria-hidden="true" class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
+
+                                            </td>
+                                        @endif
                                     </tr>
 
                                 @empty

@@ -76,6 +76,10 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
     'resources/js/myApp.js',
     'resources/js/shipments/acesso-card.js'
  ], 'public/js/shipments/acesso-card.js')
+ .scripts([
+    'resources/js/myApp.js',
+    'resources/js/shipments/acesso-card-shopping.js'
+ ], 'public/js/shipments/acesso-card-shopping.js')
    .scripts([
       'resources/js/receives/create.js',
       'resources/js/save-button.js'

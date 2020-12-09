@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Novo acessocard completo')
+@section('title', 'Novo acessocard compras')
 @section('content')
 
 <div class="container-fluid">
@@ -7,7 +7,7 @@
         @include('components.leftbar')
         <div class="col-lg-10 sgi-container shadow-sm rounded">
             @include('components.header_content', [
-                'title' => 'Novo cartão acesso completo',
+                'title' => 'Novo cartão acesso compras',
                 'buttonTitle' => 'Voltar',
                 'route' => url()->previous(),
                 'icon' => 'fas fa-undo'
@@ -15,9 +15,9 @@
 
             @include('components.message')
 
-            <form class="mt-3 px-2" action="{{ route('admin.register.acesso-cards.store', ['pedido_id' => \Request::get('pedido_id')]) }}" enctype="multipart/form-data" method="post">
+            <form class="mt-3 px-2" action="{{ route('admin.register.acesso-cards-shopping.store', ['pedido_id' => \Request::get('pedido_id')]) }}" enctype="multipart/form-data" method="post">
                 @csrf
-                @include('components.forms.form_acesso_card')
+                @include('components.forms.form_acesso_card_compras')
                 <div class="form-group">
                     <button class="btn btn-success font-weight-bold mt-1 save-button" type="submit">
                         <i class="fas fa-arrow-right"></i> Salvar

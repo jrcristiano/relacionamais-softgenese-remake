@@ -55,6 +55,10 @@ Route::group(['prefix' => 'admin'], function () {
             Route::group(['prefix' => 'base-acesso-card-completo'], function () {
                 Route::post('/{id}/update', 'Api\\BaseAcessoCardCompletoController@update')->name('base-acesso-card-completo.update');
             });
+
+            Route::group(['prefix' => 'base-acesso-card-compras'], function () {
+                Route::post('/{id}/update', 'Api\\BaseAcessoCardShoppingController@update')->name('base-acesso-card-compras.update');
+            });
         });
 
         Route::get('/home', 'DemandController@index')->name('home');
@@ -86,11 +90,17 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/pagamento-manual/salvar', 'PaymentManualController@store')->name('payment-manuals.store');
             Route::put('/pagamento-manual/{id}/atualizar', 'PaymentManualController@update')->name('payment-manuals.update');
 
-            Route::get('/cartao-acesso', 'AcessoCardController@create')->name('acesso-cards.create');
-            Route::post('/cartao-acesso/salvar', 'AcessoCardController@store')->name('acesso-cards.store');
-            Route::get('/cartao-acesso/{id}', 'AcessoCardController@show')->name('acesso-cards.show');
-            Route::put('/cartao-acesso/{id}/atualizar', 'AcessoCardController@update')->name('acesso-cards.update');
-            Route::post('/cartao-acesso/{id}/remover', 'AcessoCardController@destroy')->name('acesso-cards.destroy');
+            Route::get('/cartao-acesso-completo', 'AcessoCardController@create')->name('acesso-cards.create');
+            Route::post('/cartao-acesso-completo/salvar', 'AcessoCardController@store')->name('acesso-cards.store');
+            Route::get('/cartao-acesso-completo/{id}', 'AcessoCardController@show')->name('acesso-cards.show');
+            Route::put('/cartao-acesso-completo/{id}/atualizar', 'AcessoCardController@update')->name('acesso-cards.update');
+            Route::post('/cartao-acesso-completo/{id}/remover', 'AcessoCardController@destroy')->name('acesso-cards.destroy');
+
+            Route::get('/cartao-acesso-compras', 'AcessoCardShoppingController@create')->name('acesso-cards-shopping.create');
+            Route::post('/cartao-acesso-compras/salvar', 'AcessoCardShoppingController@store')->name('acesso-cards-shopping.store');
+            Route::get('/cartao-acesso-compras/{id}', 'AcessoCardShoppingController@show')->name('acesso-cards-shopping.show');
+            Route::put('/cartao-acesso-compras/{id}/atualizar', 'AcessoCardShoppingController@update')->name('acesso-cards-shopping.update');
+            Route::post('/cartao-acesso-compras/{id}/remover', 'AcessoCardShoppingController@destroy')->name('acesso-cards-shopping.destroy');
 
             Route::post('/separar-cartao-acesso-card', 'PartAcessoCardController@store')->name('part-acesso-cards.store');
 

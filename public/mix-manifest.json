@@ -20,6 +20,7 @@
     "/js/receives/index-receive.js": "/js/receives/index-receive.js",
     "/js/shipments/deposit-account.js": "/js/shipments/deposit-account.js",
     "/js/shipments/acesso-card.js": "/js/shipments/acesso-card.js",
+    "/js/shipments/acesso-card-shopping.js": "/js/shipments/acesso-card-shopping.js",
     "/js/receives/create-edit-receive.js": "/js/receives/create-edit-receive.js",
     "/js/awards/create-edit-award.js": "/js/awards/create-edit-award.js",
     "/js/awards/show-spreadsheets.js": "/js/awards/show-spreadsheets.js",
