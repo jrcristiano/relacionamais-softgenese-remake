@@ -236,6 +236,26 @@ class BaseAcessoCardsCompraRepository extends Repository
         ->get();
     }
 
+    public function getAcessoCardComprasNotGenerated($id)
+    {
+        return $this->repository->select([
+            'acesso_card_shoppings.acesso_card_shopping_name',
+            'acesso_card_shoppings.acesso_card_shopping_document',
+            'base_acesso_cards_compras.id',
+            'base_acesso_cards_compras.base_acesso_card_cpf',
+            'base_acesso_cards_compras.base_acesso_card_proxy',
+            'acesso_card_shoppings.acesso_card_shopping_generated'
+        ])
+        ->leftJoin('acesso_card_shoppings', 'base_acesso_cards_compras.base_acesso_card_proxy', '=', 'acesso_card_shoppings.acesso_card_shopping_proxy')
+        ->whereNull('base_acesso_card_generated')
+        ->whereNotNull('base_acesso_cards_compras.base_acesso_card_name')
+        ->whereNotNull('base_acesso_cards_compras.base_acesso_card_cpf')
+        ->whereNull('acesso_card_shopping_chargeback')
+        ->where('acesso_card_shoppings.acesso_card_shopping_award_id', $id)
+        ->where('base_acesso_cards_compras.base_acesso_card_status', 1)
+        ->get();
+    }
+
     public function getAcessoCardCompletoNotGeneratedView()
     {
         return $this->repository->select([

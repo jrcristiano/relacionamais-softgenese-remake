@@ -17,13 +17,13 @@ class HistoryAcessoCardComprasRepository extends Repository
     public function getInfoBaseAcessoCardsAndAcessoCardsByAwardId($id)
     {
         return $this->repository->select([
-            'acesso_cards.*',
-            'base_acesso_cards_completo.*',
+            'acesso_card_shoppings.*',
+            'base_acesso_cards_compras.*',
         ])
-        ->leftJoin('acesso_cards', 'history_acesso_cards.history_acesso_card_id', '=', 'acesso_cards.id')
-        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
-        ->where('acesso_cards.acesso_card_award_id', $id)
-        ->whereNull('acesso_card_chargeback')
+        ->leftJoin('acesso_card_shoppings', 'history_acesso_card_compras.history_acesso_card_id', '=', 'acesso_card_shoppings.id')
+        ->leftJoin('base_acesso_cards_compras', 'history_acesso_card_compras.history_base_id', '=', 'base_acesso_cards_compras.id')
+        ->where('acesso_card_shoppings.acesso_card_shopping_award_id', $id)
+        ->whereNull('acesso_card_shopping_chargeback')
         ->get();
     }
 
@@ -31,19 +31,19 @@ class HistoryAcessoCardComprasRepository extends Repository
     {
         $query = $this->repository->select([
             'awards.awarded_status',
-            'acesso_cards.acesso_card_value',
-            'acesso_cards.acesso_card_generated',
-            'acesso_cards.acesso_card_chargeback',
-            'acesso_cards.created_at',
-            'base_acesso_cards_completo.base_acesso_card_name',
-            'base_acesso_cards_completo.base_acesso_card_proxy',
-            'base_acesso_cards_completo.base_acesso_card_status',
-            'base_acesso_cards_completo.base_acesso_card_cpf',
-            'base_acesso_cards_completo.base_acesso_card_number'
+            'acesso_card_shoppings.acesso_card_shopping_value',
+            'acesso_card_shoppings.acesso_card_shopping_generated',
+            'acesso_card_shoppings.acesso_card_shopping_chargeback',
+            'acesso_card_shoppings.created_at',
+            'base_acesso_cards_compras.base_acesso_card_name',
+            'base_acesso_cards_compras.base_acesso_card_proxy',
+            'base_acesso_cards_compras.base_acesso_card_status',
+            'base_acesso_cards_compras.base_acesso_card_cpf',
+            'base_acesso_cards_compras.base_acesso_card_number'
         ])
-        ->leftJoin('acesso_cards', 'history_acesso_cards.history_acesso_card_id', '=', 'acesso_cards.id')
-        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
-        ->leftJoin('awards', 'acesso_cards.acesso_card_award_id', '=', 'awards.id');
+        ->leftJoin('acesso_card_shoppings', 'history_acesso_card_compras.history_acesso_card_id', '=', 'acesso_card_shoppings.id')
+        ->leftJoin('base_acesso_cards_compras', 'history_acesso_card_compras.history_base_id', '=', 'base_acesso_cards_compras.id')
+        ->leftJoin('awards', 'acesso_card_shoppings.acesso_card_shopping_award_id', '=', 'awards.id');
 
         return $query->paginate($perPage);
     }
@@ -56,12 +56,12 @@ class HistoryAcessoCardComprasRepository extends Repository
     public function getDataForFilters()
     {
         return $this->repository->select([
-            'base_acesso_cards_completo.base_acesso_card_name',
-            'base_acesso_cards_completo.base_acesso_card_cpf',
-            'base_acesso_cards_completo.base_acesso_card_proxy',
-            'base_acesso_cards_completo.base_acesso_card_status',
+            'base_acesso_cards_compras.base_acesso_card_name',
+            'base_acesso_cards_compras.base_acesso_card_cpf',
+            'base_acesso_cards_compras.base_acesso_card_proxy',
+            'base_acesso_cards_compras.base_acesso_card_status',
         ])
-        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
+        ->leftJoin('base_acesso_cards_compras', 'history_acesso_card_compras.history_base_id', '=', 'base_acesso_cards_compras.id')
         ->whereNotNull('base_acesso_card_name')
         ->whereNotNull('base_acesso_card_cpf')
         ->get();
@@ -70,12 +70,12 @@ class HistoryAcessoCardComprasRepository extends Repository
     public function getInfoBaseAcessoCardsNotGeneratedAndAcessoCardsByAwardId($id)
     {
         return $this->repository->select([
-            'acesso_cards.*',
-            'base_acesso_cards_completo.*',
+            'acesso_card_shoppings.*',
+            'base_acesso_cards_compras.*',
         ])
-        ->leftJoin('acesso_cards', 'history_acesso_cards.history_acesso_card_id', '=', 'acesso_cards.id')
-        ->leftJoin('base_acesso_cards_completo', 'history_acesso_cards.history_base_id', '=', 'base_acesso_cards_completo.id')
-        ->where('acesso_cards.acesso_card_award_id', $id)
+        ->leftJoin('acesso_card_shoppings', 'history_acesso_card_compras.history_acesso_card_id', '=', 'acesso_cards.id')
+        ->leftJoin('base_acesso_cards_compras', 'history_acesso_card_compras.history_base_id', '=', 'base_acesso_cards_compras.id')
+        ->where('acesso_card_shoppings.acesso_card_shopping_award_id', $id)
         ->whereNull('base_acesso_card_generated')
         ->get();
     }

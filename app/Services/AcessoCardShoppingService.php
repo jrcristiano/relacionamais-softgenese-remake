@@ -12,7 +12,7 @@ class AcessoCardShoppingService extends Service
 {
     protected $service, $baseAcessoCardsCompletoService;
 
-    public function __construct(AcessoCardShoppingRepository $repository, BaseAcessoCardsCompletoService $baseAcessoCardsCompletoService)
+    public function __construct(AcessoCardShoppingRepository $repository, BaseAcessoCardsCompraService $baseAcessoCardsCompletoService)
     {
         $this->service = $repository;
         $this->baseAcessoCardsCompletoService = $baseAcessoCardsCompletoService;
@@ -117,7 +117,12 @@ class AcessoCardShoppingService extends Service
 
     public function getAcessoCardCompletoNotGenerated($id)
     {
-        return $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
+        return $this->baseAcessoCardsCompletoService->getAcessoCardComprasNotGenerated($id);
+    }
+
+    public function getAcessoCardComprasNotGenerated($id)
+    {
+        return $this->baseAcessoCardsCompletoService->getAcessoCardComprasNotGenerated($id);
     }
 
     public function firstAcessoCardCompletoNotGenerated($id)
@@ -127,7 +132,7 @@ class AcessoCardShoppingService extends Service
 
     public function getAwardedsAwaitingPayment($id)
     {
-        $data = $this->baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
+        $data = $this->baseAcessoCardsCompletoService->getAcessoCardComprasNotGenerated($id);
 
         $spreadsheet = new Spreadsheet;
 

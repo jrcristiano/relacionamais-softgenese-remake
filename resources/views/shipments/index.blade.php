@@ -22,10 +22,29 @@
             @if (\Request::get('tipo_premiacao') == 1)
                 @if ($likedFile && count(getAcessoCardCompletoNotGeneratedView($likedFile->shipment_award_id)) > 0)
                     <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
-                        <strong>Atenção! </strong> Há cartões não vinculados junto à processadora. Um arquivo de vinculação será criado.
+                        <strong>Atenção! </strong> Há cartões acessocards completos não vinculados junto à processadora. Um arquivo de vinculação será criado.
 
                         <button class="btn btn-danger" id="generate-vincs" data-file="{{ $likedFile->shipment_file_vinc ?? null }}" data-id="{{ $likedFile->id ?? null }}" class="alert-link">
-                            <i class="fas fa-download"></i> CLIQUE AQUI PARA GERAR O ARQUIVO DE VINCULAÇÃO
+                            <i class="fas fa-download"></i> GERAR O ARQUIVO DE VINCULAÇÃO
+                        </button>
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+            @endif
+
+            @if (\Request::get('tipo_premiacao') == 4)
+            @php
+
+            @endphp
+                @if ($likedFile && count(getAcessoCardComprasNotGeneratedView($likedFile->shipment_award_id)) > 0)
+                    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                        <strong>Atenção! </strong> Há cartões acessocards compras não vinculados junto à processadora. Um arquivo de vinculação será criado.
+
+                        <button class="btn btn-danger" id="generate-vincs" data-file="{{ $likedFile->shipment_file_vinc ?? null }}" data-id="{{ $likedFile->id ?? null }}" class="alert-link">
+                            <i class="fas fa-download"></i> GERAR O ARQUIVO DE VINCULAÇÃO
                         </button>
 
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -96,7 +115,7 @@
                                     <td class="text-uppercase">PEDIDO {{ $award->awarded_demand_id }} | PREMIAÇÃO {{ $award->id }}</td>
                                     <td>{{ $award->note_number ?? '' }}</td>
                                     <td>R$ {{ number_format($award->awarded_value, 2, ',', '.')  }}</td>
-                                    <td class="text-uppercase">{{ $award->awarded_type == 1 ? 'CARTÃO ACESSO' : 'DEPÓSITO EM CONTA' }}</td>
+                                    <td class="text-uppercase">{{ $award->awarded_type == 1 ? 'CARTÃO ACESSO COMPLETO' : ($award->awarded_type == 4 ? 'CARTÃO ACESSO COMPRAS': 'DEPÓSITO EM CONTA' ) }}</td>
                                     <td class="text-uppercase">{{ $status ?? '' }}</td>
                                     <td>{{ $award->created_at_formatted }}</td>
                                     <td>
@@ -109,8 +128,20 @@
                                                     @if (!$award->awarded_shipment_cancelled && $award->awarded_type == 1)
                                                     @php
                                                         // dd($alert->shipment_file_vinc)
+                                                        $shipmentAwardId = $likedFile->shipment_award_id ?? 0;
                                                     @endphp
-                                                        <input {{ $likedFile && count(getAcessoCardCompletoNotGeneratedView($likedFile->shipment_award_id)) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <input {{ $likedFile && count(getAcessoCardCompletoNotGeneratedView($shipmentAwardId)) > 0 || count(getAcessoCardComprasNotGeneratedView($shipmentAwardId)) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
+                                                        <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
+                                                    @elseif($award->awarded_shipment_cancelled)
+                                                        <i aria-hidden="true" class="fas fa-close text-danger"></i>
+                                                    @endif
+
+                                                    @if (!$award->awarded_shipment_cancelled && $award->awarded_type == 4)
+                                                    @php
+                                                        // dd($alert->shipment_file_vinc)
+                                                        $shipmentAwardId = $likedFile->shipment_award_id ?? 0;
+                                                    @endphp
+                                                        <input {{ $likedFile && count(getAcessoCardCompletoNotGeneratedView($shipmentAwardId)) > 0 || count(getAcessoCardComprasNotGeneratedView($shipmentAwardId)) > 0 ? 'disabled' : '' }} data-award="{{ $award->awarded_type }}" data-id="{{ $award->id }}" type="checkbox" class="custom-control-input check-id{{ $award->id }}" id="customCheck{{ $award->id }}">
                                                         <label class="custom-control-label" for="customCheck{{ $award->id }}"></label>
                                                     @elseif($award->awarded_shipment_cancelled)
                                                         <i aria-hidden="true" class="fas fa-close text-danger"></i>
@@ -129,6 +160,11 @@
                                     <td>
                                         @if ($award->awarded_type == 1)
                                             <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.acesso-cards.show', ['id' => $award->id, 'pedido_id' => $award->awarded_demand_id]) }}">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                        @endif
+                                        @if ($award->awarded_type == 4)
+                                            <a data-toggle="tooltip" data-placement="top" title="Visualizar" class="btn btn-sm btn-primary" href="{{ route('admin.register.acesso-cards-shopping.show', ['id' => $award->id, 'pedido_id' => $award->awarded_demand_id]) }}">
                                                 <i class="far fa-eye"></i>
                                             </a>
                                         @endif

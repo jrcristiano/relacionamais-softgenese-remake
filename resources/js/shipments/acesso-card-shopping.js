@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     $('#generate-vincs').click(function () {
         var id = $(this).data('id')
+        console.log(id)
         var file = $(this).data('file')
 
         var path = `${domain}/admin/api/base-acesso-card-compras/${id}/update`
@@ -37,7 +38,7 @@ $(document).ready(function () {
             console.log(url)
             download(response, url)
 
-            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=4`
         })
 
         $('.alert').addClass('d-none')
@@ -76,7 +77,7 @@ $(document).ready(function () {
         }
     })
 
-    var path = `${domain}/admin/api/acesso-card/store`
+    var path = `${domain}/admin/api/acesso-card-shopping/store`
     var collection = {
         data: collection_id
     }
@@ -95,7 +96,7 @@ $(document).ready(function () {
             console.log(url)
             download(response, url)
 
-            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=1`
+            window.location = `${domain}/admin/financeiro/remessas?tipo_premiacao=4`
         })
     })
 })

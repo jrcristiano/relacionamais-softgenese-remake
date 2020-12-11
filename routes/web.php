@@ -52,6 +52,11 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::put('/{id}/update', 'Api\\AcessoCardControllerApi@update')->name('acesso-card-api.update');
             });
 
+            Route::group(['prefix' => '/acesso-card-shopping'], function () {
+                Route::post('/store', 'Api\\AcessoCardShoppingControllerApi@store')->name('acesso-card-api.store');
+                Route::put('/{id}/update', 'Api\\AcessoCardShoppingControllerApi@update')->name('acesso-card-api.update');
+            });
+
             Route::group(['prefix' => 'base-acesso-card-completo'], function () {
                 Route::post('/{id}/update', 'Api\\BaseAcessoCardCompletoController@update')->name('base-acesso-card-completo.update');
             });

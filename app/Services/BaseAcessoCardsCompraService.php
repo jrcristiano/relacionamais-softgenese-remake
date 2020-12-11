@@ -88,9 +88,9 @@ class BaseAcessoCardsCompraService extends Service
         return $this->service->saveByParam($data, $param, $value);
     }
 
-    public function getAcessoCardCompletoNotGenerated($id)
+    public function getAcessoCardComprasNotGenerated($id)
     {
-        return $this->service->getAcessoCardCompletoNotGenerated($id);
+        return $this->service->getAcessoCardComprasNotGenerated($id);
     }
 
     public function getAcessoCardCompletoNotGeneratedView()

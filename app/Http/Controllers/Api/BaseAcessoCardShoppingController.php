@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\AcessoCardShopping;
 use App\Http\Controllers\Controller;
+use App\Services\AcessoCardShoppingService;
 use App\Services\BaseAcessoCardsCompraService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,12 +13,12 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class BaseAcessoCardShoppingController extends Controller
 {
     private $baseAcessoCardsCompraService;
-    private $acessoCardService;
+    private $acessoCardShoppingService;
 
-    public function __construct(BaseAcessoCardsCompraService $baseAcessoCardsCompraService, AcessoCardShopping $acessoCardService)
+    public function __construct(BaseAcessoCardsCompraService $baseAcessoCardsCompraService, AcessoCardShoppingService $acessoCardShoppingService)
     {
         $this->baseAcessoCardsCompraService = $baseAcessoCardsCompraService;
-        $this->acessoCardService = $acessoCardService;
+        $this->acessoCardShoppingService = $acessoCardShoppingService;
     }
 
     public function update(Request $request, $id)
@@ -29,13 +29,13 @@ class BaseAcessoCardShoppingController extends Controller
 
         $data = [];
         foreach ($findAwardIdByFile as $item) {
-            $findBaseAcessoCards = $this->baseAcessoCardsCompraService->getAcessoCardCompletoNotGenerated($item->shipment_award_id);
-            $data[] = $this->acessoCardService->getAcessoCardCompletoNotGenerated($item->shipment_award_id);
+            $findBaseAcessoCards = $this->baseAcessoCardsCompraService->getAcessoCardComprasNotGenerated($item->shipment_award_id);
+            $data[] = $this->acessoCardShoppingService->getAcessoCardComprasNotGenerated($item->shipment_award_id);
 
             foreach ($findBaseAcessoCards as $findBaseAcessoCard) {
                 $this->baseAcessoCardsCompraService->saveByDocument([
                     'base_acesso_card_generated' => 1,
-                ], $findBaseAcessoCard->acesso_card_document);
+                ], $findBaseAcessoCard->acesso_card_shopping_document);
             }
         }
 
@@ -74,10 +74,10 @@ class BaseAcessoCardShoppingController extends Controller
             );
             $sheet->setCellValueExplicit(
                 "B{$key}",
-                $value->acesso_card_document,
+                $value->acesso_card_shopping_document,
                 \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
             );
-            $sheet->setCellValue("C{$key}", $value->acesso_card_name);
+            $sheet->setCellValue("C{$key}", $value->acesso_card_shopping_name);
         }
 
         $writer = new Xlsx($spreadsheet);

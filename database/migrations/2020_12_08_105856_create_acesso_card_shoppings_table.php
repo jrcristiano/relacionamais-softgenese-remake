@@ -38,9 +38,6 @@ class CreateAcessoCardShoppingsTable extends Migration
             $table->foreign('acesso_card_shopping_award_id')->references('id')
                 ->on('awards');
 
-            $table->smallInteger('base_acesso_card_generated')->unsigned()
-                ->nullable();
-
             $table->smallInteger('acesso_card_shopping_already_exists')->unsigned()
                 ->nullable();
 

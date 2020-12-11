@@ -3,10 +3,13 @@
 use App\Award;
 use App\Bank;
 use App\BaseAcessoCardsCompleto;
+use App\BaseAcessoCardsCompra;
 use App\Helpers\Number;
 use App\Repositories\BankRepository;
 use App\Repositories\BaseAcessoCardsCompletoRepository;
+use App\Repositories\BaseAcessoCardsCompraRepository;
 use App\Services\BaseAcessoCardsCompletoService;
+use App\Services\BaseAcessoCardsCompraService;
 use Illuminate\Support\Facades\DB;
 
     // SUBSTITUIR HELPERS POR FACADES
@@ -146,4 +149,9 @@ use Illuminate\Support\Facades\DB;
     function getAcessoCardCompletoNotGeneratedView($id) {
         $baseAcessoCardsCompletoService = new BaseAcessoCardsCompletoService(new BaseAcessoCardsCompletoRepository(new BaseAcessoCardsCompleto));
         return $baseAcessoCardsCompletoService->getAcessoCardCompletoNotGenerated($id);
+    }
+
+    function getAcessoCardComprasNotGeneratedView($id) {
+        $baseAcessoCardsCompletoService = new BaseAcessoCardsCompraService(new BaseAcessoCardsCompraRepository(new BaseAcessoCardsCompra()));
+        return $baseAcessoCardsCompletoService->getAcessoCardComprasNotGenerated($id);
     }
