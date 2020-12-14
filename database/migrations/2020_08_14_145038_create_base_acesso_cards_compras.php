@@ -21,6 +21,7 @@ class CreateBaseAcessoCardsCompras extends Migration
             $table->string('base_acesso_card_cpf')->nullable();
 
             $table->string('base_acesso_card_number')->nullable();
+            $table->string('base_acesso_card_proxy')->unique();
 
             $table->date('base_acesso_card_due_date');
 
