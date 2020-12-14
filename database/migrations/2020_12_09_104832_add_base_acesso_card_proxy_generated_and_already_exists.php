@@ -14,6 +14,9 @@ class AddBaseAcessoCardProxyGeneratedAndAlreadyExists extends Migration
     public function up()
     {
         Schema::table('base_acesso_cards_compras', function (Blueprint $table) {
+            $table->string('base_acesso_card_proxy')->unique()
+                ->after('base_acesso_card_number');
+
             $table->smallInteger('base_acesso_card_generated')->unsigned()
                 ->nullable()
                 ->after('base_acesso_card_due_date');
