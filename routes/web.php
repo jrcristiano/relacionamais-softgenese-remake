@@ -53,8 +53,8 @@ Route::group(['prefix' => 'admin'], function () {
             });
 
             Route::group(['prefix' => '/acesso-card-shopping'], function () {
-                Route::post('/store', 'Api\\AcessoCardShoppingControllerApi@store')->name('acesso-card-api.store');
-                Route::put('/{id}/update', 'Api\\AcessoCardShoppingControllerApi@update')->name('acesso-card-api.update');
+                Route::post('/store', 'Api\\AcessoCardShoppingControllerApi@store')->name('acesso-card-shopping-api.store');
+                Route::put('/{id}/update', 'Api\\AcessoCardShoppingControllerApi@update')->name('acesso-card-shopping-api.update');
             });
 
             Route::group(['prefix' => 'base-acesso-card-completo'], function () {
@@ -108,6 +108,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/cartao-acesso-compras/{id}/remover', 'AcessoCardShoppingController@destroy')->name('acesso-cards-shopping.destroy');
 
             Route::post('/separar-cartao-acesso-card', 'PartAcessoCardController@store')->name('part-acesso-cards.store');
+            Route::post('/separar-cartao-acesso-card', 'PartAcessoCardShoppingController@store')->name('part-acesso-cards-shopping.store');
 
             Route::get('/deposito-manual', 'ManualDepositController@create')->name('manual-deposits.create');
             Route::post('/deposito-manual/salvar', 'ManualDepositController@store')->name('manual-deposits.store');

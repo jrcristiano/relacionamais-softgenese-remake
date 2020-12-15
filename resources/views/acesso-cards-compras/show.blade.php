@@ -9,7 +9,7 @@
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="sgi-content-title">Premiados</h2>
+                <h2 class="sgi-content-title">Premiados | Acessocard Compras</h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
@@ -29,9 +29,9 @@
                     }
                 @endphp
                 @if ($acessoCardsParted == 0 && in_array(null, $arrCards) && $acessoCards[0]->awarded_status != 1)
-                    <form method="POST" class="mt-2 ml-1" action="{{ route('admin.register.part-acesso-cards.store', ['pedido_id' => \Request::get('pedido_id'), 'premiacao_id' => $id]) }}">
+                    <form method="POST" class="mt-2 ml-1" action="{{ route('admin.register.part-acesso-cards-shopping.store', ['pedido_id' => \Request::get('pedido_id'), 'premiacao_id' => $id]) }}">
                         @csrf
-                        <input name="acesso_card_id" type="hidden" value="{{ $id }}" />
+                        <input name="acesso_card_shopping_id" type="hidden" value="{{ $id }}" />
                         <button class="btn btn-danger font-weight-bold" type="submit">Separar novos cartões</button>
                     </form>
                 @endif
@@ -71,7 +71,7 @@
                                     // dd($acessoCard->acesso_card_chargeback)
                                 @endphp
                                 @if ($acessoCard->shipment_generated == 1 && $acessoCard->awarded_status == 1 && !$acessoCard->acesso_card_shopping_chargeback)
-                                    <form class="d-inline sgi_form_chargeback" action="{{ route('admin.api.acesso-card-api.update', ['id' => $acessoCard->acesso_card_id, 'premiado_id' => request('id')]) }}" method="post">
+                                    <form class="d-inline sgi_form_chargeback" action="{{ route('admin.api.acesso-card-shopping-api.update', ['id' => $acessoCard->acesso_card_id, 'premiado_id' => request('id')]) }}" method="post">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="acesso_card_chargeback" value="1" />
@@ -82,7 +82,7 @@
                                     </form>
                                 @endif
 
-                                @if ($acessoCard->acesso_card_chargeback && !$acessoCard->awarded_shipment_cancelled)
+                                @if ($acessoCard->acesso_card_shopping_chargeback && !$acessoCard->awarded_shipment_cancelled)
                                     <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
                                         ESTORNADO
                                     </button>

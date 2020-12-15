@@ -10,5 +10,3 @@ $('.sgi_form_cancel').click(function (e) {
 $('.sgi_form_chargeback').click(function (e) {
     return confirm('Deseja mesmo estornar esse dado?') ? true : false;
 });
-
-

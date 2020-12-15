@@ -261,6 +261,14 @@ class CashFlowRepository extends Repository
             ->where('awards.awarded_status', 1)
             ->whereNull('acesso_cards.acesso_card_chargeback');
 
+        $queryAwardAcessoCardShoppingsRaw = DB::raw('sum(acesso_card_shoppings.acesso_card_shopping_value) as acesso_card_shopping_value');
+        $awardAcessoCardShoppings = $this->repository->select($queryAwardAcessoCardShoppingsRaw)
+            ->leftJoin('awards', 'cash_flows.flow_award_id', '=', 'awards.id')
+            ->leftJoin('acesso_card_shoppings', 'awards.id', '=', 'acesso_card_shoppings.acesso_card_shopping_award_id')
+            ->where('awards.awarded_type', 4)
+            ->where('awards.awarded_status', 1)
+            ->whereNull('acesso_card_shoppings.acesso_card_shopping_chargeback');
+
         if (in_array(null, $between) && $bankId == null) {
             $awards = $queryReceive->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id');
 
@@ -271,8 +279,9 @@ class CashFlowRepository extends Repository
             $shipments = (float) $shipments->first()->shipment_value ?? 0;
             $awardManualsValue = (float) $awardManuals->first()->award_manual_value ?? 0;
             $awardAcessoCards = (float) $awardAcessoCards->first()->acesso_card_value ?? 0;
+            $awardAcessoCardShoppings = (float) $awardAcessoCardShoppings->first()->acesso_card_shopping_value ?? 0;
 
-            return ($awards - $shipments) - $awardManualsValue - $awardAcessoCards;
+            return ($awards - $shipments) - $awardManualsValue - $awardAcessoCards - $awardAcessoCardShoppings;
         }
 
         if (!in_array(null, $between) && $bankId == null) {
@@ -288,12 +297,14 @@ class CashFlowRepository extends Repository
                 ->first()->award_manual_value ?? 0;
 
             $awardAcessoCards = $awardAcessoCards->whereBetween('flow_movement_date', $between);
+            $awardAcessoCardShoppings = $awardAcessoCardShoppings->whereBetween('flow_movement_date', $between);
 
             $awards = (float) $queryReceive->first()->award_real_value ?? 0;
             $shipments = (float) $queryShipment->first()->shipment_value ?? 0;
             $awardAcessoCards = (float) $awardAcessoCards->first()->acesso_card_value ?? 0;
+            $awardAcessoCardShoppings = (float) $awardAcessoCardShoppings->first()->acesso_card_shopping_value ?? 0;
 
-            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards;
+            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards - $awardAcessoCardShoppings;
         }
 
         if (in_array(null, $between) && isset($bankId)) {
@@ -331,7 +342,11 @@ class CashFlowRepository extends Repository
                 ->where('banks.id', '=', $bankId)
                 ->first()->acesso_card_value ?? 0;
 
-            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards + ($transferCredit - $transferDebit);
+            $awardAcessoCardShoppings = $awardAcessoCardShoppings->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
+                ->where('banks.id', '=', $bankId)
+                ->first()->acesso_card_shopping_value ?? 0;
+
+            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards - $awardAcessoCardShoppings + ($transferCredit - $transferDebit);
         }
 
         if (!in_array(null, $between) && isset($bankId)) {
@@ -358,27 +373,15 @@ class CashFlowRepository extends Repository
                 ->where('banks.id', '=', $bankId)
                 ->first()->acesso_card_value ?? 0;
 
-            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards;
+            $awardAcessoCardShoppings = (float) $awardAcessoCardShoppings->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
+                ->whereBetween('flow_movement_date', $between)
+                ->where('banks.id', '=', $bankId)
+                ->first()->acesso_card_shopping_value ?? 0;
+
+            return ($awards - $shipments + $transferTotal) - $awardManualsValue - $awardAcessoCards - $awardAcessoCardShoppings;
         }
 
-        $awards = $queryReceive->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
-            ->whereBetween('flow_movement_date', $between)
-            ->where('banks.id', '=', $bankId);
-
-        $shipments = $queryShipment->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
-            ->whereBetween('flow_movement_date', $between)
-            ->where('banks.id', '=', $bankId)
-            ->whereNull('awarded_shipment_cancelled');
-
-        $awards = (float) $awards->first()->award_real_value ?? 0;
-        $shipments = (float) $shipments->first()->shipment_value ?? 0;
-        $awardManualsValue = (float) $awardManuals->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
-            ->whereBetween('flow_movement_date', $between)
-            ->whereBetween('flow_movement_date', $between)
-            ->where('banks.id', '=', $bankId)
-            ->first()->award_manual_value ?? 0;
-
-        return ($awards - $shipments) - $awardManualsValue - $awardAcessoCards;
+        return null;
     }
 
     public function hasMovementDateBetween($between)

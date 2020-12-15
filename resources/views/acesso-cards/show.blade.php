@@ -9,7 +9,7 @@
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-2 rounded-0">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="sgi-content-title">Premiados</h2>
+                <h2 class="sgi-content-title">Premiados | Acessocard Completo</h2>
                 @php
                     $pedidoId = $id ?? null;
                 @endphp
@@ -76,20 +76,20 @@
                                         @method('PUT')
                                         <input type="hidden" name="acesso_card_chargeback" value="1" />
                                         <input type="hidden" name="award_id" value="{{ $acessoCard->acesso_card_award_id }}" />
-                                        <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger sgi-cancel">
+                                        <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger">
                                             <i class="fas fa-undo-alt"></i>
                                         </button>
                                     </form>
                                 @endif
 
                                 @if ($acessoCard->acesso_card_chargeback && !$acessoCard->awarded_shipment_cancelled)
-                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
+                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled">
                                         ESTORNADO
                                     </button>
                                 @endif
 
                                 @if ($acessoCard->awarded_shipment_cancelled)
-                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled sgi-cancel">
+                                    <button data-toggle="tooltip" data-placement="top" title="Estornar" class="btn btn-sm btn-danger rounded-pill font-weight-bold disabled">
                                         CANCELADO
                                     </button>
                                 @endif

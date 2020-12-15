@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class PartAcessoCardController extends Controller
 {
     private $acessoCardService;
-    private $baseAcessoCardService;
     private $awardService;
 
     public function __construct(AcessoCardService $acessoCardService, AwardService $awardService, BaseAcessoCardsCompletoService $baseAcessoCardService)

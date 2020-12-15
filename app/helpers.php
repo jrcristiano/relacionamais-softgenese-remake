@@ -89,6 +89,17 @@ use Illuminate\Support\Facades\DB;
             ->first()
             ->card_value;
 
+        $acessoCardShoppingValue = \App\AcessoCardShopping::select(DB::raw('sum(acesso_card_shoppings.acesso_card_shopping_value) as card_shopping_value'))
+            ->leftJoin('demands', 'acesso_card_shoppings.acesso_card_shopping_demand_id', '=', 'demands.id')
+            ->leftJoin('awards', 'acesso_card_shoppings.acesso_card_shopping_award_id', '=', 'awards.id')
+            ->leftJoin('shipments_api', 'acesso_card_shoppings.acesso_card_shopping_award_id', '=', 'shipments_api.shipment_award_id')
+            ->where('demands.id', $id)
+            ->where('shipments_api.shipment_generated', 1)
+            ->whereNull('awards.awarded_shipment_cancelled')
+            ->whereNull('acesso_card_shoppings.acesso_card_shopping_chargeback')
+            ->first()
+            ->card_shopping_value;
+
         $awards = \App\NoteReceipt::select(DB::raw('sum(note_receipt_award_real_value) as award_real_value'))
             ->where('note_receipt_demand_id', $id)
             ->first()
@@ -102,7 +113,7 @@ use Illuminate\Support\Facades\DB;
             ->first()
             ->award_manual ?? 0;
 
-        return $awards - $shipmentValue - $awardManual - $acessoCardValue;
+        return $awards - $shipmentValue - $awardManual - $acessoCardValue - $acessoCardShoppingValue;
     }
 
     function getSpreadsheetValue($id) {
