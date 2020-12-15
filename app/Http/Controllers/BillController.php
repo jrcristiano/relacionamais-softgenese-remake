@@ -129,6 +129,10 @@ class BillController extends Controller
             $this->cashFlowRepo->saveWhereBillId($flowData, $flowData['flow_bill_id']);
         }
 
+        if ($data['bill_payment_status'] == 2) {
+            $this->cashFlowRepo->removeWhereBillId($id);
+        }
+
         return redirect()->route('admin.financial.bills')
             ->with('message', 'Conta editado com sucesso!');
     }

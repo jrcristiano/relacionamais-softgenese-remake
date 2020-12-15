@@ -113,6 +113,17 @@ class AcessoCardShoppingController extends Controller
      */
     public function destroy($id)
     {
+        $acessoCardShoppingAward = $this->acessoCardShoppingService->find($id);
+
+        $acessoCardShoppingAwardValue = (float) $acessoCardShoppingAward->acesso_card_shopping_value;
+
+        $award = $this->awardRepo->find($acessoCardShoppingAward->acesso_card_shopping_award_id);
+        $awardValue = (float) $award->awarded_value;
+
+        $this->awardRepo->save([
+            'awarded_value' => $awardValue - $acessoCardShoppingAwardValue,
+        ], $award->id);
+
         \App\HistoryAcessoCardCompra::where('history_acesso_card_id', $id)->delete();
         $this->acessoCardShoppingService->delete($id);
 

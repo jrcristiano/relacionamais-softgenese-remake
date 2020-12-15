@@ -102,6 +102,17 @@ class AcessoCardController extends Controller
      */
     public function destroy($id)
     {
+        $acessoCardAward = $this->acessoCardService->find($id);
+
+        $acessoCardAwardValue = (float) $acessoCardAward->acesso_card_value;
+
+        $award = $this->awardRepo->find($acessoCardAward->acesso_card_award_id);
+        $awardValue = (float) $award->awarded_value;
+
+        $this->awardRepo->save([
+            'awarded_value' => $awardValue - $acessoCardAwardValue,
+        ], $award->id);
+
         \App\HistoryAcessoCard::where('history_acesso_card_id', $id)->delete();
         $this->acessoCardService->delete($id);
 

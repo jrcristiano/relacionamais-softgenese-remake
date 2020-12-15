@@ -482,4 +482,10 @@ class CashFlowRepository extends Repository
         return $this->repository->where('flow_bill_id', $id)
             ->update($data);
     }
+
+    public function removeWhereBillId($id)
+    {
+        return $this->repository->where('flow_bill_id', $id)
+            ->delete();
+    }
 }
