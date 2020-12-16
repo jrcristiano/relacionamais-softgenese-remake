@@ -63,7 +63,8 @@ class CashFlowRepository extends Repository
         ->orderBy('cash_flows.id', 'asc')
         ->where('cash_flows.flow_hide_line', 0)
         ->whereNull('spreadsheets.spreadsheet_chargeback')
-        ->whereNull('demands.deleted_at');
+        ->whereNull('demands.deleted_at')
+        ->whereNull('spreadsheets.deleted_at');
 
         if (in_array(null, $between) && $bankId == null) {
             return $query->paginate($perPage);
@@ -245,7 +246,8 @@ class CashFlowRepository extends Repository
             ->leftJoin('awards', 'cash_flows.flow_award_id', '=', 'awards.id')
             ->leftJoin('spreadsheets', 'cash_flows.flow_award_id', '=', 'spreadsheets.spreadsheet_award_id')
             ->whereNull('awarded_shipment_cancelled')
-            ->whereNull('spreadsheet_chargeback');
+            ->whereNull('spreadsheet_chargeback')
+            ->whereNull('spreadsheets.deleted_at');
 
         $queryAwardManualRaw = DB::raw('sum(awards.awarded_value) as award_manual_value');
         $awardManuals = $this->repository->select($queryAwardManualRaw)
