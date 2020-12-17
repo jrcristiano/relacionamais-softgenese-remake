@@ -71,7 +71,7 @@
                         </button>
                     </form>
                 </div>
-                {!! $awards->links() !!}
+                {!! $awards->withQueryString()->links() !!}
                 <input id="filter_table" class="col-lg-3 ml-auto form-control mr-sm-2" type="text" placeholder="Valor, tipo de premiação e etc." />
             </div>
 
@@ -216,7 +216,7 @@
                     </div>
                     @if ($awards->count() >= 500)
                         <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
-                            {!! $awards->links() !!}
+                            {!! $awards->withQueryString()->links() !!}
                             <button id="sgi_btn_up" class="btn btn-lg btn-primary mr-3 mb-2"><i class="fas fa-arrow-up"></i></button>
                         </div>
                     @endif
@@ -224,6 +224,16 @@
     </div>
 </div>
 @endsection
+
+@if (request('tipo_premiacao') && request('tipo_premiacao') == null)
+    <script src="{{ asset('/js/shipments/confirm.js') }}"></script>
+@endif
+
+@if(\Request::get('tipo_premiacao') == 1)
+    @push('scripts')
+        <script src="{{ asset('/js/shipments/acesso-card.js') }}"></script>
+    @endpush
+@endif
 
 @if(\Request::get('tipo_premiacao') == 2)
     @push('scripts')
