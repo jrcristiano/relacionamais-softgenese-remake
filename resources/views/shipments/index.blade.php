@@ -73,9 +73,9 @@
                 </div>
                 @if ($awards->count() >= 500)
                         <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
-                            {!! $awards->withQueryString()->links() !!}
+                            {!! $awards->links() !!}
                         </div>
-                    @endif
+                @endif
                 <input id="filter_table" class="col-lg-3 ml-auto form-control mr-sm-2" type="text" placeholder="Valor, tipo de premiação e etc." />
             </div>
 
@@ -218,11 +218,6 @@
                             </div>
                         </div>
                     </div>
-                    @if ($awards->count() >= 500)
-                        <div class="col-lg-4 d-flex justify-content-between p-3" style="margin: 0 auto; border-top: 2px solid #eee;">
-                            {!! $awards->withQueryString()->links() !!}
-                        </div>
-                    @endif
         </div>
     </div>
 </div>
