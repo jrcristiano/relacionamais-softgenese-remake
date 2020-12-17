@@ -225,12 +225,6 @@
 </div>
 @endsection
 
-@if(\Request::get('tipo_premiacao') == 1)
-    @push('scripts')
-        <script src="{{ asset('/js/shipments/acesso-card.js') }}"></script>
-    @endpush
-@endif
-
 @if(\Request::get('tipo_premiacao') == 2)
     @push('scripts')
         <script src="{{ asset('/js/shipments/deposit-account.js') }}"></script>

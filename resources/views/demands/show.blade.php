@@ -166,9 +166,6 @@
 
                                         <!-- Dep. em conta (enviado para remessa) -->
                                         @if ($award->awarded_type == 2 && $award->awarded_status == 1)
-                                            <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                <i aria-hidden="true" class="fas fa-eye"></i>
-                                            </a>
                                             <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
                                                 <i aria-hidden="true" class="fas fa-edit"></i>
                                             </a>
@@ -184,6 +181,11 @@
                                             </a>
                                         @endif
 
+                                        @if ($award->awarded_type == 3 && $award->awarded_status == 1)
+                                            <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
 
                                         @if ($award->awarded_type_card == null && $award->awarded_type == 1)
                                                 @if ($award->awarded_type == 1 && $award->awarded_status == 4)

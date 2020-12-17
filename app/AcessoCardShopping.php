@@ -23,12 +23,12 @@ class AcessoCardShopping extends Model
         'acesso_card_shopping_award_parted',
     ];
 
-    public function getAcessoCardNameFormattedAttribute()
+    public function getAcessoCardShoppingNameFormattedAttribute()
     {
         return strtoupper($this->attributes['acesso_card_shopping_name']);
     }
 
-    public function getAcessoCardValueFormattedAttribute()
+    public function getAcessoCardShoppingValueFormattedAttribute()
     {
         return number_format($this->attributes['acesso_card_shopping_value'], 2, ',', '.');
     }

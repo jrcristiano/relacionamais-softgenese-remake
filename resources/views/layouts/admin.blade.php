@@ -84,6 +84,10 @@
     <script src="{{ asset('/js/admin.js') }}"></script>
     <script src="{{ asset('/js/my-app-and-helpers.js') }}"></script>
 
+    @if(\Request::get('tipo_premiacao') == null)
+        <script src="{{ asset('/js/shipments/confirm.js') }}"></script>
+    @endif
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 
     @stack('scripts')

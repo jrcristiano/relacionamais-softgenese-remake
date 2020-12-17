@@ -12,56 +12,43 @@
     </label>
     @php
         $baseStatus = $callCenter->base_acesso_card_status ?? null;
+        $awardType = $callCenter->award_type ?? null;
     @endphp
-    <select {{ $baseStatus == 1 ? '' : 'disabled' }} class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_award_type', $callCenter->call_center_award_type ?? null) }}" type="text" id="call_center_award_type" name="call_center_award_type">
-        <option value="">SELECIONAR PREMIAÇÃO</option>
-        @php
-            $awardType = $callCenter->call_center_award_type ?? null;
-        @endphp
-        <option {{ $awardType == 1 || \Request::get('tipo_cartao') == 'completo' ? 'selected' : '' }} value="1">ACESSOCARD</option>
-    </select>
+    <div class="form-control text-uppercase sgi-border-2">
+        {{ $awardType == 1 || \Request::get('tipo_cartao') == 'completo' ? 'completo' : 'compras' }}
+    </div>
 </div>
 
-@if ($baseStatus != 1)
-    <input type="hidden" name="call_center_award_type" value="1" /> <!-- enquanto só tem 1 opção, depois deve ser programado -->
-@endif
+<input type="hidden" name="call_center_award_type" value="{{ request('tipo_cartao') == 'completo' ? 1 : 2 }}" />
 
 <div class="form-group">
     <label class="font-weight-bold" for="call_center_subproduct">
         Subproduto
         <span class="sgi-forced">*</span>
     </label>
-    <select {{ $baseStatus == 1 ? '' : 'disabled' }} class="form-control text-uppercase sgi-border-2" value="{{ old('call_center_subproduct', $callCenter->call_center_subproduct ?? null) }}" type="text" id="call_center_subproduct" name="call_center_subproduct">
-        <option value="">SELECIONAR SUBPRODUTO</option>
-        @php
-            $subproduct = $callCenter->call_center_subproduct ?? null;
-        @endphp
-        <option {{ $subproduct == 1 || \Request::get('tipo_cartao') == 'completo' ? 'selected' : '' }} value="1">ACESSOCARD COMPLETO</option>
-        <option {{ $subproduct == 2 ? 'selected' : '' }} value="2">ACESSOCARD COMPRAS</option>
-    </select>
+    @php
+        $baseStatus = $callCenter->base_acesso_card_status ?? null;
+        $awardType = $callCenter->award_type ?? null;
+    @endphp
+    <div class="form-control text-uppercase sgi-border-2">
+        {{ $awardType == 1 || \Request::get('tipo_cartao') == 'completo' ? 'acessocard completo' : 'acessocard compras' }}
+    </div>
 </div>
 
-@if ($baseStatus != 1)
-    <input type="hidden" name="call_center_subproduct" value="{{ \Request::get('tipo_cartao') == 'completo' ? 1 : '' }}" />
-@endif
+<input type="hidden" name="call_center_subproduct" value="{{ request('tipo_cartao') == 'completo' ? 1 : 2 }}" />
 
 <div class="form-group">
-    <label class="font-weight-bold" for="call_center_acesso_card_id">
+    <label class="font-weight-bold">
         Premiado
         <span class="sgi-forced">*</span>
     </label>
-    <select disabled="disabled" id="select-awarded" class="form-control text-uppercase sgi-border-2 sgi-select2" value="{{ old('call_center_acesso_card_id', $callCenter->call_center_acesso_card_id ?? null) }}" type="text" id="call_center_acesso_card_id" name="call_center_acesso_card_id">
-        <option value="">SELECIONAR PREMIADO</option>
-        @foreach ($acessoCards as $acessoCard)
-        @php
-            $document = $acessoCard->acesso_card_document ?? null;
-        @endphp
-            <option data-status="{{ $acessoCard->base_acesso_card_status }}" {{ $document == \Request::get('document') || $acessoCard->acesso_card_name == \Request::get('premiado') ? 'selected' : '' }} value="{{ $acessoCard->id }}">{{ $acessoCard->acesso_card_document }} | {{ $acessoCard->acesso_card_name_formatted }}</option>
-        @endforeach
-    </select>
+    <div class="form-control text-uppercase sgi-border-2">
+        {{ request('premiado') }} | {{ request('document') }}
+    </div>
 </div>
 
 <input type="hidden" name="call_center_acesso_card_id" value="{{ \Request::get('acesso_card_id') }}" />
+<input type="hidden" name="call_center_acesso_card_shopping_id" value="{{ \Request::get('acesso_card_shopping_id') }}" />
 
 <div class="form-group mt-4">
     <label class="font-weight-bold" for="call_center_phone">

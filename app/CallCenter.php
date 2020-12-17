@@ -11,6 +11,7 @@ class CallCenter extends Model
         'call_center_award_type',
         'call_center_subproduct',
         'call_center_acesso_card_id',
+        'call_center_acesso_card_shopping_id',
         'call_center_reason',
         'call_center_status',
         'call_center_phone',

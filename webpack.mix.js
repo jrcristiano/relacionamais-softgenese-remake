@@ -74,6 +74,9 @@ mix.js('resources/js/admin/app.js', 'public/js/admin.js')
  ], 'public/js/shipments/deposit-account.js')
  .scripts([
     'resources/js/confirm.js',
+ ], 'public/js/shipments/confirm.js')
+ .scripts([
+    'resources/js/confirm.js',
     'resources/js/shipments/acesso-card.js'
  ], 'public/js/shipments/acesso-card.js')
  .scripts([

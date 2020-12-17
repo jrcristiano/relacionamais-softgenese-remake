@@ -26,7 +26,8 @@ class CallCenterRequest extends FormRequest
         return [
             'call_center_award_type' => 'required|min:1',
             'call_center_subproduct' => 'required|min:1',
-            'call_center_acesso_card_id' => 'nullable',
+            'call_center_acesso_card_id' => 'required_if:call_center_acesso_card_shopping_id,null',
+            'call_center_acesso_card_shopping_id' => 'required_if:call_center_acesso_card_id,null',
             'call_center_reason' => 'required|min:1',
             'call_center_status' => 'required|min:1',
             'call_center_phone' => 'required|min:7|max:255',

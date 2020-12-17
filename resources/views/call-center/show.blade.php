@@ -9,16 +9,16 @@
         @include('components.leftbar')
         <div class="col-lg-10 sgi-container shadow-sm rounded">
             <header class="sgi-content-header d-flex align-items-center">
-                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0 "><i class="fas fa-bars"></i></button>
+                <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0"><i class="fas fa-bars"></i></button>
                 <h1 class="font-weight-bold text-uppercase sgi-content-title">CHAMADO</h1>
                 <a class="btn btn-primary mr-1 ml-auto"
                     href="{{ route('admin.operational.call-center.edit', [
                         'cartao_id' => $callCenter->base_acesso_card_id,
-                        'tipo_cartao' => 'completo',
-                        'premiado' => $callCenter->acesso_card_name,
-                        'document' => $callCenter->acesso_card_document,
+                        'tipo_cartao' => $callCenter->call_center_award_type == 1 ? 'completo' : 'compras',
+                        'premiado' => $callCenter->call_center_award_type == 1 ? $callCenter->acesso_card_name : $callCenter->acesso_card_shopping_name,
+                        'document' => $callCenter->call_center_award_type == 1 ? $callCenter->acesso_card_document : $callCenter->acesso_card_shopping_document,
                         'id' => $id,
-                        'acesso_card_id' => $callCenter->acesso_card_id
+                        'acesso_card_shopping_id' => $callCenter->acesso_card_shopping_id
                     ]) }}">
                     <i aria-hidden="true" class="fas fa-edit"></i> Editar
                 </a>
@@ -27,13 +27,13 @@
                 <div class="row p-2">
                     <label class="font-weight-bold">Nome do premiado</label>
                     <div class="col-md-12 text-uppercase sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-                        {{ $callCenter->acesso_card_name }}
+                        {{ $callCenter->acesso_card_name ?? $callCenter->acesso_card_shopping_name }}
                     </div>
                 </div>
                 <div class="row p-2">
                     <label class="font-weight-bold">Documento</label>
                     <div  class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
-                        {{ $callCenter->acesso_card_document }}
+                        {{ $callCenter->acesso_card_document ?? $callCenter->acesso_card_shopping_document }}
                     </div>
                 </div>
                 <div class="row p-2">

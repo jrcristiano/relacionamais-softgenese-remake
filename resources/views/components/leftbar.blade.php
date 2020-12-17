@@ -87,6 +87,11 @@
                     </a>
                 </li>
                 <li class="nav-item sgi-link-menu">
+                    <a class="btn btn-primary btn-block text-left" href="{{ route('admin.operational.acesso-cards-compras') }}">
+                        <i class="fas fa-shopping-cart ml-4"></i> AcessoCards Compras
+                    </a>
+                </li>
+                <li class="nav-item sgi-link-menu">
                     <a class="btn btn-primary btn-block text-left" href="{{ route('admin.operational.call-center') }}">
                         <i class="fas fa-headset ml-4"></i> Central de atendimento
                     </a>

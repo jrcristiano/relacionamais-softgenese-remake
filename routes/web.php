@@ -192,8 +192,11 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/central-de-atendimento/{id}/editar', 'CallCenterController@edit')->name('call-center.edit');
             Route::put('/central-de-atendimento/{id}/atualizar', 'CallCenterController@update')->name('call-center.update');
 
-            Route::get('/consulta-de-acesso-cards', 'ConsultAcessoCardCompletoController@index')->name('acesso-cards-completo');
-            Route::get('/consulta-de-acesso-card/{document}', 'ConsultAcessoCardCompletoController@show')->name('acesso-cards-completo.show');
+            Route::get('/consulta-de-acesso-cards-completo', 'ConsultAcessoCardCompletoController@index')->name('acesso-cards-completo');
+            Route::get('/consulta-de-acesso-card-completo/{document}', 'ConsultAcessoCardCompletoController@show')->name('acesso-cards-completo.show');
+
+            Route::get('/consulta-de-acesso-cards-compras', 'ConsultAcessoCardComprasController@index')->name('acesso-cards-compras');
+            Route::get('/consulta-de-acesso-card-compras/{document}', 'ConsultAcessoCardComprasController@show')->name('acesso-cards-compras.show');
 
             Route::put('/gerar-segunda-via', 'BaseAcessoCardCompletoDuplicateController@update')->name('base-acesso-card-duplicate.update');
 
