@@ -73,7 +73,7 @@
                 </div>
                 @if ($awards->count() >= 500)
                 <div class="mr-2">
-                    {!! $awards->links() !!}
+                    {!! $awards->appends(['page' => request('page'), 'tipo_premiacao' => request('tipo_premiacao')])->links() !!}
                 </div>
                 @endif
                 <input id="filter_table" class="col-lg-3 ml-auto form-control mr-sm-2" type="text" placeholder="Valor, tipo de premiação e etc." />
