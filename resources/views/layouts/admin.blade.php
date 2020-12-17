@@ -84,7 +84,7 @@
     <script src="{{ asset('/js/admin.js') }}"></script>
     <script src="{{ asset('/js/my-app-and-helpers.js') }}"></script>
 
-    @if(\Request::get('tipo_premiacao') == null)
+    @if(\Request::get('tipo_premiacao') && \Request::get('tipo_premiacao') == null)
         <script src="{{ asset('/js/shipments/confirm.js') }}"></script>
     @endif
 
