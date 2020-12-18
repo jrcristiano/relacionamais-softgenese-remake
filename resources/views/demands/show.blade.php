@@ -204,7 +204,7 @@
                                         @if ($award->awarded_type == 2 && $award->awarded_status == 1)
                                             @if ($award->shipment_generated == null && $award->awarded_shipment_cancelled == null)
                                                 <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-eye"></i>aaa
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
                                                 </a>
                                             @endif
                                         @endif
@@ -214,9 +214,6 @@
                                             @if ($award->shipment_generated == 1 && $award->awarded_shipment_cancelled == null)
                                                 <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
                                                     <i aria-hidden="true" class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                    <i aria-hidden="true" class="fas fa-edit"></i> bbb
                                                 </a>
                                             @endif
                                         @endif
