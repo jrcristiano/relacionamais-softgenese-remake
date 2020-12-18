@@ -12,9 +12,11 @@
                 <a class="btn btn-primary ml-auto mt-2 mr-1" href="{{ url()->previous() }}">
                     <i class="fas fa-undo"></i> Voltar
                 </a>
-                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $paymentManual->id ]) }}" class="btn btn-primary mt-2 mr-1">
-                    <i aria-hidden="true" class="fas fa-edit"></i> Editar
-                </a>
+                @if ($paymentManual->awarded_status == 1)
+                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $paymentManual->id ]) }}" class="btn btn-primary mt-2 mr-1">
+                        <i aria-hidden="true" class="fas fa-edit"></i> Editar
+                    </a>
+                @endif
             </header>
             <div class="container-fluid mt-2">
                 <div class="row p-2">
