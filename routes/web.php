@@ -92,6 +92,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/premiado/{id}/remover', 'AwardController@destroy')->name('awardeds.destroy');
 
             Route::get('/pagamento-manual', 'PaymentManualController@create')->name('payment-manuals.create');
+            Route::get('/pagamento-manual/{id}/visualizar', 'PaymentManualController@show')->name('payment-manuals.show');
             Route::post('/pagamento-manual/salvar', 'PaymentManualController@store')->name('payment-manuals.store');
             Route::put('/pagamento-manual/{id}/atualizar', 'PaymentManualController@update')->name('payment-manuals.update');
 

@@ -32,7 +32,6 @@
         <option value="">SELECIONAR STATUS DE PREMIAÇÃO</option>
         @if ($id)
             <option {{ $awardedStatus == 1 ? 'selected' : '' }} value="1">ENVIAR PARA REMESSA</option>
-            <option {{ $awardedStatus == 2 ? 'selected' : '' }} value="2">AGUARDANDO PAGAMENTO</option>
         @endif
         @if (!$id)
             <option selected value="3">PENDENTE</option>

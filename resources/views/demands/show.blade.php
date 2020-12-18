@@ -148,6 +148,24 @@
                                         <td>{{ $award->created_at_formatted }}</td>
 
                                         <td>
+
+                                            <!-- Pagamento manual (pago) -->
+                                            @if ($award->awarded_type == 3 && $award->awarded_status == 1)
+                                                <a href="{{ route('admin.register.payment-manuals.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+
+                                            <!-- Pagamento manual (cancelado) -->
+                                            @if ($award->awarded_type == 3 && $award->awarded_status == 4)
+                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+
                                             <!-- Dep. em conta (pendente) -->
                                             @if ($award->awarded_type == 2 && $award->awarded_status == 3)
                                                 <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
@@ -184,13 +202,13 @@
 
                                         <!-- Dep. em conta (enviado para remessa) -->
                                         @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == null)
-                                            <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                <i aria-hidden="true" class="fas fa-edit"></i>
+                                            <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-eye"></i>
                                             </a>
                                         @endif
 
                                         <!-- Dep. em conta (remessa gerada) -->
-                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == 1)
+                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == 1 && $award->awarded_shipment_cancelled == null)
                                             <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
                                                 <i aria-hidden="true" class="fas fa-eye"></i>
                                             </a>
@@ -199,9 +217,17 @@
                                             </a>
                                         @endif
 
-                                        @if ($award->awarded_type == 3 && $award->awarded_status == 1)
-                                            <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                <i aria-hidden="true" class="fas fa-edit"></i>
+                                        <!-- Dep. em conta (remessa cancelada) -->
+                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == 1 && $award->awarded_shipment_cancelled == 1)
+                                            <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-eye"></i>
+                                            </a>
+                                        @endif
+
+                                        <!-- Dep. em conta (remessa cancelada) -->
+                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == null && $award->awarded_shipment_cancelled == 1)
+                                            <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-eye"></i>
                                             </a>
                                         @endif
 
@@ -255,8 +281,6 @@
                                                 @endif
                                         @endif
 
-
-
                                         @if ($award->awarded_type_card == 2 && $award->awarded_type == 4)
                                                 @if ($award->awarded_type == 4 && $award->awarded_status == 4)
                                                     <a href="{{ route('admin.register.acesso-cards-shopping.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
@@ -289,16 +313,6 @@
 
                                                 <!-- Dep. em conta (enviado para remessa) -->
                                                 @if ($award->awarded_type == 2 && $award->awarded_status == 1)
-                                                    <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
-                                                        <i aria-hidden="true" class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                        <i aria-hidden="true" class="fas fa-edit"></i>
-                                                    </a>
-                                                @endif
-
-                                                <!-- Pagamento manual (cancelado) -->
-                                                @if ($award->awarded_type == 3 && $award->awarded_status == 4 || $award->awarded_type == 3 && $award->awarded_status == 1)
                                                     <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
                                                         <i aria-hidden="true" class="fas fa-eye"></i>
                                                     </a>

@@ -52,6 +52,13 @@ class PaymentManualController extends Controller
 
     }
 
+    public function show($id)
+    {
+        $paymentManual = $this->awardRepo->find($id);
+        $bank = $this->bankRepo->find($paymentManual->awarded_bank_id);
+        return view('payment-manuals.show', compact('paymentManual', 'bank'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
