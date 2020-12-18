@@ -155,7 +155,15 @@
                                                 </a>
                                                 <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
                                                     <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>@if ($award->awarded_type == 2 && $award->awarded_status == 2)
+                                                <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-eye"></i>
                                                 </a>
+
+                                                <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                    <i aria-hidden="true" class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
                                             <form id="form_delete" class="d-inline" action="{{ route('admin.register.awardeds.destroy', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" method="post">
                                                 @csrf
                                                 <button id="btn_delete" data-placement="top" class="btn btn-sm btn-danger">
@@ -164,18 +172,28 @@
                                             </form>
                                         @endif
 
-                                        <!-- Dep. em conta (enviado para remessa) -->
-                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1)
-                                            <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
-                                                <i aria-hidden="true" class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-
                                         @if ($award->awarded_type == 2 && $award->awarded_status == 2)
                                             <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
                                                 <i aria-hidden="true" class="fas fa-eye"></i>
                                             </a>
 
+                                            <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
+
+                                        <!-- Dep. em conta (enviado para remessa) -->
+                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == null)
+                                            <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
+
+                                        <!-- Dep. em conta (remessa gerada) -->
+                                        @if ($award->awarded_type == 2 && $award->awarded_status == 1 && $award->shipment_generated == 1)
+                                            <a href="{{ route('admin.register.awardeds.show', [ 'id' => $award->id, 'pedido_id' => $demand->id ]) }}" class="btn btn-sm btn-primary">
+                                                <i aria-hidden="true" class="fas fa-eye"></i>
+                                            </a>
                                             <a href="{{ route('admin.register.awardeds.edit', [ 'id' => $award->id, 'pedido_id' => $id ]) }}" class="btn btn-sm btn-primary">
                                                 <i aria-hidden="true" class="fas fa-edit"></i>
                                             </a>
