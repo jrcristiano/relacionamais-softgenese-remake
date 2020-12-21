@@ -18,16 +18,7 @@
                     ])
 
                     <div class="col-md-12 mt-2">
-                        @if($cashFlows->count() >= 200)
-                            {!!
-                                $cashFlows->appends([
-                                    'cash_flow_in' => \Request::get('cash_flow_in'),
-                                    'cash_flow_until' => \Request::get('cash_flow_until'),
-                                    'cash_flow_bank' => \Request::get('cash_flow_bank')
-                                ])
-                                ->links()
-                            !!}
-                        @endif
+
                     </div>
 
                 @include('components.message')
