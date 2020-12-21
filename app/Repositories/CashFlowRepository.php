@@ -67,29 +67,29 @@ class CashFlowRepository extends Repository
         ->whereNull('spreadsheets.deleted_at');
 
         if (in_array(null, $between) && $bankId == null) {
-            return $query->paginate($perPage);
+            return $query->get();
         }
 
         if (!in_array(null, $between) && $bankId == null) {
             return $query->whereBetween('flow_movement_date', $between)
-                ->paginate($perPage);
+                ->get();
         }
 
         if (!in_array(null, $between) && isset($bankId)) {
             return $query->whereBetween('flow_movement_date', $between)
                 ->where('banks.id', '=', $bankId)
-                ->paginate($perPage);
+                ->get();
         }
 
         if (in_array(null, $between) && isset($bankId)) {
             return $query->where('banks.id', '=', $bankId)
-                ->paginate($perPage);
+                ->get();
         }
 
         return $query->whereNull('awarded_shipment_cancelled')
             ->whereBetween('flow_movement_date', $between)
             ->where('banks.id', '=', $bankId)
-            ->paginate($perPage);
+            ->get();
     }
 
     public function getPatrimonyTotal(array $between = [], $bankId = null)
