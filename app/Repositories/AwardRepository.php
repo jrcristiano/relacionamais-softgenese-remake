@@ -55,7 +55,8 @@ class AwardRepository extends Repository
             $query->where('awarded_type', $awardType);
         }
 
-        return $query->paginate($perPage);
+        return $query->orderBy('awards.id', 'desc')
+            ->paginate($perPage);
     }
 
     public function firstlikedFile()

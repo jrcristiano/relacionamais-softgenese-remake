@@ -109,7 +109,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/cartao-acesso-compras/{id}/remover', 'AcessoCardShoppingController@destroy')->name('acesso-cards-shopping.destroy');
 
             Route::post('/separar-cartao-acesso-card', 'PartAcessoCardController@store')->name('part-acesso-cards.store');
-            Route::post('/separar-cartao-acesso-card', 'PartAcessoCardShoppingController@store')->name('part-acesso-cards-shopping.store');
+            Route::post('/separar-cartao-acesso-card-compras', 'PartAcessoCardShoppingController@store')->name('part-acesso-cards-shopping.store');
 
             Route::get('/deposito-manual', 'ManualDepositController@create')->name('manual-deposits.create');
             Route::post('/deposito-manual/salvar', 'ManualDepositController@store')->name('manual-deposits.store');

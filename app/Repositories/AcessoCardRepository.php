@@ -182,9 +182,9 @@ class AcessoCardRepository extends Repository
         if ($request->search) {
             $query->where(function ($query) use ($request) {
                 $query->orWhere('acesso_cards.acesso_card_name', 'like', "%{$request->search}%")
-                ->orWhere('acesso_cards.acesso_card_number', 'like', "%{$request->search}%")
-                ->orWhere('acesso_cards.acesso_card_document', 'like', "%{$request->search}%")
-                ->orWhere('acesso_cards.acesso_card_proxy', 'like', "%{$request->search}%");
+                    ->orWhere('acesso_cards.acesso_card_number', 'like', "%{$request->search}%")
+                    ->orWhere('acesso_cards.acesso_card_document', 'like', "%{$request->search}%")
+                    ->orWhere('acesso_cards.acesso_card_proxy', 'like', "%{$request->search}%");
             });
         }
 
