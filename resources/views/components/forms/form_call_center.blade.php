@@ -137,7 +137,7 @@
 @if ($currencyCard)
     <div class="row px-3 mb-3">
         <label class="font-weight-bold">
-            Proxy ativo
+            Proxy ativado
         </label>
         <div class="col-md-12 sgi-border-2 py-2 px-3 mt-1" style="border-radius: 0.25rem;">
             {{ $currencyCard }}
