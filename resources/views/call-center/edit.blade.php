@@ -20,8 +20,9 @@
                     <div class="ml-auto"></div>
 
                     @if ($awardedHasCards->count() > 0 && $callCenter->call_center_status == 1 && $callCenter->call_center_reason != 5)
-                    <form action="http://relacionamais.softgenese.development/admin/operacional/gerar-segunda-via?document=08617365838" method="post">
-                        <input type="hidden" name="_token" value="eSkGcNkVLba8bYfmoZgXygVsFgQ0YJxUq6MXixks">
+                    <form action="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}" method="post">
+                        @csrf
+                        @method('PUT')
                         <input type="hidden" name="_method" value="PUT"> <input type="hidden" id="prize_amount_hidden" name="prize_amount">
                         <input type="hidden" value="2" name="duplicate_call_center_status"> <input type="hidden" value="2" name="duplicate_call_center_id">
                         <button type="submit" class="btn btn-danger mt-2 mr-2 font-weight-bold">
