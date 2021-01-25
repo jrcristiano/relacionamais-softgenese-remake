@@ -1,10 +1,6 @@
 @extends('layouts.admin')
 @section('title', 'Central de atendimento')
 @section('content')
-@php
-    // dd($callCenters)
-@endphp
-
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
         @include('components.leftbar')

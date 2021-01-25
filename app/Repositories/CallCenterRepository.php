@@ -75,7 +75,7 @@ class CallCenterRepository extends Repository
             'acesso_card_shoppings.acesso_card_shopping_name',
             'acesso_card_shoppings.acesso_card_shopping_document',
             'base_acesso_cards_completo.base_acesso_card_status',
-            'base_acesso_cards_completo.id',
+            'base_acesso_cards_completo.id as base_acesso_card_id',
         ])
         ->leftJoin('acesso_cards', 'call_centers.call_center_acesso_card_id', '=', 'acesso_cards.id')
         ->leftJoin('acesso_card_shoppings', 'call_centers.call_center_acesso_card_shopping_id', '=', 'acesso_card_shoppings.id')

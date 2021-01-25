@@ -11,17 +11,6 @@
             <header class="sgi-content-header d-flex align-items-center">
                 <button id="sgi-mobile-menu" class="btn btn btn-primary mr-3 rounded-0"><i class="fas fa-bars"></i></button>
                 <h1 class="font-weight-bold text-uppercase sgi-content-title">CHAMADO</h1>
-                <a class="btn btn-primary mr-1 ml-auto"
-                    href="{{ route('admin.operational.call-center.edit', [
-                        'cartao_id' => $callCenter->base_acesso_card_id,
-                        'tipo_cartao' => $callCenter->call_center_award_type == 1 ? 'completo' : 'compras',
-                        'premiado' => $callCenter->call_center_award_type == 1 ? $callCenter->acesso_card_name : $callCenter->acesso_card_shopping_name,
-                        'document' => $callCenter->call_center_award_type == 1 ? $callCenter->acesso_card_document : $callCenter->acesso_card_shopping_document,
-                        'id' => $id,
-                        'acesso_card_shopping_id' => $callCenter->acesso_card_shopping_id
-                    ]) }}">
-                    <i aria-hidden="true" class="fas fa-edit"></i> Editar
-                </a>
             </header>
             <div class="container-fluid mt-2">
                 <div class="row p-2">
