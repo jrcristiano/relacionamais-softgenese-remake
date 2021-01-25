@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Novo chamado')
+@section('title', 'Editar chamado')
 @section('content')
 @php
     // dd($callCenter);
@@ -20,27 +20,25 @@
                     <div class="ml-auto"></div>
 
                     @if ($awardedHasCards->count() > 0 && $callCenter->call_center_status == 1 && $callCenter->call_center_reason != 5)
-                    <form action="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}" method="post">
+                    <form action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['document' => \Request::get('document')]) }}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" id="prize_amount_hidden" name="prize_amount">
-                        <input type="hidden" value="2" name="duplicate_call_center_status"> <input type="hidden" value="2" name="duplicate_call_center_id">
+                        <input type="hidden" value="2" name="duplicate_call_center_status">
+                        <input type="hidden" value="{{ $id ?? null }}" name="duplicate_call_center_id">
                         <button type="submit" class="btn btn-danger mt-2 mr-2 font-weight-bold">
                             <i aria-hidden="true" class="far fa-credit-card"></i> Gerar segunda via
                         </button>
                     </form>
-                        <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['document' => request('document') ]) }}" method="post">
-
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" value="2" name="cancel_call_center_status" />
-                            <input type="hidden" value="{{ $id ?? null }}" name="cancel_call_center_id" />
-                            <button class="btn btn-danger font-weight-bold" type="submit">
-                                <i class="fas fa-power-off"></i> Cancelar cartão
-                            </button>
-                        </form>
-
+                    <form class="mt-2 mr-1" action="{{ route('admin.operational.base-acesso-card-completo.update', ['document' => request('document') ]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" value="2" name="cancel_call_center_status" />
+                        <input type="hidden" value="{{ $id ?? null }}" name="cancel_call_center_id" />
+                        <button class="btn btn-danger font-weight-bold" type="submit">
+                            <i class="fas fa-power-off"></i> Cancelar cartão
+                        </button>
+                    </form>
                     @endif
 
                 <a class="btn btn-primary sgi-btn-bold mt-2" href="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}">
