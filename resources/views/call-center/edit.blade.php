@@ -2,7 +2,7 @@
 @section('title', 'Editar chamado')
 @section('content')
 @php
-    // dd($callCenter);
+    // dd($id);
 @endphp
 <div class="container-fluid">
     <div class="row shadow bg-white rounded">
@@ -20,7 +20,7 @@
                     <div class="ml-auto"></div>
 
                     @if ($awardedHasCards->count() > 0 && $callCenter->call_center_status == 1 && $callCenter->call_center_reason != 5)
-                    <form action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['document' => \Request::get('document')]) }}" method="post">
+                    <form action="{{ route('admin.operational.base-acesso-card-duplicate.update', ['document' => \Request::get('document'), 'duplicate_call_center_id' => $id]) }}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="prize_amount_hidden" name="prize_amount">

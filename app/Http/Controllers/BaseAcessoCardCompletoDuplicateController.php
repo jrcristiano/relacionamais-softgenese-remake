@@ -25,7 +25,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
     {
         $data['prize_amount'] = toReal($request->get('prize_amount'));
 
-        $callCenterId = $request->get('duplicate_call_center_id');
+        $callCenterId = request('duplicate_call_center_id');
 
         \App\CallCenter::where('id', $callCenterId)
             ->update([
@@ -35,7 +35,7 @@ class BaseAcessoCardCompletoDuplicateController extends Controller
         $baseAcessoCardCompleto = $this->baseAcessoCardCompletoService->findActiveCardByDocument(request('document'));
 
         $acessoCard = $this->acessoCardService->findByDocument(request('document'));
-        // dd($acessoCard);
+
         $demand = \App\Demand::find($acessoCard->acesso_card_demand_id);
 
         $this->baseAcessoCardCompletoService->save([
