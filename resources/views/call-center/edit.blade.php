@@ -23,7 +23,8 @@
                     <form action="{{ route('admin.operational.acesso-cards-completo.show', ['document' => \Request::get('document')]) }}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="_method" value="PUT"> <input type="hidden" id="prize_amount_hidden" name="prize_amount">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" id="prize_amount_hidden" name="prize_amount">
                         <input type="hidden" value="2" name="duplicate_call_center_status"> <input type="hidden" value="2" name="duplicate_call_center_id">
                         <button type="submit" class="btn btn-danger mt-2 mr-2 font-weight-bold">
                             <i aria-hidden="true" class="far fa-credit-card"></i> Gerar segunda via

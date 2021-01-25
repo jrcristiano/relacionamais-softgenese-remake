@@ -63,7 +63,7 @@ class Itau
             $lote = $this->lote;
             foreach ($values as $k => $value) {
                 $this->rows++;
-                $rows = $this->itau->setBankCode($value['bank_code'])
+                $rows = $this->itau->setBankCode(toIntLiteral($value['bank_code']))
                     ->setValue($value['value'])
                     ->setNoteFiscal($value['note_fiscal'])
                     ->setDocumentType($value['document_type'])
