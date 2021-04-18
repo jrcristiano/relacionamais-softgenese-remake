@@ -20,7 +20,7 @@ class Bill extends Model
         'bill_payment_status',
         'bill_provider_id',
         'bill_note',
-        'bill_description'
+        'bill_description',
     ];
 
     public function provider()
@@ -54,6 +54,12 @@ class Bill extends Model
     public function getBillValueFormattedAttribute()
     {
         return number_format($this->attributes['bill_value'], 2, ',', '.');
+    }
+
+    public function getNegativeValueAttribute()
+    {
+        $value = (float) $this->attributes['bill_value'] ?? 0;
+        return -$value;
     }
 
     public function getBillBankNameAgencyAccountFormattedAttribute()

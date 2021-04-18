@@ -125,12 +125,15 @@ class BillController extends Controller
             $flowData['flow_movement_date'] = $data['bill_payday'];
             $flowData['flow_bank_id'] = $data['bill_bank_id'];
             $flowData['flow_bill_id'] = $id;
+            $flowData['flow_hide_line'] = 0;
 
             $this->cashFlowRepo->saveWhereBillId($flowData, $flowData['flow_bill_id']);
         }
 
         if ($data['bill_payment_status'] == 2) {
-            $this->cashFlowRepo->removeWhereBillId($id);
+            $this->cashFlowRepo->update([
+                'flow_hide_line' => 1
+            ], 'flow_bill_id', $id);
         }
 
         return redirect()->route('admin.financial.bills')

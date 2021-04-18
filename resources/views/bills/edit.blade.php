@@ -7,11 +7,13 @@
         @include('components.leftbar')
         <div class="col-lg-10 sgi-container shadow-sm rounded">
             @include('components.header_content', [
-                'title' => 'Editar nova conta',
+                'title' => 'Editar conta a pagar',
                 'buttonTitle' => 'Voltar',
                 'route' => url()->previous(),
                 'icon' => 'fas fa-undo'
             ])
+
+            @include('components.forms.errors.error')
 
             <form class="mt-3 px-2" action="{{ route('admin.financial.bills.update', ['id' => $bill->id ]) }}" method="post">
                 @method('PUT')

@@ -17,7 +17,14 @@ class CashFlowRepository extends Repository
     public function getCashFlowsByPaginate($perPage = 200, array $between = [], $bankId = null)
     {
         return $this->repository->orderBy('id', 'desc')
-            ->paginate($perPage);
+            ->when($between !== [], function ($query) use ($between) {
+                $query->whereBetween('flow_movement_date', $between);
+            })
+            ->when($bankId !== null, function ($query) use ($bankId) {
+                $query->where('flow_bank_id', '=', $bankId);
+            })
+            ->visible()
+            ->get();
     }
 
     public function getPatrimonyTotal(array $between = [], $bankId = null)
@@ -31,16 +38,19 @@ class CashFlowRepository extends Repository
                 'transfers.transfer_value',
             ])
             ->leftJoin('transfers', 'cash_flows.flow_transfer_id', '=', 'transfers.id')
+            ->visible()
             ->where('transfers.transfer_type', 1);
 
         $rawReceiveQuery = DB::raw('sum(note_receipt_taxable_real_value) as patrimony_total');
         $receiveQuery = $this->repository->select($rawReceiveQuery)
             ->leftJoin('note_receipts', 'cash_flows.flow_receive_id', '=', 'note_receipts.id')
+            ->visible()
             ->addSelect(DB::raw('SUM(note_receipts.note_receipt_other_value) as other_value'));
 
         $billQuery = $this->repository->select('bill_value')
             ->groupBy('bills.id')
             ->join('bills', 'cash_flows.flow_bill_id', '=', 'bills.id')
+            ->visible()
             ->whereBetween('flow_movement_date', $between);
 
         if (in_array(null, $between) && $bankId == null) {
@@ -163,10 +173,12 @@ class CashFlowRepository extends Repository
             'transfers.transfer_value',
         ])
         ->leftJoin('transfers', 'cash_flows.flow_transfer_id', '=', 'transfers.id')
-        ->where('transfers.transfer_type', 2);
+        ->where('transfers.transfer_type', 2)
+        ->visible();
 
         $queryReceiveRaw = DB::raw('sum(note_receipt_award_real_value) as award_real_value');
         $queryReceive = $this->repository->select($queryReceiveRaw)
+            ->visible()
             ->join('note_receipts', 'cash_flows.flow_receive_id', '=', 'note_receipts.id');
 
         $queryShipmentRaw = DB::raw('sum(spreadsheets.spreadsheet_value) as shipment_value');
@@ -175,13 +187,15 @@ class CashFlowRepository extends Repository
             ->leftJoin('spreadsheets', 'cash_flows.flow_award_id', '=', 'spreadsheets.spreadsheet_award_id')
             ->whereNull('awarded_shipment_cancelled')
             ->whereNull('spreadsheet_chargeback')
-            ->whereNull('spreadsheets.deleted_at');
+            ->whereNull('spreadsheets.deleted_at')
+            ->visible();
 
         $queryAwardManualRaw = DB::raw('sum(awards.awarded_value) as award_manual_value');
         $awardManuals = $this->repository->select($queryAwardManualRaw)
             ->leftJoin('awards', 'cash_flows.flow_award_id', '=', 'awards.id')
             ->where('awards.awarded_type', 3)
-            ->where('awards.awarded_status', 1);
+            ->where('awards.awarded_status', 1)
+            ->visible();
 
         $queryAwardAcessoCardRaw = DB::raw('sum(acesso_cards.acesso_card_value) as acesso_card_value');
         $awardAcessoCards = $this->repository->select($queryAwardAcessoCardRaw)
@@ -189,7 +203,8 @@ class CashFlowRepository extends Repository
             ->leftJoin('acesso_cards', 'awards.id', '=', 'acesso_cards.acesso_card_award_id')
             ->where('awards.awarded_type', 1)
             ->where('awards.awarded_status', 1)
-            ->whereNull('acesso_cards.acesso_card_chargeback');
+            ->whereNull('acesso_cards.acesso_card_chargeback')
+            ->visible();
 
         $queryAwardAcessoCardShoppingsRaw = DB::raw('sum(acesso_card_shoppings.acesso_card_shopping_value) as acesso_card_shopping_value');
         $awardAcessoCardShoppings = $this->repository->select($queryAwardAcessoCardShoppingsRaw)
@@ -197,7 +212,8 @@ class CashFlowRepository extends Repository
             ->leftJoin('acesso_card_shoppings', 'awards.id', '=', 'acesso_card_shoppings.acesso_card_shopping_award_id')
             ->where('awards.awarded_type', 4)
             ->where('awards.awarded_status', 1)
-            ->whereNull('acesso_card_shoppings.acesso_card_shopping_chargeback');
+            ->whereNull('acesso_card_shoppings.acesso_card_shopping_chargeback')
+            ->visible();
 
         if (in_array(null, $between) && $bankId == null) {
             $awards = $queryReceive->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id');
@@ -317,6 +333,7 @@ class CashFlowRepository extends Repository
     public function hasMovementDateBetween($between)
     {
         $movementDate = $this->repository->whereBetween('flow_movement_date', $between)
+            ->visible()
             ->first();
 
         return $movementDate->between_date ?? null;
@@ -326,6 +343,7 @@ class CashFlowRepository extends Repository
     {
         return $this->repository->where('flow_transfer_credit_or_debit', $creditOrDebit)
             ->where('flow_transfer_id', $id)
+            ->visible()
             ->update($data);
     }
 
@@ -333,6 +351,7 @@ class CashFlowRepository extends Repository
     {
         return $this->repository->select('id')
                 ->where('flow_award_id', $id)
+                ->visible()
                 ->first()
                 ->id ?? null;
     }
@@ -357,6 +376,7 @@ class CashFlowRepository extends Repository
             ->where('flow_transfer_credit_or_debit', 1)
             ->where('flow_bank_id', $bankId)
             ->where('transfer_type', 2)
+            ->visible()
             ->get();
 
         $valueCredit = 0;
@@ -370,6 +390,7 @@ class CashFlowRepository extends Repository
             ->where('flow_transfer_credit_or_debit', 2)
             ->where('flow_bank_id', $bankId)
             ->where('transfer_type', 2)
+            ->visible()
             ->get();
 
         $valueDebit = 0;

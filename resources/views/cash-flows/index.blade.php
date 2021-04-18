@@ -64,6 +64,10 @@
                                     $debitPatrimonyMoney = $cashFlow->debit_patrimony_value_money
                                 @endphp
                                 <td>R$ {{ $creditPatrimonyMoney ?? $debitPatrimonyMoney ?? 0 }}</td>
+                                @php
+                                    $creditAwardMoney = $cashFlow->credit_award_value_money;
+                                @endphp
+                                <td>R$ {{ $creditAwardMoney }}</td>
                             </tr>
                         @empty
 
