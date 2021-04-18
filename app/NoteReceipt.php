@@ -19,6 +19,21 @@ class NoteReceipt extends Model
         'note_receipt_note',
     ];
 
+    public function note()
+    {
+        return $this->belongsTo(Note::class, 'note_receipt_id', 'id');
+    }
+
+    public function demand()
+    {
+        return $this->belongsTo(Demand::class, 'note_receipt_demand_id', 'id');
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class, 'note_receipt_account_id', 'id');
+    }
+
     public function getNoteReceiptTaxableRealValueFormattedAttribute()
     {
         $value = number_format($this->attributes['note_receipt_taxable_real_value'], 2, ',', '.');

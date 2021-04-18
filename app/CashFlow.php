@@ -48,17 +48,23 @@ class CashFlow extends Model
         return $this->belongsTo(Award::class, 'flow_award_id', 'id');
     }
 
+    public function invoiceReceipt()
+    {
+        return $this->belongsTo(NoteReceipt::class, 'flow_receive_id', 'id');
+    }
+
     public function getDrawerAttribute()
     {
         $billDrawer = $this->bill->provider->provider_name_formatted ?? null;
         $paymentManualDrawer = $this->award->demand->demand_client_name_formatted ?? null;
+        $invoiceReceiptDrawer = $this->invoiceReceipt->note->demand->demand_client_name_formatted ?? null;
         /*$invoiceReceiptDrawer = $this->invoiceReceipt->demand
             ->client
             ->name_upper_limited ?? null;
 
         $transferDrawer = 'TRANSFERÊNCIA';*/
 
-        $drawer = $billDrawer ?? $paymentManualDrawer;
+        $drawer = $billDrawer ?? $paymentManualDrawer ?? $invoiceReceiptDrawer ?? null;
         return $drawer;
     }
 
@@ -67,9 +73,12 @@ class CashFlow extends Model
         $billDocument = $this->bill->id ?? null;
         $billDocument = $billDocument ? "ID {$billDocument}" : null;
 
-        $demandId = $this->award->demand->id ?? null;
+        $paymentManualDemandId = $this->award->demand->id ?? null;
         $awardId = $this->award->id ?? null;
-        $paymentManual = "PEDIDO {$demandId} | PREMIAÇÃO {$awardId}" ?? null;
+        $paymentManualDocument = $paymentManualDemandId ? "PEDIDO {$paymentManualDemandId} | PREMIAÇÃO {$awardId}" : null;
+
+        $noteNumber = $this->invoiceReceipt->note->note_number ?? null;
+        $invoiceReceiptDocument = "NF {$noteNumber}" ?? null;
 
         /*$invoiceReceiptDocument = $this->invoiceReceipt->invoice->number ?? null;
         $invoiceReceiptDocument = $invoiceReceiptDocument ? "NOTA {$invoiceReceiptDocument}" : null;
@@ -77,7 +86,7 @@ class CashFlow extends Model
         $transferDocument = $this->transfer->id ?? null;
         $transferDocument = $transferDocument ? "ID {$transferDocument}" : null;*/
 
-        $document = $billDocument ?? $paymentManual;
+        $document = $billDocument ?? $paymentManualDocument ?? $invoiceReceiptDocument;
         return $document;
     }
 
@@ -86,55 +95,56 @@ class CashFlow extends Model
         $billBank = $this->bill->bank->bank_agency_and_account_upper ?? null;
 
         $paymentManualBank = $this->award->bank->bank_agency_and_account_upper ?? null;
+
+        $invoiceReceiptBank = $this->invoiceReceipt->bank->bank_agency_and_account_upper ?? null;
+
         // $invoiceReceiptBank = $this->invoiceReceipt->bank->bank_agency_and_account_upper_formatted ?? null;
 
         // $creditedAccount = $this->transfer->creditedAccount->bank_agency_and_account_upper_formatted ?? null;
         // $debitedAccount = $this->transfer->debitedAccount->bank_agency_and_account_upper_formatted ?? null;
 
-        $type = $this->attributes['flow_transfer_credit_or_debit'];
+        // $type = $this->attributes['flow_transfer_credit_or_debit'];
         // if ($type === $this->movementTypes[0]) $transferBank = $creditedAccount;
         // if ($type === $this->movementTypes[0]) $transferBank = $debitedAccount;
 
-        $bank = $billBank ?? $paymentManualBank;
+        $bank = $billBank ?? $paymentManualBank ?? $invoiceReceiptBank;
         return $bank;
     }
 
     public function getDebitPatrimonyValueMoneyAttribute()
     {
-        $type = $this->attributes['flow_transfer_credit_or_debit'];
-        if ($type == 0) {
-            $billValue = $this->bill->negative_value ?? null;
-            $transferEquityValue = $this->transfer->negative_value ?? null;
 
-            $patrimonyValueMoney = $billValue ?? $transferEquityValue;
-            return number_format($patrimonyValueMoney, 2, ',', '.');
-        }
+        $billValue = $this->bill->negative_value ?? 0;
+        $transferEquityValue = $this->transfer->negative_value ?? 0;
 
-        return number_format(0, 2, ',', '.');
+        $patrimonyValueMoney = $billValue ?? $transferEquityValue;
+
+        return number_format($patrimonyValueMoney, 2, ',', '.');
+    }
+
+    public function getCreditPatrimonyValueMoneyAttribute()
+    {
+        $receiveValue = $this->invoiceReceipt->note_receipt_taxable_real_value ?? 0;
+
+        return number_format($receiveValue, 2, ',', '.');
     }
 
     public function getDebitAwardValueMoneyAttribute()
     {
-        $type = $this->attributes['flow_transfer_credit_or_debit'];
-        if ($type == 0) {
-            $paymentManualValue = $this->award->negative_awarded_value ?? null;
-            //$transferEquityValue = $this->transfer->negative_value ?? null;
+        $paymentManualValue = $this->award->negative_awarded_value ?? 0;
+        //$transferEquityValue = $this->transfer->negative_value ?? null;
 
-            $awardValueMoney = $paymentManualValue ?? null;
-            return number_format($awardValueMoney, 2, ',', '.');
-        }
-
-        return null;
+        $awardValueMoney = $paymentManualValue ?? 0;
+        return number_format($awardValueMoney, 2, ',', '.');
     }
 
     public function getCreditAwardValueMoneyAttribute()
     {
-        $type = $this->attributes['flow_transfer_credit_or_debit'];
-        if ($type == 1) {
-            $prizeAmountValue = $this->invoiceReceipt->prize_amount ?? null;
-            $prizeAmountValue = $prizeAmountValue > 0 ? $prizeAmountValue : null;
+        $prizeAmountValue = $this->invoiceReceipt->note_receipt_award_real_value ?? 0;
+        $prizeAmountValue = $prizeAmountValue > 0 ? $prizeAmountValue : 0;
 
-            $creditAwardValue = $prizeAmountValue ?? null;
+        $creditAwardValue = $prizeAmountValue ?? 0;
+        if ($creditAwardValue != 0) {
             return number_format($creditAwardValue, 2, ',', '.');
         }
 

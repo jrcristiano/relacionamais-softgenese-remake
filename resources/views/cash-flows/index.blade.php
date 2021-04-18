@@ -57,7 +57,7 @@
                             <tr>
                                 <td>{{ $cashFlow->drawer }}</td>
                                 <td>{{ $cashFlow->document }}</td>
-                                <td>{{ $cashFlow->bank  }}</td>
+                                <td class="text-uppercase">{{ $cashFlow->bank }}</td>
                                 <td>{{ $cashFlow->flow_movement_date_formatted }}</td>
                                 @php
                                     $creditPatrimonyMoney = $cashFlow->credit_patrimony_value_money;
