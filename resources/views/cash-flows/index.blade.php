@@ -61,13 +61,14 @@
                                 <td>{{ $cashFlow->flow_movement_date_formatted }}</td>
                                 @php
                                     $creditPatrimonyMoney = $cashFlow->credit_patrimony_value_money;
-                                    $debitPatrimonyMoney = $cashFlow->debit_patrimony_value_money
+                                    $debitPatrimonyMoney = $cashFlow->debit_patrimony_value_money;
                                 @endphp
                                 <td>R$ {{ $creditPatrimonyMoney ?? $debitPatrimonyMoney ?? 0 }}</td>
                                 @php
                                     $creditAwardMoney = $cashFlow->credit_award_value_money;
+                                    $debitAwardMoney = $cashFlow->debit_award_value_money;
                                 @endphp
-                                <td>R$ {{ $creditAwardMoney }}</td>
+                                <td>R$ {{ $creditAwardMoney ?? $debitAwardMoney }}</td>
                             </tr>
                         @empty
 

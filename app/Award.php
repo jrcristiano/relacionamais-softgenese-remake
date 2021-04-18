@@ -25,9 +25,24 @@ class Award extends Model
         'award_already_parted',
     ];
 
+    public function demand()
+    {
+        return $this->belongsTo(Demand::class, 'awarded_demand_id', 'id');
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class, 'awarded_bank_id', 'id');
+    }
+
     public function spreadsheets()
     {
         return $this->hasMany(Spreadsheet::class, 'spreadsheet_award_id', 'id');
+    }
+
+    public function getNegativeAwardedValueAttribute()
+    {
+        return (float) - $this->attributes['awarded_value'];
     }
 
     public function getSaleAttribute()

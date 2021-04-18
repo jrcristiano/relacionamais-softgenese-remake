@@ -25,6 +25,11 @@ class Demand extends Model
         'deleted_at'
     ];
 
+    public function client()
+    {
+        return $this->hasOne(Client::class, 'demand_client_cnpj', 'client_cnpj');
+    }
+
     public function spreadsheet()
     {
         return $this->hasOne(Spreadsheet::class, 'spreadsheet_award_id', 'id');

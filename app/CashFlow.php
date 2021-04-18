@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CashFlow extends Model
 {
@@ -42,16 +43,22 @@ class CashFlow extends Model
         return $this->belongsTo(Bill::class, 'flow_bill_id', 'id');
     }
 
+    public function award()
+    {
+        return $this->belongsTo(Award::class, 'flow_award_id', 'id');
+    }
+
     public function getDrawerAttribute()
     {
         $billDrawer = $this->bill->provider->provider_name_formatted ?? null;
+        $paymentManualDrawer = $this->award->demand->demand_client_name_formatted ?? null;
         /*$invoiceReceiptDrawer = $this->invoiceReceipt->demand
             ->client
             ->name_upper_limited ?? null;
 
         $transferDrawer = 'TRANSFERÊNCIA';*/
 
-        $drawer = $billDrawer;
+        $drawer = $billDrawer ?? $paymentManualDrawer;
         return $drawer;
     }
 
@@ -60,19 +67,25 @@ class CashFlow extends Model
         $billDocument = $this->bill->id ?? null;
         $billDocument = $billDocument ? "ID {$billDocument}" : null;
 
+        $demandId = $this->award->demand->id ?? null;
+        $awardId = $this->award->id ?? null;
+        $paymentManual = "PEDIDO {$demandId} | PREMIAÇÃO {$awardId}" ?? null;
+
         /*$invoiceReceiptDocument = $this->invoiceReceipt->invoice->number ?? null;
         $invoiceReceiptDocument = $invoiceReceiptDocument ? "NOTA {$invoiceReceiptDocument}" : null;
 
         $transferDocument = $this->transfer->id ?? null;
         $transferDocument = $transferDocument ? "ID {$transferDocument}" : null;*/
 
-        $document = $billDocument;
+        $document = $billDocument ?? $paymentManual;
         return $document;
     }
 
     public function getBankAttribute()
     {
         $billBank = $this->bill->bank->bank_agency_and_account_upper ?? null;
+
+        $paymentManualBank = $this->award->bank->bank_agency_and_account_upper ?? null;
         // $invoiceReceiptBank = $this->invoiceReceipt->bank->bank_agency_and_account_upper_formatted ?? null;
 
         // $creditedAccount = $this->transfer->creditedAccount->bank_agency_and_account_upper_formatted ?? null;
@@ -82,14 +95,13 @@ class CashFlow extends Model
         // if ($type === $this->movementTypes[0]) $transferBank = $creditedAccount;
         // if ($type === $this->movementTypes[0]) $transferBank = $debitedAccount;
 
-        $bank = $billBank;
+        $bank = $billBank ?? $paymentManualBank;
         return $bank;
     }
 
     public function getDebitPatrimonyValueMoneyAttribute()
     {
         $type = $this->attributes['flow_transfer_credit_or_debit'];
-
         if ($type == 0) {
             $billValue = $this->bill->negative_value ?? null;
             $transferEquityValue = $this->transfer->negative_value ?? null;
@@ -99,6 +111,20 @@ class CashFlow extends Model
         }
 
         return number_format(0, 2, ',', '.');
+    }
+
+    public function getDebitAwardValueMoneyAttribute()
+    {
+        $type = $this->attributes['flow_transfer_credit_or_debit'];
+        if ($type == 0) {
+            $paymentManualValue = $this->award->negative_awarded_value ?? null;
+            //$transferEquityValue = $this->transfer->negative_value ?? null;
+
+            $awardValueMoney = $paymentManualValue ?? null;
+            return number_format($awardValueMoney, 2, ',', '.');
+        }
+
+        return null;
     }
 
     public function getCreditAwardValueMoneyAttribute()
@@ -112,7 +138,7 @@ class CashFlow extends Model
             return number_format($creditAwardValue, 2, ',', '.');
         }
 
-        return number_format(0, 2, ',', '.');
+        return null;
     }
 
     public function getClientCompanyFormattedAttribute()
