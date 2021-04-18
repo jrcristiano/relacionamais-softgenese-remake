@@ -23,6 +23,21 @@ class Bill extends Model
         'bill_description'
     ];
 
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class, 'bill_provider_id', 'id');
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class, 'bill_bank_id', 'id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(CashFlow::class, 'flow_bill_id', 'id');
+    }
+
     public function setBillValueAttribute($billValue)
     {
         $billValue = toReal($billValue);
@@ -74,20 +89,5 @@ class Bill extends Model
     {
         $value = $this->attributes['bill_total'] ?? 0;
         return takeMoneyFormat($value);
-    }
-
-    public function bank()
-    {
-        return $this->hasOne(Bank::class, 'id', 'bill_bank_id');
-    }
-
-    public function provider()
-    {
-        return $this->hasOne(Bank::class, 'id', 'bill_provider_id');
-    }
-
-    public function bills()
-    {
-        return $this->hasMany(CashFlow::class, 'flow_bill_id', 'id');
     }
 }

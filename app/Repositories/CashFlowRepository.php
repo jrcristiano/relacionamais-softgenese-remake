@@ -16,79 +16,8 @@ class CashFlowRepository extends Repository
 
     public function getCashFlowsByPaginate($perPage = 200, array $between = [], $bankId = null)
     {
-        $query = $this->repository->select([
-            'demands.id as demand_id',
-            'awards.id as award_id',
-            'cash_flows.flow_movement_date',
-            'cash_flows.flow_receive_id',
-            'cash_flows.flow_demand_id',
-            'cash_flows.flow_bill_id',
-            'cash_flows.flow_award_id',
-            'cash_flows.flow_transfer_credit_or_debit',
-            'clients.client_company',
-            'clients.client_cnpj',
-            'banks.bank_name',
-            'banks.bank_account',
-            'banks.bank_agency',
-            'note_receipts.note_receipt_award_real_value as award_value',
-            'note_receipts.note_receipt_taxable_real_value as patrimony',
-            'bills.id as bill_id',
-            'bills.bill_value',
-            'providers.provider_name',
-            'awards.awarded_value',
-            'awards.awarded_demand_id as awarded_demand_id',
-            'notes.note_number',
-            'notes.id as note_id',
-            'transfers.id as transfer_id',
-            'transfers.transfer_value',
-            'transfers.transfer_type',
-            'transfers.created_at'
-        ])
-        ->addSelect(DB::raw('SUM(spreadsheets.spreadsheet_value) as shipment_value'))
-        ->addSelect(DB::raw('SUM(note_receipts.note_receipt_other_value) as other_value'))
-        ->leftJoin('transfers', 'cash_flows.flow_transfer_id', '=', 'transfers.id')
-        ->leftJoin('demands', 'cash_flows.flow_demand_id', '=', 'demands.id')
-        ->leftJoin('notes', 'cash_flows.flow_demand_id', '=', 'notes.note_demand_id')
-        ->leftJoin('clients', 'demands.demand_client_cnpj', '=', 'clients.client_cnpj')
-        ->leftJoin('note_receipts', 'cash_flows.flow_receive_id', '=', 'note_receipts.id')
-        ->leftJoin('banks', 'cash_flows.flow_bank_id', '=', 'banks.id')
-        ->leftJoin('bills', 'cash_flows.flow_bill_id', '=', 'bills.id')
-        ->leftJoin('spreadsheets', 'cash_flows.flow_award_id', '=', 'spreadsheets.spreadsheet_award_id')
-        ->leftJoin('awards', 'cash_flows.flow_award_id', '=', 'awards.id')
-        ->leftJoin('providers', 'bills.bill_provider_id', '=', 'providers.id')
-        ->whereNull('awarded_shipment_cancelled')
-        ->distinct(['note_receipts.id'])
-        ->groupBy('cash_flows.id')
-        ->orderBy('cash_flows.id', 'desc')
-        ->where('cash_flows.flow_hide_line', 0)
-        ->whereNull('spreadsheets.spreadsheet_chargeback')
-        ->whereNull('demands.deleted_at')
-        ->whereNull('spreadsheets.deleted_at');
-
-        if (in_array(null, $between) && $bankId == null) {
-            return $query->get();
-        }
-
-        if (!in_array(null, $between) && $bankId == null) {
-            return $query->whereBetween('flow_movement_date', $between)
-                ->get();
-        }
-
-        if (!in_array(null, $between) && isset($bankId)) {
-            return $query->whereBetween('flow_movement_date', $between)
-                ->where('banks.id', '=', $bankId)
-                ->get();
-        }
-
-        if (in_array(null, $between) && isset($bankId)) {
-            return $query->where('banks.id', '=', $bankId)
-                ->get();
-        }
-
-        return $query->whereNull('awarded_shipment_cancelled')
-            ->whereBetween('flow_movement_date', $between)
-            ->where('banks.id', '=', $bankId)
-            ->get();
+        return $this->repository->orderBy('id', 'desc')
+            ->paginate($perPage);
     }
 
     public function getPatrimonyTotal(array $between = [], $bankId = null)

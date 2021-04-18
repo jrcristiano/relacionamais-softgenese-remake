@@ -30,4 +30,13 @@ class Bank extends Model
     {
         return strtoupper($this->attributes['bank_name']);
     }
+
+    public function getBankAgencyAndAccountUpperAttribute()
+    {
+        $bankName = $this->attributes['bank_name'];
+        $agency = $this->attributes['bank_agency'];
+        $account = $this->attributes['bank_account'];
+        $bankAgencyAndAccount = "{$bankName}, AG {$agency} E CONTA {$account}";
+        return strtoupper($bankAgencyAndAccount);
+    }
 }

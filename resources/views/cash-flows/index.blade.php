@@ -2,10 +2,6 @@
 @section('content')
 @section('title', 'Fluxo de caixa')
 
-@php
-    // dd($cashFlows);
-@endphp
-
 <div class="container-fluid">
         <div class="row shadow bg-white rounded">
             @include('components.leftbar')
@@ -58,106 +54,17 @@
                     </thead>
                     <tbody>
                         @forelse ($cashFlows as $cashFlow)
-                        <tr>
-                            <td class="text-uppercase">{{ $cashFlow->transfer_id ? 'Transferência' : ($cashFlow->client_company_formatted ?? $cashFlow->provider_name_formatted) }}</td>
-                            @php
-                                if ($cashFlow->bill_id && $cashFlow->bill_value) {
-                                    $document = "ID {$cashFlow->bill_id}";
-                                    $url = route('admin.financial.bills.show', [ 'id' => $cashFlow->bill_id ]);
-                                    $tooltipTitle = 'Conta a pagar';
-                                }
-
-                                if ($cashFlow->flow_award_id) {
-                                    $document = "PEDIDO {$cashFlow->awarded_demand_id} | PREMIAÇÃO {$cashFlow->flow_award_id}";
-                                    $url = route('admin.show', [ 'id' => $cashFlow->awarded_demand_id, 'pedido_id' => $cashFlow->flow_demand_id ]);
-                                    $tooltipTitle = 'Premiação | Débito';
-                                }
-
-                                if ($cashFlow->flow_receive_id && $cashFlow->note_number) {
-                                    $document = "NF {$cashFlow->note_number}";
-                                    $url = route('admin.financial.notes.edit', [ 'id' => $cashFlow->note_id, 'pedido_id' => $cashFlow->flow_demand_id ]);
-                                    $tooltipTitle = 'Premiação | Crédito';
-                                }
-
-                                if ($cashFlow->transfer_id) {
-                                    $document = "ID {$cashFlow->transfer_id}";
-                                    $url = route('admin.financial.transfers.edit', [ 'id' => $cashFlow->transfer_id ]);
-                                    $tooltipTitle = 'Transferência';
-                                }
-                            @endphp
-                            <td class="cash_flow_document">
-                                <a class="text-dark" data-toggle="tooltip" data-placement="top" data-original-title="{{ $tooltipTitle ?? null }}" href="{{ $url ?? null }}">{{ $document ?? '' }}</a>
-                            </td>
-                            <td class="text-uppercase">{{ $cashFlow->bank_name }} | AG {{ $cashFlow->bank_agency }} | Conta {{ $cashFlow->bank_account }}</td>
-                            <td class="">{{ $cashFlow->flow_movement_date_formatted }}</td>
-                            @php
-                                $formattedShipmentValue = $cashFlow->shipment_value_formatted;
-
-                                if ($cashFlow->bill_value && $cashFlow->bill_id) {
-                                    $billValue = "R$ -{$cashFlow->bill_value}";
-                                }
-
-                                if ($cashFlow->shipment_value) {
-                                    $shipmentValue = $cashFlow->shipment_value;
-                                }
-
-                                $transferValue = $cashFlow->transfer_value_formatted;
-                                $transferValueCredit = "R$ {$transferValue}";
-                                $transferValueDebit = "R$ -{$transferValue}";
-
-                                if ($cashFlow->flow_transfer_credit_or_debit == 1 && $cashFlow->transfer_type == 1) {
-                                    $transferValue = $transferValueCredit;
-                                }
-
-                                if ($cashFlow->flow_transfer_credit_or_debit == 2 && $cashFlow->transfer_type == 1) {
-                                    $transferValue = $transferValueDebit;
-                                }
-
-                                if ($cashFlow->transfer_type == 1) {
-                                    $patrimonyRow = $transferValue;
-
-                                } else if ($cashFlow->bill_value && $cashFlow->bill_id) {
-                                    $patrimonyRow = 'R$ -' . number_format($cashFlow->bill_value, 2, ',', '.');
-
-                                } else if ($cashFlow->patrimony) {
-                                    $patrimonyRow = "R$ {$cashFlow->patrimony}";
-                                }
-
-                            @endphp
-
-                            <td>{{ $patrimonyRow }}</td>
-                            @php
-                                $awardedValue = number_format($cashFlow->awarded_value, 2, ',', '.');
-                                $awardedValue = "R$ -{$awardedValue}";
-
-                                if ($cashFlow->flow_transfer_credit_or_debit == 1 && $cashFlow->transfer_type == 2) {
-                                    $transferValue = $transferValueCredit;
-                                }
-
-                                if ($cashFlow->award_value) {
-                                    $premiationRow = 'R$ ' . $cashFlow->award_value;
-                                }
-
-                                if ($cashFlow->awarded_value) {
-                                    $premiationRow = $awardedValue;
-                                }
-
-                                if ($cashFlow->shipment_value) {
-                                    $premiationRow = number_format($cashFlow->shipment_value, 2, ',', '.');
-                                    $premiationRow = "R$ -{$premiationRow}";
-                                }
-
-                                if ($cashFlow->flow_transfer_credit_or_debit == 2 && $cashFlow->transfer_type == 2) {
-                                    $transferValue = $transferValueDebit;
-                                }
-
-                                if ($cashFlow->transfer_type == 2) {
-                                    $premiationRow = $transferValue;
-                                }
-                            @endphp
-
-                            <td>{{ $premiationRow }}</td>
-                        </tr>
+                            <tr>
+                                <td>{{ $cashFlow->drawer }}</td>
+                                <td>{{ $cashFlow->document }}</td>
+                                <td>{{ $cashFlow->bank  }}</td>
+                                <td>{{ $cashFlow->flow_movement_date_formatted }}</td>
+                                @php
+                                    $creditPatrimonyMoney = $cashFlow->credit_patrimony_value_money;
+                                    $debitPatrimonyMoney = $cashFlow->debit_patrimony_value_money
+                                @endphp
+                                <td>R$ {{ $creditPatrimonyMoney ?? $debitPatrimonyMoney ?? 0 }}</td>
+                            </tr>
                         @empty
 
                         @endforelse
