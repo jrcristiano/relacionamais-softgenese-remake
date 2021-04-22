@@ -30,13 +30,14 @@ class Transfer extends Model
         return number_format($transferValue, 2, ',', '.');
     }
 
-    public function getBankNameAgencyAccountFormattedAttribute()
+    public function transferDebit()
     {
-        $bankName = $this->attributes['bank_name'];
-        $bankAgency = $this->attributes['bank_agency'];
-        $bankAccount = $this->attributes['bank_account'];
+        return $this->belongsTo(Bank::class, 'transfer_account_debit', 'id');
+    }
 
-        return "{$bankName} | AG {$bankAgency} | Conta {$bankAccount}";
+    public function transferCredit()
+    {
+        return $this->belongsTo(Bank::class, 'transfer_account_credit', 'id');
     }
 
     public function getTransferDateFormattedAttribute()

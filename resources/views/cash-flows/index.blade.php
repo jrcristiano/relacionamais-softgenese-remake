@@ -55,20 +55,22 @@
                     <tbody>
                         @forelse ($cashFlows as $cashFlow)
                             <tr>
-                                <td>{{ $cashFlow->drawer }}</td>
+                                <td class="text-uppercase">{{ $cashFlow->drawer }}</td>
                                 <td>{{ $cashFlow->document }}</td>
-                                <td class="text-uppercase">{{ $cashFlow->bank }}</td>
+                                <td class="text-uppercase">
+                                    {{ $cashFlow->bank ?? $cashFlow->transfer->transfer_account_credit }}
+                                </td>
                                 <td>{{ $cashFlow->flow_movement_date_formatted }}</td>
                                 @php
                                     $creditPatrimonyMoney = $cashFlow->credit_patrimony_value_money;
                                     $debitPatrimonyMoney = $cashFlow->debit_patrimony_value_money;
                                 @endphp
-                                <td>R$ {{ $creditPatrimonyMoney ?? $debitPatrimonyMoney ?? 0 }}</td>
+                                <td>R$ {{ $creditPatrimonyMoney != 0 ? $creditPatrimonyMoney : $debitPatrimonyMoney }}</td>
                                 @php
                                     $creditAwardMoney = $cashFlow->credit_award_value_money;
                                     $debitAwardMoney = $cashFlow->debit_award_value_money;
                                 @endphp
-                                <td>R$ {{ $creditAwardMoney ?? $debitAwardMoney }}</td>
+                                <td>R$ {{ $creditAwardMoney != 0 ? $creditAwardMoney : $debitAwardMoney }}</td>
                             </tr>
                         @empty
 
