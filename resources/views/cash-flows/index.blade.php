@@ -65,12 +65,13 @@
                                     $creditPatrimonyMoney = $cashFlow->credit_patrimony_value_money;
                                     $debitPatrimonyMoney = $cashFlow->debit_patrimony_value_money;
                                 @endphp
-                                <td>R$ {{ $creditPatrimonyMoney != 0 ? $creditPatrimonyMoney : $debitPatrimonyMoney }}</td>
+                                <td>R$ {{ $creditPatrimonyMoney != '0,00' ? $creditPatrimonyMoney : $debitPatrimonyMoney }}</td>
                                 @php
                                     $creditAwardMoney = $cashFlow->credit_award_value_money;
                                     $debitAwardMoney = $cashFlow->debit_award_value_money;
+
                                 @endphp
-                                <td>R$ {{ $creditAwardMoney != 0 ? $creditAwardMoney : $debitAwardMoney }}</td>
+                                <td>R$ {{ $creditAwardMoney != '0,00' ? $creditAwardMoney : $debitAwardMoney }}</td>
                             </tr>
                         @empty
 

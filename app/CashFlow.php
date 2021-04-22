@@ -141,7 +141,7 @@ class CashFlow extends Model
 
         $transferDebitPatrimonyValue = $transferType == 1 && $transferCredit == 1 ? (float) $this->transfer->transfer_value : null;
 
-        $value = $receiveTaxableValue ?? $receiveOtherValue ?? $transferDebitPatrimonyValue ?? 0;
+        $value = $receiveTaxableValue ?? $receiveOtherValue ?? $transferDebitPatrimonyValue ?? null;
 
         return number_format($value, 2, ',', '.');
     }
@@ -156,7 +156,7 @@ class CashFlow extends Model
 
         $transferDebitAwardValue = $transferType == 2 && $transferDebit == 2 ? (float) -$this->transfer->transfer_value : null;
 
-        $awardValueMoney = $paymentManualValue ?? $transferDebitAwardValue ?? 0;
+        $awardValueMoney = $paymentManualValue ?? $transferDebitAwardValue ?? null;
         return number_format($awardValueMoney, 2, ',', '.');
     }
 
@@ -170,13 +170,8 @@ class CashFlow extends Model
 
         $transferCreditAwardValue = $transferType == 2 && $transferDebit == 1 ? (float) $this->transfer->transfer_value : null;
 
-        $creditAwardValue = $prizeAmountValue ?? $transferCreditAwardValue ?? 0;
-        if ($creditAwardValue != 0) {
-            return number_format($creditAwardValue, 2, ',', '.');
-        }
-
-
-        return null;
+        $creditAwardValue = $prizeAmountValue ?? $transferCreditAwardValue ?? null;
+        return number_format($creditAwardValue, 2, ',', '.');
     }
 
     public function getClientCompanyFormattedAttribute()
