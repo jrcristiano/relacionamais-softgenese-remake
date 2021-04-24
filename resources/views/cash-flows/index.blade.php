@@ -87,12 +87,12 @@
                             </div>
                             <div class="col-md-3 mt-3">
                                 <h5 class="sgi-content-title">
-                                    <span class="font-weight-bold">Premiação R$ {{ number_format($awardTotal, 2, ',', '.') }}</span>
+                                    <span class="font-weight-bold">Premiação R$ </span>
                                 </h5>
                             </div>
                             <div class="col-md-3 mt-3">
                                 <h5 class="sgi-content-title">
-                                    <span class="font-weight-bold">Saldo R$ {{ number_format($saleTotal, 2, ',', '.') }}</span>
+                                    <span class="font-weight-bold">Saldo R$ </span>
                                 </h5>
                             </div>
                         </div>

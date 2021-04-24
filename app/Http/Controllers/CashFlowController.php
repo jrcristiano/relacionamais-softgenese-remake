@@ -31,10 +31,19 @@ class CashFlowController extends Controller
             $request->cash_flow_until
         );
 
+        $bill = $this->cashFlowRepo->getBillTotal($filter, $bankId);
+        $creditNf = $this->cashFlowRepo->getReceivePatrimonyTotal($filter, $bankId);
+        $creditOtherValue = $this->cashFlowRepo->getReceiveOtherValueTotal($filter, $bankId);
+        $creditTransferValue = $this->cashFlowRepo->getCreditTransferValueTotal($filter, $bankId);
+        $debitTransferValue = $this->cashFlowRepo->getDebitTransferValueTotal($filter, $bankId);
+
+        $patrimonyTotal = -$bill->value_total
+            + $creditNf->value
+            + $creditOtherValue->value
+            + $creditTransferValue->value
+            - $debitTransferValue->value;
+
         $cashFlows = $this->cashFlowRepo->getCashFlowsByPaginate(200, $filter, $bankId);
-        $patrimonyTotal = $this->cashFlowRepo->getPatrimonyTotal($filter, $bankId);
-        $awardTotal = $this->cashFlowRepo->getAwardTotal($filter, $bankId);
-        $saleTotal = $patrimonyTotal + $awardTotal;
         $banks = $this->bankRepo->getBanks();
 
         return view('cash-flows.index', compact(
