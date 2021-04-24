@@ -49,9 +49,7 @@ class CashFlowController extends Controller
         return view('cash-flows.index', compact(
             'cashFlows',
             'patrimonyTotal',
-            'awardTotal',
-            'banks',
-            'saleTotal'
+            'banks'
         ));
     }
 }
